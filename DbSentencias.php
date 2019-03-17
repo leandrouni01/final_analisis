@@ -84,7 +84,7 @@ interface DbSentencias {
     const ELIMINAR_MATERIA= "UPDATE materia SET estado_materia=0 WHERE id_materia=?;";
     const BUSCAR_PLAN = "SELECT duracion,id_plan FROM plan_de_estudios WHERE id_plan=?;";
     const BUSCAR_MATERIAS= "SELECT nombre_materia,id_materia,anio FROM materia WHERE fk_plan_de_estudio=?;";
-    //Correlativas
+    //Correlativas 
     const LISTAR_CORRELATIVAS= "SELECT nombre_carrera,resolucion,materia_1.`nombre_materia`,correlativa.`nombre_materia` AS nombre_correlativa,materia_1.`id_materia`,correlativa.`id_materia` AS id_correlativa,fk_plan_de_estudios FROM correlativas INNER JOIN plan_de_estudios ON (fk_plan_de_estudios=id_plan) INNER JOIN carrera ON (fk_carrera=id_carrera) INNER JOIN materia AS materia_1 ON (fk_materia=materia_1.id_materia) INNER JOIN materia AS correlativa ON (fk_correlativa=correlativa.id_materia) WHERE estado_correlativa=1;";
     const INSERTAR_CORRELATIVA= "INSERT INTO correlativas(fk_plan_de_estudios,fk_materia,fk_correlativa) VALUES (?,?,?);";
     const ACTUALIZAR_CORRELATIVA= "UPDATE correlativas SET fk_correlativa=? WHERE fk_plan_de_estudios=? AND fk_materia=? AND fk_correlativa=?;";
