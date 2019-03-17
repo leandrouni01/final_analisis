@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="shortcut icon" href="../css/iesmb.jpg">
+        <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/bootstrapValidator.min.css" rel="stylesheet" type="text/css"/>
+        <title>Plan de Estudio</title>
+    </head>
+    <body style="background-color: aliceblue">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-inverse" role="navigation" style="margin-top: 8px">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="../../index.html"><span class="glyphicon glyphicon-th-list"></span> Menu Principal</a>
+                            </div>
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="Alumno.html">Alumno</a></li>
+                                    <li><a href="Profesor.html">Profesor</a></li>
+                                    <li><a href="LibroTemas.html">Libro de Temas</a></li>
+                                </ul>
+
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Académica <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Carrera</a></li>
+                                            <li><a href="#">Plan de Estudio</a></li>
+                                            <li><a href="">Materias</a></li>
+                                            <li><a href="#">Correlatividades</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Localización <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">País</a></li>
+                                            <li><a href="#">Provincia</a></li>
+                                            <li><a href="#">Localidad</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#">Sede</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div><!-- /.navbar-collapse -->
+                        </div><!-- /.container-fluid -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1"/></div>
+
+            <div class="col-lg-10">
+                <div class="well well-lg" style="background-color: #9acfea" >
+                    <h1>Instituto Manuel Belgrano</h1>
+                    <h4> Sistema de Carga de Plan de Estudio.</h4>
+
+                    <img align="right" style="width:130px; height:120px; position: absolute; top: 14px;left:810px" src="../css/iesmb.jpg" class="img-circle" alt=""/>                 
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <td align="">
+                            <button class="btn btn-primary btn-lg pull-left" id="agregar" data-toggle="tooltip" data-placement="left" title="Registrar alumno">
+                                <span class="glyphicon glyphicon-pencil"></span> Agregar
+                            </button>
+                        </td>
+                        <td>
+                            <div class="pull-right">
+                                <div class="input-group">
+                                    <input id="textBusca" type="text" class="form-control" placeholder="Buscar materia.." aria-describedby="basic-addon2">
+                                    <span class="input-group-addon" id="basic-addon2">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-1"/></div>
+
+        <div class="col-lg-10 thumbnail">
+            <table class="table table-bordered table-hover" id="tablaPlanEstudio">
+                <thead>
+                    <tr>
+                        <th>Carrera</th>
+                        <th>Resolucion</th>
+                        <th>Fecha</th>
+                        <th>Horas catedra</th>
+                        <th>Horas reloj</th>
+                        <th>Duracion</th>
+                        <th>Acciones</th>
+                    </tr>  
+                </thead>
+
+                <tbody id="cuerpoTabla" >
+                </tbody>
+
+            </table>
+        </div>
+        <div class="col-lg-1"></div> 
+    </div>
+</div>
+
+<!-- Inicio modal -->
+<div class="modal fade" id="modalPlanEstudio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formPlanEstudio" class="form-horizontal"
+                  data-bv-message="Este valor No es válido"
+                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                  data-bv-submitbuttons='button[type="submit"]'
+                  data-bv-trigger="focus blur"
+                  data-bv-live="enabled">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="tituloModal">Nuevo Plan de Estudio</h3>
+
+                    <div class="modal-body">
+                        <!--    DECLARO UN ID OCULTO    -->
+                        <div class="form-group">
+                            <input class="form-control" type="hidden" id="id" name="id">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class='col-lg-2'>Carrera</label>
+                            <div class='col-lg-10'>
+
+                                <select class="form-control" id="combocarrera" name="combocarrera">
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class='col-lg-2'>Resolucion</label>
+                            <div class='col-lg-10'>
+                                <input class="form-control" type="text" id="resolucion" name="resolucion"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class='col-lg-2'>Fecha</label>
+                            <div class='col-lg-10'>
+                                <input class="form-control" type="date" id="fecha" name="fecha">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class='col-lg-2'>Horas catedra</label>
+                            <div class='col-lg-10'>
+                                <input class="form-control" type="text" id="horas_catedras" name="horas_catedras"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class='col-lg-2'>Horas reloj</label>
+                            <div class='col-lg-10'>
+                                <input class="form-control" type="text" id="horas_reloj" name="horas_reloj"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar el horario">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class='col-lg-2'>Duracion</label>
+                            <div class='col-lg-10'>
+                                <select class="form-control" id="duracion" name="duracion">
+                                    <option>3 </option>
+                                    <option>4 </option>
+                                    <option>5 </option>
+                                </select>
+
+                            </div>
+                        </div>                            
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="salir" type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+
+                    <button type="button" id="guardar" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- FIN Modal -->
+
+<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="form2" class="form-horizontal"
+                  data-bv-message="Este valor No es válido"
+                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                  data-bv-submitbuttons='button[type="submit"]'
+                  data-bv-trigger="focus blur"
+                  data-bv-live="enabled">
+                <div class="modal-header">
+                    <div class="well well-sm">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 align="center" class="modal-title" id="tituloModal2">Eliminar</h3>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <!--    DECLARO UN ID OCULTO    -->
+                        <div class="form-group">
+                            <input class="form-control" type="hidden" id="id2" name="id2">
+                        </div>
+
+                        <div class="form-group">
+                            <label class='col-lg-3'>Carrera:</label>
+                            <div class='col-lg-9'>
+                                <input type="text" class="form-control" id="carrera2" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class='col-lg-3'>Resolución:</label>
+                            <div class='col-lg-9'>
+                                <input type="text" class="form-control" id="resolucion2" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class='col-lg-3'>Fecha:</label>
+                            <div class='col-lg-9'>
+                                <input class="form-control" type="text" id="fecha2" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class='col-lg-3'>Horas catedra:</label>
+                            <div class='col-lg-9'>
+                                <input type="text" class="form-control" id="horas_catedras2">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class='col-lg-3'>Horas reloj:</label>
+                            <div class='col-lg-9'>
+                                <input class="form-control" type="text" id="horas_reloj2"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar el horario">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class='col-lg-3'>Duración:</label>
+                            <div class='col-lg-9'>
+                                <input class="form-control" type="text" id="duracion2" 
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="Debes completar el horario">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button  type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Salir</button>
+
+                    <button type="button" id="borrar" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- FIN Modal -->
+
+<script src="../js/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="../js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+<script src="../js/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>
+<script src="../js/funcionesPlanEstudio.js" type="text/javascript"></script>
+
+</body>
+</html>
+
