@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `año` (
 
 -- Volcando datos para la tabla sistema_sedes.año: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `año` DISABLE KEYS */;
-INSERT INTO `año` (`id_año`, `numero`, `estado`) VALUES
+REPLACE INTO `año` (`id_año`, `numero`, `estado`) VALUES
 	(1, 1, 1),
 	(2, 2, 1),
 	(3, 3, 1);
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `carrera` (
 
 -- Volcando datos para la tabla sistema_sedes.carrera: ~5 rows (aproximadamente)
 /*!40000 ALTER TABLE `carrera` DISABLE KEYS */;
-INSERT INTO `carrera` (`id_carrera`, `nombre_carrera`, `estado_carrera`) VALUES
+REPLACE INTO `carrera` (`id_carrera`, `nombre_carrera`, `estado_carrera`) VALUES
 	(1, 'Analisis', 1),
 	(2, 'Fotografia', 1),
 	(5, 'Abogacia', 1),
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `correlativas` (
 
 -- Volcando datos para la tabla sistema_sedes.correlativas: ~17 rows (aproximadamente)
 /*!40000 ALTER TABLE `correlativas` DISABLE KEYS */;
-INSERT INTO `correlativas` (`fk_plan_de_estudios`, `fk_materia`, `fk_correlativa`, `estado_correlativa`) VALUES
+REPLACE INTO `correlativas` (`fk_plan_de_estudios`, `fk_materia`, `fk_correlativa`, `estado_correlativa`) VALUES
 	(1, 4, 5, 1),
 	(1, 4, 6, 1),
 	(1, 4, 12, 1),
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `curso` (
 
 -- Volcando datos para la tabla sistema_sedes.curso: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `curso` DISABLE KEYS */;
-INSERT INTO `curso` (`id_curso`, `fk_sede`, `fk_plan_de_estudios`, `nombre_curso`, `anio_curso`, `estado`) VALUES
+REPLACE INTO `curso` (`id_curso`, `fk_sede`, `fk_plan_de_estudios`, `nombre_curso`, `anio_curso`, `estado`) VALUES
 	(1, 9, 1, '1A', 1, 1),
 	(2, 9, 1, '1B', 1, 1),
 	(3, 9, 1, '1C', 1, 1),
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `domicilio` (
 
 -- Volcando datos para la tabla sistema_sedes.domicilio: ~7 rows (aproximadamente)
 /*!40000 ALTER TABLE `domicilio` DISABLE KEYS */;
-INSERT INTO `domicilio` (`id_domicilio`, `calle_domicilio`, `numero_domicilio`, `fk_localidad`, `estado`) VALUES
+REPLACE INTO `domicilio` (`id_domicilio`, `calle_domicilio`, `numero_domicilio`, `fk_localidad`, `estado`) VALUES
 	(9, 'Vecindad', 1, 1, 1),
 	(10, 'Silent Street', 23, 2, 0),
 	(11, 'Roca', 214, 4, 1),
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `horarios` (
 
 -- Volcando datos para la tabla sistema_sedes.horarios: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `horarios` DISABLE KEYS */;
-INSERT INTO `horarios` (`id_horario`, `fk_profesor`, `fk_materia`, `inicio_horario`, `fin_horario`, `fk_curso`, `dia_horario`, `ciclo_lectivo_horario`, `estado`) VALUES
+REPLACE INTO `horarios` (`id_horario`, `fk_profesor`, `fk_materia`, `inicio_horario`, `fin_horario`, `fk_curso`, `dia_horario`, `ciclo_lectivo_horario`, `estado`) VALUES
 	(1, 6, 4, '21:30:00', '22:30:00', 1, 'Lunes', 2008, 1),
 	(2, 7, 5, '20:30:00', '20:40:00', 1, 'Lunes', 2008, 1),
 	(3, 6, 4, '21:30:00', '22:30:00', 1, 'Lunes', 2018, 1);
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `localidad` (
 
 -- Volcando datos para la tabla sistema_sedes.localidad: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `localidad` DISABLE KEYS */;
-INSERT INTO `localidad` (`id_localidad`, `nombre_localidad`, `fk_provincia`, `estado`) VALUES
+REPLACE INTO `localidad` (`id_localidad`, `nombre_localidad`, `fk_provincia`, `estado`) VALUES
 	(1, 'Capital', 1, 1),
 	(2, 'Las Heras', 1, 1),
 	(3, 'Maipu', 1, 1),
@@ -207,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `materia` (
 
 -- Volcando datos para la tabla sistema_sedes.materia: ~35 rows (aproximadamente)
 /*!40000 ALTER TABLE `materia` DISABLE KEYS */;
-INSERT INTO `materia` (`id_materia`, `fk_plan_de_estudio`, `anio`, `nombre_materia`, `semestre`, `carga_horaria`, `estado_materia`) VALUES
+REPLACE INTO `materia` (`id_materia`, `fk_plan_de_estudio`, `anio`, `nombre_materia`, `semestre`, `carga_horaria`, `estado_materia`) VALUES
 	(4, 1, 1, 'Programacion I', 'anual', 124, 1),
 	(5, 1, 1, 'Logica', 'anual', 12, 1),
 	(6, 1, 1, 'Algebra', 'primer semestre', 24, 1),
@@ -245,6 +245,26 @@ INSERT INTO `materia` (`id_materia`, `fk_plan_de_estudio`, `anio`, `nombre_mater
 	(57, 1, 3, 'Programacion 3', 'anual', 123, 1);
 /*!40000 ALTER TABLE `materia` ENABLE KEYS */;
 
+-- Volcando estructura para tabla sistema_sedes.modulos
+CREATE TABLE IF NOT EXISTS `modulos` (
+  `id_modulo` int(11) NOT NULL AUTO_INCREMENT,
+  `hora_modulo` varchar(50) NOT NULL DEFAULT '0',
+  `estado_modulo` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id_modulo`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- Volcando datos para la tabla sistema_sedes.modulos: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `modulos` DISABLE KEYS */;
+REPLACE INTO `modulos` (`id_modulo`, `hora_modulo`, `estado_modulo`) VALUES
+	(1, '19:30', 1),
+	(2, '20:10', 1),
+	(3, '20:50', 1),
+	(4, '21:30', 1),
+	(5, '22:10', 1),
+	(6, '22:50', 1),
+	(7, '23:30', 1);
+/*!40000 ALTER TABLE `modulos` ENABLE KEYS */;
+
 -- Volcando estructura para tabla sistema_sedes.pais
 CREATE TABLE IF NOT EXISTS `pais` (
   `id_pais` int(5) NOT NULL AUTO_INCREMENT,
@@ -256,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `pais` (
 
 -- Volcando datos para la tabla sistema_sedes.pais: ~15 rows (aproximadamente)
 /*!40000 ALTER TABLE `pais` DISABLE KEYS */;
-INSERT INTO `pais` (`id_pais`, `nombre_pais`, `estado`) VALUES
+REPLACE INTO `pais` (`id_pais`, `nombre_pais`, `estado`) VALUES
 	(1, 'Argentina', 1),
 	(2, 'Brasil', 1),
 	(3, 'Paraguay', 1),
@@ -292,7 +312,7 @@ CREATE TABLE IF NOT EXISTS `plan_de_estudios` (
 
 -- Volcando datos para la tabla sistema_sedes.plan_de_estudios: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `plan_de_estudios` DISABLE KEYS */;
-INSERT INTO `plan_de_estudios` (`id_plan`, `fk_carrera`, `resolucion`, `fecha`, `horas_catedra`, `horas_reloj`, `duracion`, `estado_plan`) VALUES
+REPLACE INTO `plan_de_estudios` (`id_plan`, `fk_carrera`, `resolucion`, `fecha`, `horas_catedra`, `horas_reloj`, `duracion`, `estado_plan`) VALUES
 	(1, 1, 4589, '1997-04-12', 1234, 4123, 3, 1),
 	(2, 6, 1246, '1998-05-23', 1423, 4562, 3, 1),
 	(3, 8, 3214, '1996-10-24', 1425, 4256, 3, 1),
@@ -314,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `postgrado` (
 
 -- Volcando datos para la tabla sistema_sedes.postgrado: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `postgrado` DISABLE KEYS */;
-INSERT INTO `postgrado` (`id_postgrado`, `nombre_postgrado`, `estado`) VALUES
+REPLACE INTO `postgrado` (`id_postgrado`, `nombre_postgrado`, `estado`) VALUES
 	(1, 'Master en Base de datos', 1),
 	(2, 'Ninguno', 1),
 	(3, 'Encontrar a Cherryl', 1),
@@ -343,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `profesor` (
 
 -- Volcando datos para la tabla sistema_sedes.profesor: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `profesor` DISABLE KEYS */;
-INSERT INTO `profesor` (`id_profesor`, `nombre_profesor`, `apellido_profesor`, `fk_titulo`, `fk_postgrado`, `fk_domicilio`, `dni_profesor`, `estado`) VALUES
+REPLACE INTO `profesor` (`id_profesor`, `nombre_profesor`, `apellido_profesor`, `fk_titulo`, `fk_postgrado`, `fk_domicilio`, `dni_profesor`, `estado`) VALUES
 	(6, 'Profesor', 'Jirafales', 7, 4, 9, 12457896, 1),
 	(7, 'Harry', 'Mason', 6, 3, 10, 12569847, 0),
 	(8, '2', 'Cortez', 3, 1, 14, 0, 0);
@@ -363,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `provincia` (
 
 -- Volcando datos para la tabla sistema_sedes.provincia: ~7 rows (aproximadamente)
 /*!40000 ALTER TABLE `provincia` DISABLE KEYS */;
-INSERT INTO `provincia` (`id_provincia`, `nombre_provincia`, `fk_pais`, `estado`) VALUES
+REPLACE INTO `provincia` (`id_provincia`, `nombre_provincia`, `fk_pais`, `estado`) VALUES
 	(1, 'Mendoza', 1, 1),
 	(2, 'San Luis', 1, 1),
 	(3, 'San Juan', 1, 1),
@@ -389,7 +409,7 @@ CREATE TABLE IF NOT EXISTS `sede` (
 
 -- Volcando datos para la tabla sistema_sedes.sede: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `sede` DISABLE KEYS */;
-INSERT INTO `sede` (`id_sede`, `nombre_sede`, `numero_sede`, `telefono_sede`, `fk_domicilio`, `estado`) VALUES
+REPLACE INTO `sede` (`id_sede`, `nombre_sede`, `numero_sede`, `telefono_sede`, `fk_domicilio`, `estado`) VALUES
 	(7, 'Godoy Cruz', 1236, 4246237, 11, 1),
 	(8, 'Las Heras', 5296, 153478155, 12, 1),
 	(9, 'Ciudad', 6598, 4286173, 13, 1),
@@ -407,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `titulo` (
 
 -- Volcando datos para la tabla sistema_sedes.titulo: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `titulo` DISABLE KEYS */;
-INSERT INTO `titulo` (`id_titulo`, `nombre_titulo`, `estado`) VALUES
+REPLACE INTO `titulo` (`id_titulo`, `nombre_titulo`, `estado`) VALUES
 	(1, 'Licenciado en Base de Datos', 1),
 	(2, 'Programador', 1),
 	(3, 'Ingeniero en Sistemas', 1),
