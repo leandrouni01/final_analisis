@@ -85,6 +85,7 @@ $(function () {
         app.guardarCarrera = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=carrera";
             var datosEnviar = $("#formCarrera").serialize();
+            alert(datosEnviar);
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -106,6 +107,7 @@ $(function () {
 
             var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=carrera";
             var datosEnviar = $("#formCarrera").serialize();
+            alert(datosEnviar);
             $.ajax({
                 url: url,
                 method: 'POST',
