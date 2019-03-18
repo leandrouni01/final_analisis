@@ -29,11 +29,14 @@ $(function () {
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $("#id").val($(this).attr("data-id"));
-                $("#combocarrera").find(':selected').val($(this).parent().parent().children().html());
+                var value = $(this).parent().parent().children().first().html();
+                setTimeout( () => {
+                    $('#combocarrera option:contains(' + value + ')').prop('selected', true);
+                },50);
                 $("#combocarrera").val($(this).parent().parent().children().attr("data-fk_carrera"));
                 $("#resolucion").val($(this).parent().parent().children().first().next().html());
                 $("#fecha").val($(this).parent().parent().children().first().next().next().html());
-                $("#horas_catedras").val($(this).parent().parent().children().first().next().next().next().html());
+                $("#horas_catedra").val($(this).parent().parent().children().first().next().next().next().html());
                 $("#horas_reloj").val($(this).parent().parent().children().first().next().next().next().next().html());
                 $("#duracion").val($(this).parent().parent().children().first().next().next().next().next().next().html());
                 $("#tituloModal").html("Editar Plan Estudio");
@@ -140,8 +143,8 @@ $(function () {
                         '<td>' + planestudio.horas_reloj + '</td>' +
                         '<td>' + planestudio.duracion + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + planestudio.id_planestudio + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + planestudio.id_planestudio + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + planestudio.id_plan + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + planestudio.id_plan + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                         '</td>' +
                         '</tr>';
             });
@@ -191,10 +194,12 @@ $(function () {
                     //'fk_carrera=' + $('#combocarrera option:selected').text() +
                     '&resolucion=' + $('#resolucion').val() +
                     '&fecha=' + $('#fecha').val() +
-                    '&horas_catedras=' + $('#horas_catedras').val() +
+                    '&horas_catedra=' + $('#horas_catedra').val() +
                     '&horas_reloj=' + $('#horas_reloj').val() +
                     '&duracion=' + $("#duracion").find(':selected').val() +
                     '&id=' + $("#id").val();
+            
+            //alert(datosEnviar);
 
             $.ajax({
                 url: url,
@@ -219,12 +224,12 @@ $(function () {
                         '<td>' + $("#combocarrera").find(':selected').text() + '</td>' +
                         '<td>' + $('#resolucion').val() + '</td>' +
                         '<td>' + $('#fecha').val() + '</td>' +
-                        '<td>' + $('#horas_catedras').val() + '</td>' +
+                        '<td>' + $('#horas_catedra').val() + '</td>' +
                         '<td>' + $('#horas_reloj').val() + '</td>' +
                         '<td>' + $("#duracion").find(':selected').val() + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + planestudio.id_planestudio + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + planestudio.id_planestudio + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + planestudio.id_plan + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + planestudio.id_plan + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                         '</td>' +
                         '</tr>';
                 $("#cuerpoTabla").append(html);
@@ -234,7 +239,7 @@ $(function () {
                 var html = '<td>' + $("#combocarrera").find(':selected').text() + '</td>' +
                         '<td>' + $("#resolucion").val() + '</td>' +
                         '<td>' + $("#fecha").val() + '</td>' +
-                        '<td>' + $("#horas_catedras").val() + '</td>' +
+                        '<td>' + $("#horas_catedra").val() + '</td>' +
                         '<td>' + $("#horas_reloj").val() + '</td>' +
                         '<td>' + $("#duracion").find(':selected').val() + '</td>' +
                         '<td>' +

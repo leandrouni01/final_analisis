@@ -41,7 +41,7 @@ class ControladorPlanDeEstudios extends ControladorGeneral {
     public function eliminar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $resultado = array('id' => $datos['id_plan']);
+            $resultado = array('id' => $datos['id']);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_PLAN, $resultado);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
@@ -63,7 +63,7 @@ class ControladorPlanDeEstudios extends ControladorGeneral {
     public function modificar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $resultado = array('fk_carrera' => $datos['fkCarrera'], 'resolucion' => $datos['resolucion'], 'fecha' => $datos['fecha'], 'horas_catedra' => $datos['horas_catedra'], 'horas_reloj' => $datos['horas_reloj'], 'duracion' => $datos['duracion'], 'id_plan' => $datos['id_plan']);
+            $resultado = array('fk_carrera' => $datos['fk_carrera'], 'resolucion' => $datos['resolucion'], 'fecha' => $datos['fecha'], 'horas_catedra' => $datos['horas_catedra'], 'horas_reloj' => $datos['horas_reloj'], 'duracion' => $datos['duracion'], 'id_plan' => $datos['id']);
             //print_r($resultado);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_PLAN, $resultado);
             $this->refControladorPersistencia->confirmarTransaccion();

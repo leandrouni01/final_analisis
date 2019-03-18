@@ -52,7 +52,7 @@ $(function () {
         };
 
         app.buscarCarrera = function () { //esta funcion lista todas las carreras
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=carrera";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Carrera";
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -72,7 +72,7 @@ $(function () {
             var linea = "";
             $.each(data, function (clave, carrera) {
                 linea += '<tr>' +
-                        '<td>' + carrera.nombre + '</td>' +
+                        '<td>' + carrera.nombre_carrera + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + carrera.id_carrera + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                         '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + carrera.id_carrera + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' +
@@ -83,8 +83,9 @@ $(function () {
         };
 
         app.guardarCarrera = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=carrera";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Carrera";
             var datosEnviar = $("#formCarrera").serialize();
+            alert(datosEnviar);
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -104,8 +105,9 @@ $(function () {
 
         app.modificarCarrera = function () {
 
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=carrera";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Carrera";
             var datosEnviar = $("#formCarrera").serialize();
+            alert(datosEnviar);
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -125,7 +127,7 @@ $(function () {
         app.actualizarTabla = function (carrera, id) {
             if (id == 0) {
                 var html = '<tr>' +
-                        '<td>' + carrera.nombre + '</td>' +
+                        '<td>' + carrera.nombre_carrera + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + carrera.id_carrera + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                         '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + carrera.id_carrera + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' +
@@ -145,7 +147,7 @@ $(function () {
         };       
         
        app.eliminarCarrera = function (id) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=carrera";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Carrera";
             var datosEnviar = {id: id};
             $.ajax({
                 url: url,
