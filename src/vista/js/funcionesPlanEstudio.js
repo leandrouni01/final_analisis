@@ -156,10 +156,13 @@ $(function () {
                     //'fk_carrera=' + $('#combocarrera option:selected').text() +
                     '&resolucion=' + $('#resolucion').val() +
                     '&fecha=' + $('#fecha').val() +
-                    '&horas_catedras=' + $('#horas_catedras').val() +
+                    '&horas_catedra=' + $('#horas_catedra').val() +
                     '&horas_reloj=' + $('#horas_reloj').val() +
                     '&duracion=' + $("#duracion").find(':selected').val();
 
+
+            alert(datosEnviar);
+            
             $.ajax({
                 url: url,
                 type: 'POST',
