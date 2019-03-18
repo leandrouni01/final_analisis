@@ -41,7 +41,7 @@ class ControladorPlanDeEstudios extends ControladorGeneral {
     public function eliminar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $resultado = array('id' => $datos['id_plan']);
+            $resultado = array('id' => $datos['id']);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_PLAN, $resultado);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
