@@ -104,7 +104,7 @@ $(function () {
             $.each(data, function (clave, value) {
                 //alert("Entre en rellenar combo " + value.nombre + " " + value.id_carrera);
                 //console.log(JSON.stringify(data));
-                $('#' + itemRecibido).append('<option value="' + value.id_carrera + '">' + value.nombre + '</option>');
+                $('#' + itemRecibido).append('<option value="' + value.id_carrera + '">' + value.nombre_carrera + '</option>');
 
                 // alert("value :" + value.id_carrera);
                 // alert("nombre :" + value.nombre);
@@ -133,10 +133,10 @@ $(function () {
             $.each(data, function (clave, planestudio) {
 
                 linea += '<tr>' +
-                        '<td data-fk_carrera="' + planestudio.id_carrera + '">' + planestudio.nombre + '</td>' +
+                        '<td data-fk_carrera="' + planestudio.id_carrera + '">' + planestudio.nombre_carrera + '</td>' +
                         '<td>' + planestudio.resolucion + '</td>' +
                         '<td>' + planestudio.fecha + '</td>' +
-                        '<td>' + planestudio.horas_catedras + '</td>' +
+                        '<td>' + planestudio.horas_catedra + '</td>' +
                         '<td>' + planestudio.horas_reloj + '</td>' +
                         '<td>' + planestudio.duracion + '</td>' +
                         '<td>' +
