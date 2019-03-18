@@ -143,8 +143,8 @@ $(function () {
                         '<td>' + planestudio.horas_reloj + '</td>' +
                         '<td>' + planestudio.duracion + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + planestudio.id_planestudio + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + planestudio.id_planestudio + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + planestudio.id_plan + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + planestudio.id_plan + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                         '</td>' +
                         '</tr>';
             });
@@ -228,8 +228,8 @@ $(function () {
                         '<td>' + $('#horas_reloj').val() + '</td>' +
                         '<td>' + $("#duracion").find(':selected').val() + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + planestudio.id_planestudio + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + planestudio.id_planestudio + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + planestudio.id_plan + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + planestudio.id_plan + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                         '</td>' +
                         '</tr>';
                 $("#cuerpoTabla").append(html);
