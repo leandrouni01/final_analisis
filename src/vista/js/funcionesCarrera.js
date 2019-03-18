@@ -72,7 +72,7 @@ $(function () {
             var linea = "";
             $.each(data, function (clave, carrera) {
                 linea += '<tr>' +
-                        '<td>' + carrera.nombre + '</td>' +
+                        '<td>' + carrera.nombre_carrera + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + carrera.id_carrera + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                         '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + carrera.id_carrera + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' +
@@ -125,7 +125,7 @@ $(function () {
         app.actualizarTabla = function (carrera, id) {
             if (id == 0) {
                 var html = '<tr>' +
-                        '<td>' + carrera.nombre + '</td>' +
+                        '<td>' + carrera.nombre_carrera + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + carrera.id_carrera + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                         '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + carrera.id_carrera + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' +
