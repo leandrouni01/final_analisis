@@ -77,7 +77,7 @@ interface DbSentencias {
     const BUSCAR_ULTIMO_PLAN= "SELECT plan_de_estudios.*,carrera.nombre_carrera FROM plan_de_estudios INNER JOIN carrera ON (fk_carrera=id_carrera) WHERE id_plan=(SELECT MAX(id_plan)FROM plan_de_estudios);";
     const ELIMINAR_PLAN= "UPDATE plan_de_estudios SET estado_plan=0 WHERE id_plan=?;";
     //Materia
-    const LISTAR_MATERIAS= "SELECT materia.*,plan_de_estudios.`fk_carrera`,plan_de_estudios.`resolucion`,carrera.`nombre_carrera` FROM materia INNER JOIN plan_de_estudios ON(fk_plan_de_estudio=id_plan) INNER JOIN carrera ON(fk_carrera=id_carrera) WHERE estado_materia=1 ORDER BY nombre_carrera,resolucion,semestre,nombre_materia;";
+    const LISTAR_MATERIAS= "SELECT materia.*,plan_de_estudios.`fk_carrera`,plan_de_estudios.`resolucion`,carrera.`nombre_carrera` FROM materia INNER JOIN plan_de_estudios ON(fk_plan_de_estudio=id_plan) INNER JOIN carrera ON(fk_carrera=id_carrera) WHERE estado_materia=1 ORDER BY nombre_carrera,resolucion,semestre,nombre_materia";
     const INSERTAR_MATERIA ="INSERT INTO materia(fk_plan_de_estudio,anio,nombre_materia,semestre,carga_horaria) VALUES (?,?,?,?,?);";
     const BUSCAR_ULTIMA_MATERIA= "SELECT materia.*,plan_de_estudios.`fk_carrera`,plan_de_estudios.`resolucion`,carrera.`nombre_carrera` FROM materia INNER JOIN plan_de_estudios ON(fk_plan_de_estudio=id_plan) INNER JOIN carrera ON(fk_carrera=id_carrera) WHERE estado_materia=1 and id_materia=(SELECT MAX(id_materia)FROM materia WHERE estado_materia=1);";
     const ACTUALIZAR_MATERIA= "UPDATE materia SET fk_plan_de_estudio=?,anio=?,nombre_materia=?,semestre=?,carga_horaria=? WHERE id_materia=?;";

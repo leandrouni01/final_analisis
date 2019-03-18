@@ -12,9 +12,9 @@ class ControladorMateria extends ControladorGeneral {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
             $resultado = array(
-                "idPlan" => $datos['idPlan'],
-                "anio" => $datos['anio'],
-                "nombre_materia" => $datos['nombre_materia'],
+                "idPlan" => $datos['fk_planestudio'],
+                "anio" => $datos['comboDuracion'],
+                "nombre_materia" => $datos['nombre'],
                 "semestre" => $datos['semestre'],
                 "carga_horaria" => $datos['carga_horaria']);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_MATERIA, $resultado);
@@ -44,7 +44,7 @@ class ControladorMateria extends ControladorGeneral {
     
     public function buscarPlan($datos){
         try{
-            $parametros= array("idPlan"=> $datos["idPlan"]);
+            $parametros= array("id_plan"=> $datos["id"]);
             $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_PLAN,$parametros);
             $fila = $resultado->fetch();
             return $fila;
@@ -56,7 +56,7 @@ class ControladorMateria extends ControladorGeneral {
     public function eliminar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros = array("id_materia" => $datos['id_materia']);
+            $parametros = array("id_materia" => $datos['id']);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_MATERIA, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
@@ -80,12 +80,12 @@ class ControladorMateria extends ControladorGeneral {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = array(
-                "fk_plan_de_estudio" => $datos['idPlan'],
-                "anio" => $datos['anio'],
-                "nombre_materia" => $datos['nombre_materia'],
+                "fk_plan_de_estudio" => $datos['fk_planestudio'],
+                "anio" => $datos['comboDuracion'],
+                "nombre_materia" => $datos['nombre'],
                 "semestre" => $datos['semestre'],
                 "carga_horaria" => $datos['carga_horaria'],
-                "id_materia" => $datos['id_materia']);
+                "id_materia" => $datos['id']);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_MATERIA, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
