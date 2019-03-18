@@ -12,7 +12,7 @@ class ControladorPlanDeEstudios extends ControladorGeneral {
         try {
             //print_r($datos);
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros = array('fk_carrera' => $datos['fkCarrera'], 'resolucion' => $datos['resolucion'], 'fecha' => $datos['fecha'], 'horas_catedra' => $datos['horas_catedra'], 'horas_reloj' => $datos['horas_reloj'], 'duracion' => $datos['duracion']);
+            $parametros = array('fk_carrera' => $datos['fk_carrera'], 'resolucion' => $datos['resolucion'], 'fecha' => $datos['fecha'], 'horas_catedra' => $datos['horas_catedra'], 'horas_reloj' => $datos['horas_reloj'], 'duracion' => $datos['duracion']);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_PLAN_DE_ESTUDIOS, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimoPlan();
