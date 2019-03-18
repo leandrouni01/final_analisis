@@ -29,11 +29,14 @@ $(function () {
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $("#id").val($(this).attr("data-id"));
-                $("#combocarrera").find(':selected').val($(this).parent().parent().children().html());
+                var value = $(this).parent().parent().children().first().html();
+                setTimeout( () => {
+                    $('#combocarrera option:contains(' + value + ')').prop('selected', true);
+                },50);
                 $("#combocarrera").val($(this).parent().parent().children().attr("data-fk_carrera"));
                 $("#resolucion").val($(this).parent().parent().children().first().next().html());
                 $("#fecha").val($(this).parent().parent().children().first().next().next().html());
-                $("#horas_catedras").val($(this).parent().parent().children().first().next().next().next().html());
+                $("#horas_catedra").val($(this).parent().parent().children().first().next().next().next().html());
                 $("#horas_reloj").val($(this).parent().parent().children().first().next().next().next().next().html());
                 $("#duracion").val($(this).parent().parent().children().first().next().next().next().next().next().html());
                 $("#tituloModal").html("Editar Plan Estudio");
