@@ -12,6 +12,7 @@ class ControladorCarrera extends ControladorGeneral {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = array("nombre" => $datos['nombre']);
+            print_r($parametros);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_CARRERA, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimaCarrera();
