@@ -52,7 +52,7 @@ $(function () {
         };
 
         app.buscarCarrera = function () { //esta funcion lista todas las carreras
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=carrera";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Carrera";
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -83,7 +83,7 @@ $(function () {
         };
 
         app.guardarCarrera = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=carrera";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Carrera";
             var datosEnviar = $("#formCarrera").serialize();
             alert(datosEnviar);
             $.ajax({
@@ -105,7 +105,7 @@ $(function () {
 
         app.modificarCarrera = function () {
 
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=carrera";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Carrera";
             var datosEnviar = $("#formCarrera").serialize();
             alert(datosEnviar);
             $.ajax({
@@ -147,7 +147,7 @@ $(function () {
         };       
         
        app.eliminarCarrera = function (id) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=carrera";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Carrera";
             var datosEnviar = {id: id};
             $.ajax({
                 url: url,
