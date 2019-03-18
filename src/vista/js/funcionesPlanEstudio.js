@@ -79,7 +79,7 @@ $(function () {
             // genero la variable que viaja por post
             //alert("estoy en buscar carreras y elegi el id numero:" + id);
             var datosEnviar = {id: id};
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=carrera";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Carrera";
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -112,7 +112,7 @@ $(function () {
         };
 
         app.buscarPlanEstudio = function () { //esta funcion lista todas las carreras
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=planestudio";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=PlanDeEstudios";
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -149,7 +149,7 @@ $(function () {
         };
 
         app.guardarPlanEstudio = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=PlanEstudio"
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=PlanDeEstudios";
             var datosEnviar =
                     // atrapa el id que esta en el combo
                     'fk_carrera=' + $("#combocarrera").find(':selected').val() +
@@ -177,7 +177,7 @@ $(function () {
         };
 
         app.modificarPlanEstudio = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=planEstudio";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=PlanDeEstudios";
             //alert("estoy");
 
             //alert($("#combocarrera").find(':checked').val());
@@ -243,7 +243,7 @@ $(function () {
         };
 
         app.eliminarPlanEstudio = function (id) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=planestudio";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=PlanDeEstudios";
             var datosEnviar = {id: id};
             $.ajax({
                 url: url,
