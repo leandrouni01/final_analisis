@@ -3,45 +3,63 @@ $(function () {
 
     (function (app) {
         app.init = function () {
-            app.buscar();
+            app.buscarPais();
             app.bindings();
         };
 
         app.bindings = function () {
-            $("#agregar").on('click', function (event) {
+            $("#agregarPais").on('click', function () {
                 $("#id").val(0);
-                $("#tituloModal").html("Nuevo Pais ");
-                $("#modal").modal({show: true});
+                $("#tituloModal").html("Agregar Pais");
+                $("#modalPais").modal({show: true});
+                $("#accion").html("Guardar");
             });
-
-            $("#guardar").on('click', function (event) {
+            $("#accion").on('click', function (event) {
                 event.preventDefault();
-                if ($("#id").val() == 0) {
-                    app.guardar();
+                if ($("#accion").html() == "Guardar") {
+                    //alert($("#id").val())
+                    if ($("#id").val() == 0) {
+                        app.guardarPais();
+                    } else {
+                        app.editarPais();
+                    }
                 } else {
-                    app.modificar();
+                    app.eliminarPais();
                 }
             });
 
-            $("#cuerpoTabla").on('click', '.editar', function (event) {
-                $("#id").val($(this).attr("data-id"));
-                $("#nombre").val($(this).parent().parent().children().html());
-                $("#tituloModal").html("Editar");
-                $("#modal").modal({show: true})
+            $("#cuerpoTablaPais").on('click', '.editar', function (event) {
+                $("#id").val($(this).attr("data-id_pais"));
+                $("#nombrePais").val($(this).parent().parent().children().first().html());
+                $("#tituloModal").html("Editar Pais");
+                $("#accion").html("Guardar");
+                $("#modalPais").modal({show: true});
+                //alert($(this).attr("data-id_pais"));
             });
-
-            $("#cuerpoTabla").on('click', '.eliminar', function () {
-                app.eliminar($(this).attr("data-id"));
+            $("#cuerpoTablaPais").on('click', '.ver', function (event) {
+                $("#id").val($(this).attr("data-id_pais"));
+                $("#nombrePais").val($(this).parent().parent().children().first().html());
+                $("#tituloModal").html("Ver Pais");
+                $("#accion").hide();
+                $("#inputNombre").attr("disabled", "true");
+                $("#modalPais").modal({show: true});
             });
-
-            $("#form").bootstrapValidator({
-                excluded: [],
+            $("#cuerpoTablaPais").on('click', '.eliminar', function (event) {
+                $("#id").val($(this).attr("data-id_pais"));
+                $("#nombrePais").val($(this).parent().parent().children().first().html());
+                $("#tituloModal").html("¿Esta seguro que desea eliminar este pais?");
+                $("#accion").html("Eliminar");
+                $("#modalPais").modal({show: true});
+                $("#inputNombre").attr("disabled", "true");
             });
-
+            $("#modalPais").on('hide.bs.modal', function () {
+                app.limpiarModal();
+            });
         };
 
-        app.buscar = function () { //esta funcion lista todas las carreras
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=pais";
+
+        app.buscarPais = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Pais";
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -50,125 +68,104 @@ $(function () {
                     app.rellenarTabla(datosRecibidos);
                 },
                 error: function () {
-                    alert('error buscar ');
+                    alert('error buscar pais');
                 }
             });
-          
         };
-        
-        
-        app.rellenarTabla = function (data) {//funcion para rellenar la tabla carrera
-            //alert("Entre en rellenar tabla");
-            var linea = "";
-            $.each(data, function (clave, pais ) {
-                linea += '<tr>' +
-                        '<td>' + pais.nombre + '</td>' +
-                        '<td>' +
-                        '<a class="pull-left editar" data-id="' + pais.id + '"><span class="glyphicon glyphicon-pencil"></span>Editar</a>' + //data- : crea un metadato de la clave primaria.
-                        '<a class="pull-right eliminar" data-id="' + pais.id + '"><span class="glyphicon glyphicon-remove"></span>Eliminar</a>' + //metadato: informacion adicional de los datos. 
-                        '</td>' +
-                        '</tr>';
+
+        app.rellenarTabla = function (datosPais) {
+            var html = "";
+            $.each(datosPais, function (clave, pais) {
+                html += "<tr>\n\
+                            <td>" + pais.nombre_pais + "</td>\n\
+                            <td><a class='ver' data-id_pais'" + pais.id_pais + "'><span class='glyphicon glyphicon-info-sign'></span>Ver </a><a class='eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a><a class='editar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a></td>\
+                         </tr>";
             });
-            $("#cuerpoTabla").html(linea);
+            $("#cuerpoTablaPais").html(html);
         };
 
-
-        app.guardar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=pais";
-            var datosEnviar = $("#form").serialize();
+        app.guardarPais = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Pais";
+            var datosEnviar = $("#formPais").serialize();
+            //alert(datosEnviar);
             $.ajax({
                 url: url,
                 method: 'POST',
                 dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    $("#modal").modal('hide');
                     app.actualizarTabla(datosRecibidos, $("#id").val());
-                    app.limpiarModal();
+                    $("#modalPais").modal('hide');
                 },
                 error: function (datosRecibidos) {
-                    alert("Error en guardar");
-                    alert(datosRecibidos);
+                    alert("Error en guardar pais");
                 }
             });
         };
-
-
-        app.modificar = function () {
-
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=pais";
-            var datosEnviar = $("#form").serialize();
+        app.editarPais = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Pais";
+            var datosEnviar = $("#formPais").serialize();
             $.ajax({
                 url: url,
                 method: 'POST',
+                dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    $("#modal").modal('hide');
+                    //alert("editar");
                     app.actualizarTabla(datosRecibidos, $("#id").val());
-                    app.limpiarModal();
+                    $("#modalPais").modal('hide');
                 },
                 error: function (datosRecibidos) {
-                    alert("Error en guardar");
-                    alert(datosRecibidos);
+                    alert("Error en editar pais");
                 }
             });
         };
-
-
+        app.eliminarPais = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Pais";
+            var datosEnviar = $("#formPais").serialize();
+            //alert($("#formPais").serialize());
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datosEnviar,
+                success: function (datosRecibidos) {
+                    //alert("entré");
+                    app.borrarFila($("#id").val());
+                    $("#modalPais").modal('hide');
+                },
+                error: function (datosRecibidos) {
+                    alert("Error al eliminar pais");
+                }
+            });
+        };
+        app.borrarFila = function (id) {
+            var fila = $("#cuerpoTablaPais").find("a[data-id_pais='" + id + "']").parent().parent().remove();
+        };
         app.actualizarTabla = function (pais, id) {
             if (id == 0) {
+                //alert("guardar");
                 var html = '<tr>' +
-                        '<td>' + pais.nombre + '</td>' +
-                        '<td>' +
-                        '<a class="pull-left editar" data-id="' + pais.id + '"><span class="glyphicon glyphicon-pencil"></span>Editar</a>' +
-                        '<a class="pull-right eliminar" data-id="' + pais.id + '"><span class="glyphicon glyphicon-remove"></span>Eliminar</a>' +
-                        '</td>' +
+                        '<td>' + pais.nombre_pais + '</td>' +
+                        '<td><a class="ver" data-id_pais="' + pais.pais_id + '"><span class="glyphicon glyphicon-info-sign"></span>Ver </a><a class="eliminar" data-id_pais="' + pais.pais_id + '"><span class="glyphicon glyphicon-remove"></span>Eliminar </a><a class="editar" data-id_pais="' + pais.pais_id + '"><span class="glyphicon glyphicon-pencil"></span>Editar</a></td>' +
                         '</tr>';
-                $("#cuerpoTabla").append(html);
+                $("#cuerpoTablaPais").append(html);
             } else {
-                //Modifico un Pais existente, busco la fila.
-                var fila = $("#cuerpoTabla").find("a[data-id='" + id + "']").parent().parent();
-                var html = '<td>' + $("#nombre").val() + '</td>' +
-                        '<td>' +
-                        '<a class="pull-left editar" data-id="' + id + '"><span class="glyphicon glyphicon-pencil"></span>Editar</a>' +
-                        '<a class="pull-right eliminar" data-id="' + id + '"><span class="glyphicon glyphicon-remove"></span>Eliminar</a>' +
-                        '</td>';
+                //alert("editar");
+                var fila = $("#cuerpoTablaPais").find("a[data-id_pais='" + id + "']").parent().parent();
+                var html = '<td>' + $("#nombrePais").val() + '</td>' +
+                        '<td><a class="ver" data-id_pais="' + id + '"><span class="glyphicon glyphicon-info-sign"></span>Ver </a><a class="eliminar" data-id_pais="' + id + '"><span class="glyphicon glyphicon-remove"></span>Eliminar </a><a class="editar" data-id_pais="' + id + '"><span class="glyphicon glyphicon-pencil"></span>Editar</a></td>';
                 fila.html(html);
             }
         };
-        
-        
-       app.eliminar = function (id) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=pais";
-            var datosEnviar = {id: id};
-            $.ajax({
-                url: url,
-                method: 'POST',
-                data: datosEnviar,
-                success: function (datosRecibidos) {
-                    app.borrarFila(id);
-                },
-                error: function (datosRecibidos) {
-                    alert('Error al eliminar');
-                }
-            });
-        };
-
-        app.borrarFila = function (id) {//funcion para borrar una fila de la tabla carrera
-            var fila = $("#cuerpoTabla").find("a[data-id='" + id + "']").parent().parent().remove();
-        };
-
-        app.limpiarModal = function () {//funcion para limpiar el modal
+        app.limpiarModal = function () {
             $("#id").val(0);
-            $("#nombre").val('');
+            $("#nombrePais").val("");
+            if ($("#inputNombre").attr("disabled")) {
+                $("#inputNombre").removeAttr("disabled");
+            }
+            $("#accion").show();
         };
-
-
-
-
         app.init();
-
     })(TallerAvanzada);
 });
-
-
