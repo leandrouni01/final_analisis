@@ -41,7 +41,7 @@ class ControladorCarrera extends ControladorGeneral {
     public function eliminar($datos) {
         try{
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros= array("id"=>$datos['id_carrera']);
+            $parametros= array("id"=>$datos['id']);
             $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_CARRERA,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
