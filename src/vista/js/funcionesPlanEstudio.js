@@ -224,7 +224,7 @@ $(function () {
                         '<td>' + $("#combocarrera").find(':selected').text() + '</td>' +
                         '<td>' + $('#resolucion').val() + '</td>' +
                         '<td>' + $('#fecha').val() + '</td>' +
-                        '<td>' + $('#horas_catedras').val() + '</td>' +
+                        '<td>' + $('#horas_catedra').val() + '</td>' +
                         '<td>' + $('#horas_reloj').val() + '</td>' +
                         '<td>' + $("#duracion").find(':selected').val() + '</td>' +
                         '<td>' +
@@ -239,7 +239,7 @@ $(function () {
                 var html = '<td>' + $("#combocarrera").find(':selected').text() + '</td>' +
                         '<td>' + $("#resolucion").val() + '</td>' +
                         '<td>' + $("#fecha").val() + '</td>' +
-                        '<td>' + $("#horas_catedras").val() + '</td>' +
+                        '<td>' + $("#horas_catedra").val() + '</td>' +
                         '<td>' + $("#horas_reloj").val() + '</td>' +
                         '<td>' + $("#duracion").find(':selected').val() + '</td>' +
                         '<td>' +
