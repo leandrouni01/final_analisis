@@ -9,78 +9,141 @@ and open the template in the editor.
         <title>Administrar Pais</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="../css/iesmb.jpg">
         <link href="../css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
         <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/bootstrapValidator.min.css" rel="stylesheet" type="text/css"/>
     </head>
-    <body>
-        <div class="container">
-            <nav class="navbar navbar-default">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar Lugares<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="pais.html">Administrar Pais</a></li>
-                            <li><a href="provincia.html">Administrar Provincia</a></li>
-                            <li><a href="localidad.html">Administrar Localidad</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar Personas<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="profesor.html">Administrar Profesor</a></li>
-                            <li><a href="titulo.html">Administrar Titulo</a></li>
-                            <li><a href="postgrado.html">Administrar Postgrado</a></li>
-                            <li><a>Administrar Alumno</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar Sedes<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="sede.html">Administrar Sede</a></li>
-                            <li><a href="carrera.html">Administrar Carrera</a></li>
-                            <li><a href="plan_de_estudios.html">Administrar Plan de Estudios</a></li>
-                            <li><a href="materia.html">Administrar Materia</a></li>
-                            <li><a href="correlativas.html">Administrar Correlativas</a></li>
-                            <li><a href="curso.html">Administrar Curso</a></li>
-                            <li><a href="horario.html">Administrar Horarios</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-            <div>
-                <div class="jumbotron">
-                    <h1>Administrar Pais</h1>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <button type="button" class="btn btn-primary btn-lg" id="agregarPais">Agregar</button>
-                    </div>
-                    <div class="col-lg-4"></div>
-                    <div class="col-lg-4"></div>
-                </div>
-                <div class="row">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <td><b>Nombre</b></td>
-                                <td><b>Acciones</b></td>
-                            </tr>
-                        </thead>
-                        <tbody id="cuerpoTablaPais">
+    <body style="background-color: aliceblue">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-inverse" role="navigation" style="margin-top: 8px">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="../../index.html"><span class="glyphicon glyphicon-th-list"></span> Menu Principal</a>
+                            </div>
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="Alumno.html">Alumno</a></li>
+                                    <li><a href="Profesor.html">Profesor</a></li>
+                                    <li><a href="LibroTemas.html">Libro de Temas</a></li>
+                                </ul>
 
-                        </tbody>
-                    </table>
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Académica <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Carrera</a></li>
+                                            <li><a href="#">Plan de Estudio</a></li>
+                                            <li><a href="#">Materias</a></li>
+                                            <li><a href="#">Correlatividades</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Localización <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">País</a></li>
+                                            <li><a href="#">Provincia</a></li>
+                                            <li><a href="#">Localidad</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#">Sede</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div><!-- /.navbar-collapse -->
+                        </div><!-- /.container-fluid -->
+                    </nav>
                 </div>
             </div>
+        </div>
+        <div class="container">
 
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="well well-sm" style="background-color: #9acfea" >
+                        <h1>Instituto Manuel Belgrano</h1>
+                        <h4>Sistema de Carga de Paises</h4>       
+                        <img style="width:100px; height:100px; position: absolute; top: 9px;left:1040px" src="../css/iesmb.jpg" class="img-circle" alt=""/>                 
+                    </div>
+
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <button class="btn btn-primary btn-lg pull-left" id="agregarPais">
+                                    <span class="glyphicon glyphicon-pencil"></span> Agregar
+                                </button>
+                            </td>
+                            <td>
+                                <div class="pull-right">
+                                    <div class="input-group">
+                                        <input id="textBusca" type="text" class="form-control" placeholder="Buscar pais.." aria-describedby="basic-addon2">
+                                        <span class="input-group-addon" id="basic-addon2">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class='container-fluid'>
+
+                        <div id='alerta'>
+                        </div>
+
+                    </div> 
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-12 thumbnail">
+
+                    <table class="table table-bordered table-hover table-condensed" id="tabla">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th><span class="glyphicon glyphicon-cog"></span> Acciones</th>
+                            </tr>  
+                        </thead>
+
+                        <tbody id="cuerpoTablaPais" >
+                        </tbody>                                       
+                    </table>
+
+                    <div id="alert"></div>
+
+                </div> 
+            </div>
         </div>
 
         <div class="modal fade" id="modalPais" tabindex="-1" role="dialog" aria-labelledby="modalPais" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form id="formPais" class="form-horizontal">
+                    <form id="formPais" class="form-horizontal"
+                          data-bv-message="Este valor No es válido"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                          data-bv-submitbuttons='button[type="submit"]'
+                          data-bv-trigger="focus blur"
+                          data-bv-live="enabled">
                         <div class="modal-header">
-                            <h4 id="tituloModal"></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 align="left" class="modal-title" id="tituloModal">Nuevo Profesor</h3>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
@@ -90,14 +153,17 @@ and open the template in the editor.
                                 <fieldset id="inputNombre">
                                     <label class="col-lg-3">Nombre</label>
                                     <div class="col-lg-9">
-                                        <input type="text" name="nombre_pais" id="nombrePais" class="form-control">
+                                        <input name="nombre_pais" id="nombrePais" class="form-control" type="text" pattern="[A-Z,a-z]{4,20}" placeholder="Nombre"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="Debes completar el nombre">
                                     </div>
                                 </fieldset>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
-                            <button type="button" class="btn btn-primary" id="accion"></button>
+                            <button type="submit" class="btn btn-primary" id="submit">Guardar</button>
+                            <button type="button" class="btn btn-danger" id="eliminar">Eliminar</button>
                         </div>
                     </form>
 
@@ -107,6 +173,7 @@ and open the template in the editor.
 
         <script src="../js/bootstrap/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
         <script src="../js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../js/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>
         <script src="../js/funcionesPais.js" type="text/javascript"></script>
     </body>
 </html>
