@@ -265,7 +265,7 @@ $(function () {
             $("#fieldsetLocalidad").removeAttr("disabled");
             $("#submit").show();
             $("#eliminar").hide();
-            $("#formLocalidad").bootstrapValidator('resetForm', true)
+            $("#formLocalidad").bootstrapValidator('resetForm', true);
         };
 
         app.init();
