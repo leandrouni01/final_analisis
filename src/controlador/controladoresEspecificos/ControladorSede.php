@@ -15,7 +15,7 @@ class ControladorSede extends ControladorGeneral {
             $parametros = array(
                 "calle_domicilio" => $datos["calle_domicilio"],
                 "numero_domicilio" => $datos["numero_domicilio"],
-                "fk_localidad" => $datos["fk_localidad"]);
+                "fk_localidad" => $datos["localidad"]);
             $controlador = new ControladorDomicilio();
             $controlador->agregar($parametros);
 
@@ -101,7 +101,7 @@ class ControladorSede extends ControladorGeneral {
             $parametros = array(
             "calle_domicilio" => $datos["calle_domicilio"],
             "numero_domicilio" => $datos["numero_domicilio"],
-            "fk_localidad" => $datos["fk_localidad"],
+            "fk_localidad" => $datos["localidad"],
             "id_domicilio"=>$datos["id_domicilio"]);
         $controlador= new ControladorDomicilio();
         $controlador->modificar($parametros);
