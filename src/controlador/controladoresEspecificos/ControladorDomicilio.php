@@ -23,6 +23,9 @@ class ControladorDomicilio extends ControladorGeneral{
 
     public function listar($datos) {
         
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_DOMICILIOS);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
     }
 
     public function modificar($datos) {
