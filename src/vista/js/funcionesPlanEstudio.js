@@ -168,7 +168,7 @@ $(function () {
             
             $.ajax({
                 url: url,
-                type: 'POST',
+                method: 'POST',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
                     $("#modalPlanEstudio").modal('hide');
