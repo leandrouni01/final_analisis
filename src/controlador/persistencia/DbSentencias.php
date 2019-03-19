@@ -46,10 +46,10 @@ interface DbSentencias {
     const ACTUALIZAR_TITULO = "UPDATE titulo SET nombre_titulo=? WHERE id_titulo=?;";
     const ELIMINAR_TITULO = "UPDATE titulo SET estado=0 WHERE id_titulo=?;";
     //Postgrado
-    const LISTAR_POSTGRADOS= "SELECT postgrado.* FROM postgrado WHERE estado=1;";
-    const INSERTAR_POSTGRADO= "INSERT INTO postgrado(nombre_postgrado) VALUE (?);";
-    const BUSCAR_ULTIMO_POSTGRADO= "SELECT postgrado.* FROM postgrado WHERE estado=1 AND id_postgrado=(SELECT MAX(id_postgrado) FROM postgrado);";
-    const ACTUALIZAR_POSTGRADO= "UPDATE postgrado SET nombre_postgrado=? WHERE id_postgrado=?;";
+    const LISTAR_POSTGRADOS= "SELECT postgrado.*,nombre_titulo FROM postgrado INNER JOIN titulo ON (fk_titulo=id_titulo) WHERE postgrado.estado=1;";
+    const INSERTAR_POSTGRADO= "INSERT INTO postgrado(nombre_postgrado,fk_titulo) VALUE (?,?);";
+    const BUSCAR_ULTIMO_POSTGRADO= "SELECT postgrado.*,nombre_titulo FROM postgrado INNER JOIN titulo ON (fk_titulo=id_titulo) WHERE postgrado.estado=1 AND id_postgrado=(SELECT MAX(id_postgrado) FROM postgrado);";
+    const ACTUALIZAR_POSTGRADO= "UPDATE postgrado SET nombre_postgrado=?,fk_titulo=? WHERE id_postgrado=?;";
     const ELIMINAR_POSTGRADO = "UPDATE postgrado SET estado=0 WHERE id_postgrado=?;";
     //Profesor
     const LISTAR_PROFESORES= "SELECT profesor.*,calle_domicilio,numero_domicilio,fk_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais,fk_titulo,nombre_titulo,fk_postgrado,nombre_postgrado FROM profesor INNER JOIN domicilio ON (fk_domicilio=id_domicilio) INNER JOIN localidad ON (fk_localidad=id_localidad) INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) INNER JOIN titulo ON(fk_titulo=id_titulo) INNER JOIN postgrado ON (fk_postgrado=id_postgrado) WHERE profesor.`estado`=1;";

@@ -11,7 +11,7 @@ class ControladorPostgrado extends ControladorGeneral {
     public function agregar($datos) {
         try{
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros= array ("nombre_postgrado"=>$datos["nombre_postgrado"]);
+            $parametros= array ("nombre_postgrado"=>$datos["nombre_postgrado"],"fk_titulo"=>$datos["fk_titulo"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_POSTGRADO,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimoPostgrado();
@@ -61,7 +61,7 @@ class ControladorPostgrado extends ControladorGeneral {
     public function modificar($datos) {
         try{
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros= array("nombre_postgrado"=>$datos["nombre_postgrado"],"id_postgrado"=>$datos["id_Postgrado"]);
+            $parametros= array("nombre_postgrado"=>$datos["nombre_postgrado"],"fk_titulo"=>$datos["fk_titulo"],"id_postgrado"=>$datos["id_Postgrado"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_POSTGRADO,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
