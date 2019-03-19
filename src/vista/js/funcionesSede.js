@@ -291,11 +291,12 @@ $(function () {
         };
 
         app.guardar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=sede";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Sede";
             var datosEnviar = $("#form").serialize();
+            //alert(datosEnviar);
             $.ajax({
                 url: url,
-                type: 'POST',
+                method: 'POST',
                 data: datosEnviar,
                 dataType: 'json',
                 success: function (datosRecibidos) {
