@@ -15,14 +15,14 @@ class ControladorSede extends ControladorGeneral {
             $parametros = array(
                 "calle_domicilio" => $datos["calle_domicilio"],
                 "numero_domicilio" => $datos["numero_domicilio"],
-                "fk_localidad" => $datos["localidad"]);
+                "fk_localidad" => $datos["fk_localidad"]);
             $controlador = new ControladorDomicilio();
             $controlador->agregar($parametros);
 
             $parametros = array(
                 "nombre_sede" => $datos["nombre_sede"],
                 "numero_sede" => $datos["numero_sede"],
-                "telefono_sede" => $datos["telefono_sede"],);
+                "telefono_sede" => $datos["telefono_sede"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_SEDE, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimaSede();
