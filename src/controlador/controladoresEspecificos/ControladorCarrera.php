@@ -11,8 +11,8 @@ class ControladorCarrera extends ControladorGeneral {
     public function agregar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros = array("nombre" => $datos['nombre']);
-            print_r($parametros);
+            $parametros = array("nombre_carrera" => $datos['nombre']);
+            //print_r($parametros);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_CARRERA, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimaCarrera();
@@ -22,7 +22,7 @@ class ControladorCarrera extends ControladorGeneral {
         }
     }
 
-    private function buscarUltimaCarrera() {
+    public function buscarUltimaCarrera() {
         try {
             $parametros = null;
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_ULTIMA_CARRERA, $parametros);
@@ -63,7 +63,7 @@ class ControladorCarrera extends ControladorGeneral {
     public function modificar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros = array('nombre' => $datos['nombre'], 'id' => $datos['id']);
+            $parametros = array('nombre_carrera' => $datos['nombre'], 'id' => $datos['id']);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_CARRERA, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {

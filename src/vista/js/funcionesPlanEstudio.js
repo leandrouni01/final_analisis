@@ -164,11 +164,11 @@ $(function () {
                     '&duracion=' + $("#duracion").find(':selected').val();
 
 
-            alert(datosEnviar);
+            //alert(datosEnviar);
             
             $.ajax({
                 url: url,
-                type: 'POST',
+                method: 'POST',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
                     $("#modalPlanEstudio").modal('hide');
