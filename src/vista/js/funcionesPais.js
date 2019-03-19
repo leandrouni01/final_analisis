@@ -81,7 +81,7 @@ $(function () {
                             <td>" + pais.nombre_pais + "</td>\n\
                             <td>\n\
                                 <a class='btn btn-warning pull-left editar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
-\n\                             <a class='btn btn-danger pull-right eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
+                                <a class='btn btn-danger pull-right eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                             </td>\
                          </tr>";
             });
