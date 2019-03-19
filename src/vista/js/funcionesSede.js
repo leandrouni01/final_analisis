@@ -275,7 +275,7 @@ $(function () {
                             '<td>' + object.numero_sede + '</td>' +
                             '<td>' + object.telefono_sede + '</td>' +
                             '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
-                            '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_prov + '</td>' +
+                            '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
                             '<td>' + object.calle_domicilio + '</td>' +
                             '<td>' + object.numero_domicilio + '</td>' +
@@ -341,7 +341,7 @@ $(function () {
                             '<td>' + object.numero_sede + '</td>' +
                             '<td>' + object.telefono_sede + '</td>' +
                             '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
-                            '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_prov + '</td>' +
+                            '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
                             '<td>' + object.calle_domicilio + '</td>' +
                             '<td>' + object.numero_domicilio + '</td>' +
