@@ -3,19 +3,19 @@
 interface DbSentencias {
 
     //Pais
-    const LISTAR_PAISES = "SELECT nombre_pais,id_pais FROM pais WHERE estado=1;";
+    const LISTAR_PAISES = "SELECT nombre_pais,id_pais FROM pais WHERE estado=1 ORDER BY nombre_pais;";
     const INSERTAR_PAIS = "INSERT INTO pais(nombre_pais) VALUE(?);";
     const BUSCAR_ULTIMO_PAIS = "SELECT nombre_pais,id_pais FROM pais WHERE estado=1 AND id_pais=(SELECT MAX(id_pais) FROM pais);";
     const ACTUALIZAR_PAIS = "UPDATE pais SET nombre_pais= ? WHERE id_pais= ?;";
     const ELIMINAR_PAIS = "UPDATE pais SET estado=0 WHERE id_pais=?;";
     //Provincia
-    const LISTAR_PROVINCIAS = "SELECT id_provincia,nombre_provincia,fk_pais,nombre_pais FROM provincia INNER JOIN pais ON (fk_pais = id_pais) WHERE provincia.estado=1;";
+    const LISTAR_PROVINCIAS = "SELECT id_provincia,nombre_provincia,fk_pais,nombre_pais FROM provincia INNER JOIN pais ON (fk_pais = id_pais) WHERE provincia.estado=1 ORDER BY nombre_pais,nombre_provincia;";
     const INSERTAR_PROVINCIA = "INSERT INTO provincia(nombre_provincia,fk_pais) VALUES (?,?);";
     const BUSCAR_ULTIMA_PROVINCIA = "SELECT id_provincia,nombre_provincia,fk_pais,nombre_pais FROM provincia INNER JOIN pais ON (fk_pais=id_pais) WHERE id_provincia=(SELECT MAX(id_provincia)FROM provincia);";
     const ACTUALIZAR_PROVINCIA = "UPDATE provincia SET nombre_provincia=?,fk_pais=? WHERE id_provincia=?;";
     const ELIMINAR_PROVINCIA = "UPDATE provincia SET estado=0 WHERE id_provincia=?;";
     //Localidad
-    const LISTAR_LOCALIDADES= "SELECT id_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM localidad INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE localidad.estado=1;";
+    const LISTAR_LOCALIDADES= "SELECT id_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM localidad INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE localidad.estado=1 ORDER BY nombre_provincia;";
     const LISTAR_PROV= "SELECT id_provincia,nombre_provincia FROM provincia WHERE fk_pais=?;";
     const INSERTAR_LOCALIDAD = "INSERT INTO localidad(nombre_localidad,fk_provincia) VALUES (?,?);";
     const BUSCAR_ULTIMA_LOCALIDAD = "SELECT id_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM localidad INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE localidad.estado=1 AND id_localidad=(SELECT MAX(id_localidad) FROM localidad);";
@@ -41,13 +41,13 @@ interface DbSentencias {
     const ELIMINAR_CARRERA = "UPDATE carrera SET estado_carrera=0 WHERE id_carrera=?;";
     const BUSCAR_CARRERA = "SELECT carrera.* FROM carrera WHERE carrera.nombre_carrera LIKE '?%' AND carrera.estado_carrera = 1";
     //Titulo
-    const LISTAR_TITULOS= "SELECT titulo.* FROM titulo WHERE estado=1;";
+    const LISTAR_TITULOS= "SELECT titulo.* FROM titulo WHERE estado=1 ORDER BY nombre_titulo;";
     const INSERTAR_TITULO= "INSERT INTO titulo(nombre_titulo) VALUE (?);";
     const BUSCAR_ULTIMO_TITULO= "SELECT titulo.* FROM titulo WHERE estado=1 AND id_titulo=(SELECT MAX(id_titulo) FROM titulo);";
     const ACTUALIZAR_TITULO = "UPDATE titulo SET nombre_titulo=? WHERE id_titulo=?;";
     const ELIMINAR_TITULO = "UPDATE titulo SET estado=0 WHERE id_titulo=?;";
     //Postgrado
-    const LISTAR_POSTGRADOS= "SELECT postgrado.*,nombre_titulo FROM postgrado INNER JOIN titulo ON (fk_titulo=id_titulo) WHERE postgrado.estado=1;";
+    const LISTAR_POSTGRADOS= "SELECT postgrado.*,nombre_titulo FROM postgrado INNER JOIN titulo ON (fk_titulo=id_titulo) WHERE postgrado.estado=1 ORDER BY nombre_postgrado;";
     const INSERTAR_POSTGRADO= "INSERT INTO postgrado(nombre_postgrado,fk_titulo) VALUE (?,?);";
     const BUSCAR_ULTIMO_POSTGRADO= "SELECT postgrado.*,nombre_titulo FROM postgrado INNER JOIN titulo ON (fk_titulo=id_titulo) WHERE postgrado.estado=1 AND id_postgrado=(SELECT MAX(id_postgrado) FROM postgrado);";
     const ACTUALIZAR_POSTGRADO= "UPDATE postgrado SET nombre_postgrado=?,fk_titulo=? WHERE id_postgrado=?;";
