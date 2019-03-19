@@ -42,11 +42,11 @@ CREATE TABLE `carrera` (
   `estado_carrera` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_carrera`),
   UNIQUE KEY `nombre_carrera` (`nombre_carrera`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /*Data for the table `carrera` */
 
-insert  into `carrera`(`id_carrera`,`nombre_carrera`,`estado_carrera`) values (1,'Analisis',1),(2,'Fotografia',1),(5,'Abogacia',1),(6,'Teatro',1),(8,'Redes',1);
+insert  into `carrera`(`id_carrera`,`nombre_carrera`,`estado_carrera`) values (1,'Analisis de Sistemas',1),(2,'Fotografia',1),(5,'Abogacia',1),(6,'Teatro',1),(8,'Redes y Telecomunicaciones',1),(9,'Arquitectura',1),(10,'Ingenieria Civil',1),(11,'Ingenieria en Mecatronica',1),(12,'Ingenieria Industrial',1),(13,'Astronomia',1),(14,'Gastronomia',1),(15,'Quinesiología',1),(16,'Medicina',1),(17,'Turismo',1),(18,'Higiene y Seguridad',1),(19,'Periodismo',1),(20,'Tecnico en Hemoterapia',1),(21,'Psicología',1),(22,'Radiología',1);
 
 /*Table structure for table `correlativas` */
 
@@ -121,25 +121,27 @@ CREATE TABLE `horarios` (
   `id_horario` int(11) NOT NULL AUTO_INCREMENT,
   `fk_profesor` int(11) DEFAULT NULL,
   `fk_materia` int(11) DEFAULT NULL,
-  `inicio_horario` time NOT NULL,
-  `fin_horario` time NOT NULL,
+  `fk_modulo_inicio` int(11) DEFAULT NULL,
+  `fk_modulo_fin` int(11) NOT NULL,
   `fk_curso` int(11) DEFAULT NULL,
   `dia_horario` enum('Lunes','Martes','Miercoles','Jueves','Viernes','Sabado') NOT NULL,
   `ciclo_lectivo_horario` int(5) NOT NULL,
   `estado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_horario`),
-  UNIQUE KEY `fk_profesor_2` (`fk_profesor`,`inicio_horario`,`fin_horario`,`dia_horario`,`ciclo_lectivo_horario`),
+  UNIQUE KEY `fk_profesor_2` (`fk_profesor`,`fk_modulo_inicio`,`fk_modulo_fin`,`dia_horario`,`ciclo_lectivo_horario`),
   KEY `fk_profesor` (`fk_profesor`),
   KEY `fk_materia` (`fk_materia`),
   KEY `fk_curso` (`fk_curso`),
+  KEY `fk_modulo_inicio` (`fk_modulo_inicio`),
+  KEY `fk_modulo_fin` (`fk_modulo_fin`),
   CONSTRAINT `horarios_ibfk_1` FOREIGN KEY (`fk_profesor`) REFERENCES `profesor` (`id_profesor`),
   CONSTRAINT `horarios_ibfk_2` FOREIGN KEY (`fk_materia`) REFERENCES `materia` (`id_materia`),
-  CONSTRAINT `horarios_ibfk_3` FOREIGN KEY (`fk_curso`) REFERENCES `curso` (`id_curso`)
+  CONSTRAINT `horarios_ibfk_3` FOREIGN KEY (`fk_curso`) REFERENCES `curso` (`id_curso`),
+  CONSTRAINT `horarios_ibfk_4` FOREIGN KEY (`fk_modulo_inicio`) REFERENCES `modulos` (`id_modulo`),
+  CONSTRAINT `horarios_ibfk_5` FOREIGN KEY (`fk_modulo_fin`) REFERENCES `modulos` (`id_modulo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 /*Data for the table `horarios` */
-
-insert  into `horarios`(`id_horario`,`fk_profesor`,`fk_materia`,`inicio_horario`,`fin_horario`,`fk_curso`,`dia_horario`,`ciclo_lectivo_horario`,`estado`) values (1,6,4,'21:30:00','22:30:00',1,'Lunes',2008,1),(2,7,5,'20:30:00','20:40:00',1,'Lunes',2008,1),(3,6,4,'21:30:00','22:30:00',1,'Lunes',2018,1);
 
 /*Table structure for table `localidad` */
 
@@ -154,11 +156,11 @@ CREATE TABLE `localidad` (
   UNIQUE KEY `nombre_localidad_fk_provincia` (`nombre_localidad`,`fk_provincia`),
   KEY `fk_provincia` (`fk_provincia`),
   CONSTRAINT `localidad_ibfk_1` FOREIGN KEY (`fk_provincia`) REFERENCES `provincia` (`id_provincia`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /*Data for the table `localidad` */
 
-insert  into `localidad`(`id_localidad`,`nombre_localidad`,`fk_provincia`,`estado`) values (1,'Capital',1,1),(2,'Las Heras',1,1),(3,'Maipu',1,1),(4,'Godoy Cruz',1,1),(5,'Tunuyan',1,1),(6,'Lujan',1,1);
+insert  into `localidad`(`id_localidad`,`nombre_localidad`,`fk_provincia`,`estado`) values (1,'Capital',1,1),(2,'Las Heras',1,1),(3,'Maipu',1,1),(4,'Godoy Cruz',1,1),(5,'Tunuyan',1,1),(6,'Lujan de Cuyo',1,1),(7,'Guaymallen',1,1),(8,'Junin',1,1),(9,'Tupungato',1,1),(10,'San Rafael',1,1),(11,'San Carlos',1,1),(12,'Rivadavia',1,1),(15,'Santa Rosa',1,1),(16,'Lavalle',1,1),(17,'San Martin',1,1),(19,'General Albear',1,1),(20,'Malargüe',1,1),(21,'La Paz',1,1),(22,'Palermo',10,1),(23,'Tigre',10,1),(24,'La Boca',10,1),(25,'Capital Federal',10,1),(26,'La Plata',10,1),(27,'Miramar',10,1);
 
 /*Table structure for table `materia` */
 
@@ -206,11 +208,11 @@ CREATE TABLE `pais` (
   `estado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_pais`),
   UNIQUE KEY `nombre` (`nombre_pais`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /*Data for the table `pais` */
 
-insert  into `pais`(`id_pais`,`nombre_pais`,`estado`) values (1,'Argentina',1),(2,'Brasil',1),(3,'Paraguay',1),(37,'Peru',1),(39,'Chile',1),(40,'Uruguay',1),(41,'Mexico',1),(43,'Bolivia',1),(46,'Hawai',1),(48,'Francia',1),(49,'Inglaterra',1),(54,'Canada',1),(55,'Colombia',1),(57,'China',1),(58,'Alemania',1);
+insert  into `pais`(`id_pais`,`nombre_pais`,`estado`) values (1,'Argentina',1),(2,'Brasil',1),(3,'Paraguay',1),(37,'Peru',1),(39,'Chile',1),(40,'Uruguay',1),(41,'Mexico',1),(43,'Bolivia',1),(48,'Francia',1),(49,'Inglaterra',1),(54,'Canada',1),(55,'Colombia',1),(57,'China',1),(58,'Alemania',1),(60,'Costa Rica',1),(61,'España',1);
 
 /*Table structure for table `plan_de_estudios` */
 
@@ -245,14 +247,14 @@ CREATE TABLE `postgrado` (
   `fk_titulo` int(11) DEFAULT NULL,
   `estado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_postgrado`),
-  UNIQUE KEY `nombre_postrgrado` (`nombre_postgrado`),
+  UNIQUE KEY `nombre_postrgrado` (`nombre_postgrado`,`fk_titulo`),
   KEY `fk_titulo` (`fk_titulo`),
   CONSTRAINT `postgrado_ibfk_1` FOREIGN KEY (`fk_titulo`) REFERENCES `titulo` (`id_titulo`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
 /*Data for the table `postgrado` */
 
-insert  into `postgrado`(`id_postgrado`,`nombre_postgrado`,`fk_titulo`,`estado`) values (1,'Master en Base de datos',NULL,1),(2,'Ninguno',NULL,1),(3,'Encontrar a Cherryl',NULL,1),(4,'Regañar al chabo',NULL,1);
+insert  into `postgrado`(`id_postgrado`,`nombre_postgrado`,`fk_titulo`,`estado`) values (1,'Ninguno',1,1),(7,'Ninguno',2,1),(8,'Ninguno',3,1),(11,'Ninguno',5,1),(12,'Ninguno',6,1),(13,'Ninguno',7,1),(14,'Ninguno',8,1),(16,'Ninguno',9,1),(17,'Posgrado Experto en Big Data',1,1),(18,'Master en Data Managment',1,1),(19,'Master en Ingenieria de Software',2,1),(20,'Master en Tecnologías de la Informacion',2,1),(21,'Master en Gestion de Operaciones',3,1),(22,'Magister en Administracion de Sistemas',3,1),(23,'Magister en Administracion de Sistemas',5,1),(24,'Master en Ingenieria de Software',5,1),(25,'Master en Automatizacion Industrial',6,1),(26,'Master en Hidraulica Urbana',6,1),(27,'Master en Arquitectura y Urbanismo',7,1),(28,'Master en Arq. Diseño e Innovacion',7,1),(29,'Posgrado en Comunicacion Politica',8,1),(30,'Posgrado en Comunicacion Industrial',8,1),(31,'Master en Psicologia Infanto-juvenil',9,1),(32,'Master en Psicologia Cognitiva',9,1);
 
 /*Table structure for table `profesor` */
 
@@ -279,8 +281,6 @@ CREATE TABLE `profesor` (
 
 /*Data for the table `profesor` */
 
-insert  into `profesor`(`id_profesor`,`nombre_profesor`,`apellido_profesor`,`fk_titulo`,`fk_postgrado`,`fk_domicilio`,`dni_profesor`,`estado`) values (6,'Profesor','Jirafales',7,4,9,12457896,1),(7,'Harry','Mason',6,3,10,12569847,0),(8,'2','Cortez',3,1,14,0,0);
-
 /*Table structure for table `provincia` */
 
 DROP TABLE IF EXISTS `provincia`;
@@ -294,11 +294,11 @@ CREATE TABLE `provincia` (
   UNIQUE KEY `nombre_provincia` (`nombre_provincia`,`fk_pais`),
   KEY `fk_pais` (`fk_pais`),
   CONSTRAINT `provincia_ibfk_1` FOREIGN KEY (`fk_pais`) REFERENCES `pais` (`id_pais`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 /*Data for the table `provincia` */
 
-insert  into `provincia`(`id_provincia`,`nombre_provincia`,`fk_pais`,`estado`) values (1,'Mendoza',1,1),(2,'San Luis',1,1),(3,'San Juan',1,1),(4,'Cordoba',1,1),(7,'Rio Negro',1,1),(8,'Misiones',1,1),(9,'Corrientes',1,1);
+insert  into `provincia`(`id_provincia`,`nombre_provincia`,`fk_pais`,`estado`) values (1,'Mendoza',1,1),(2,'San Luis',1,1),(3,'San Juan',1,1),(4,'Cordoba',1,1),(7,'Rio Negro',1,1),(8,'Misiones',1,1),(9,'Corrientes',1,1),(10,'Buenos Aires',1,1),(11,'Entre Rios',1,1),(12,'Jujuy',1,1),(13,'Chubut',1,1),(14,'La Pampa',1,1),(16,'Santa Cruz',1,1),(17,'Tierra del Fuego',1,1),(18,'Chaco',1,1),(19,'Formosa',1,1),(20,'La Rioja',1,1),(21,'Neuquén',1,1),(24,'Salta',1,1),(25,'Santiago del Estero',1,1),(26,'Tucumán',1,1),(27,'Santiago',39,1),(28,'Valparaiso',39,1),(29,'Tarapaca',39,1),(30,'Antofagasta',39,1),(31,'Atacama',39,1),(32,'Coquimbo',39,1),(33,'Libertador O\'Higgins',39,1),(34,'Maule',39,1),(35,'Concepcion',39,1),(36,'Araucania',39,1),(37,'Magallanes',39,1),(38,'Los Rios',39,1),(39,'Arica y Parinacota',39,1);
 
 /*Table structure for table `sede` */
 
@@ -331,11 +331,11 @@ CREATE TABLE `titulo` (
   `estado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_titulo`),
   UNIQUE KEY `nombre_titulo` (`nombre_titulo`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `titulo` */
 
-insert  into `titulo`(`id_titulo`,`nombre_titulo`,`estado`) values (1,'Licenciado en Base de Datos',1),(2,'Programador',1),(3,'Ingeniero en Sistemas',1),(5,'Tecnico en Analisis y Programacion de Sistemas',1),(6,'Detective',1),(7,'Profesor de la vecindad',1);
+insert  into `titulo`(`id_titulo`,`nombre_titulo`,`estado`) values (1,'Licenciado en Base de Datos',1),(2,'Programador',1),(3,'Ingeniero en Sistemas',1),(5,'Tecnico en Analisis y Programacion de Sistemas',1),(6,'Ingeniero Civil',1),(7,'Arquitecto',1),(8,'Tecnico en Telecomunicaciones',1),(9,'Psicologo',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
