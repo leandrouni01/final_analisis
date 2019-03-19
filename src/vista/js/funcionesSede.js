@@ -186,21 +186,21 @@ $(function () {
             switch (item) {
                 case 'pais':
                     var datosEnviar = {id: id};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=pais";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Pais";
                     ajaxObj.data = datosEnviar;
                     break;
 
                 case 'provincia':
                     //var id_pais = $("#comboPais").find(':selected').val();
                     var datosEnviar = {id: id};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listarCombo&Formulario=provincia";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarProvincia&Formulario=Sede";
                     ajaxObj.data = datosEnviar;
                     break;
 
                 case 'localidad':
                     //var id_provincia = $("#comboProvincia").find(':selected').val();
                     var datosEnviar = {id: id};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listarCombo&Formulario=localidad";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarLocalidades&Formulario=Sede";
                     ajaxObj.data = datosEnviar;
                     break;
 
