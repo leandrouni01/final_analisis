@@ -219,14 +219,17 @@ $(function () {
             switch (item) {
                 case 'pais':
                     var itemRecibido = 'comboPais';
+                    var item = 'pais';
                     break;
 
                 case 'provincia':
                     var itemRecibido = 'comboProvincia';
+                    var id = 'provincia';
                     break;
 
                 case 'localidad':
                     var itemRecibido = 'combo';
+                    var item = 'localidad';
                     break;
 
                 default:
@@ -237,7 +240,9 @@ $(function () {
             $('#' + itemRecibido).prepend("<option selected disabled> Seleccione </option>");
 
             $.each(data, function (clave, value) {
-                $('#' + itemRecibido).append('<option value="' + value.id + '">' + value.nombre + '</option>');
+                var id = `id_${item}`;
+                var nombre = `nombre_${item}`;       
+                $('#' + itemRecibido).append('<option value="' + value[`${id}`] + '">' + value[`${nombre}`] + '</option>');
             });
         };
 
