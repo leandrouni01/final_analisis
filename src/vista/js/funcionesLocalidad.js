@@ -133,9 +133,8 @@ $(function () {
                           <td data-id_pais='" + localidad.fk_pais + "'>" + localidad.nombre_pais + "</td>\n\
                           <td data-id_provincia='" + localidad.fk_provincia + "'>" + localidad.nombre_provincia + "</td>\n\
                           <td>\n\
-                              <a class='btn btn-sm btn-info pull-left ver' data-id_localidad='" + localidad.id_localidad + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
-                              <a class='btn btn-sm btn-danger pull-left eliminar' data-id_localidad='" + localidad.id_localidad + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                               <a class='btn btn-sm btn-warning pull-left editar' data-id_localidad='" + localidad.id_localidad + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                              <a class='btn btn-sm btn-danger pull-right eliminar' data-id_localidad='" + localidad.id_localidad + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                           </td>\n\
                         </tr>";
                 $("#cuerpoTablaLocalidades").append(html);
@@ -145,9 +144,8 @@ $(function () {
                         <td data-id_pais='" + $("#selectPais").find(":selected").val() + "'>" + $("#selectPais").find(":selected").html() + "</td>\n\
                         <td data-id_provincia='" + $("#selectProvincia").find(":selected").val() + "'>" + $("#selectProvincia").find(":selected").html() + "</td>\n\
                         <td>\n\
-                          <a class='btn btn-sm btn-info pull-left ver' data-id_localidad='" + id + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
-                          <a class='btn btn-sm btn-danger pull-left eliminar' data-id_localidad='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                           <a class='btn btn-sm btn-warning pull-left editar' data-id_localidad='" + id + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                          <a class='btn btn-sm btn-danger pull-right eliminar' data-id_localidad='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                         </td>";
                 fila.html(html);
             }
@@ -199,9 +197,8 @@ $(function () {
                             <td data-id_pais='" + localidad.fk_pais + "'>" + localidad.nombre_pais + "</td>\n\
                             <td data-id_provincia='" + localidad.fk_provincia + "'>" + localidad.nombre_provincia + "</td>\n\
                             <td>\n\
-                                <a class='btn btn-sm btn-info pull-left ver' data-id_localidad='" + localidad.id_localidad + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
-                                <a class='btn btn-sm btn-danger pull-left eliminar' data-id_localidad='" + localidad.id_localidad + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                                 <a class='btn btn-sm btn-warning pull-left editar' data-id_localidad='" + localidad.id_localidad + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                                <a class='btn btn-sm btn-danger pull-right eliminar' data-id_localidad='" + localidad.id_localidad + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                             </td>\n\
                         </tr>";
             });
