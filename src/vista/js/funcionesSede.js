@@ -271,17 +271,17 @@ $(function () {
                 var linea = "";
                 $.each(data, function (clave, object) {
                     linea += '<tr>' +
-                            '<td>' + object.nombre + '</td>' +
-                            '<td>' + object.nro + '</td>' +
-                            '<td>' + object.telefono + '</td>' +
-                            '<td data-fk_pais="' + object.id_pais + '">' + object.nom_pais + '</td>' +
-                            '<td data-fk_provincia="' + object.id_provincia + '">' + object.nom_prov + '</td>' +
-                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nom_localidad + '</td>' +
-                            '<td>' + object.calle + '</td>' +
-                            '<td>' + object.numero_dom + '</td>' +
+                            '<td>' + object.nombre_sede + '</td>' +
+                            '<td>' + object.numero_sede + '</td>' +
+                            '<td>' + object.telefono_sede + '</td>' +
+                            '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
+                            '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_prov + '</td>' +
+                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
+                            '<td>' + object.calle_domicilio + '</td>' +
+                            '<td>' + object.numero_domicilio + '</td>' +
                             '<td>' +
-                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                             '</td>' +
                             '</tr>';
                 });
@@ -337,19 +337,19 @@ $(function () {
         app.actualizarTabla = function (object, id) {
             if (id == 0) {
                 var html = '<tr>' +
-                        '<td>' + object.nombre + '</td>' +
-                        '<td>' + object.nro + '</td>' +
-                        '<td>' + object.telefono + '</td>' +
-                        '<td data-fk_pais="' + object.id_pais + '">' + object.nom_pais + '</td>' +
-                        '<td data-fk_provincia="' + object.id_provincia + '">' + object.nom_provincia + '</td>' +
-                        '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nom_localidad + '</td>' +
-                        '<td>' + object.calle + '</td>' +
-                        '<td>' + object.numero_dom + '</td>' +
-                        '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
-                        '</td>' +
-                        '</tr>';
+                            '<td>' + object.nombre_sede + '</td>' +
+                            '<td>' + object.numero_sede + '</td>' +
+                            '<td>' + object.telefono_sede + '</td>' +
+                            '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
+                            '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_prov + '</td>' +
+                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
+                            '<td>' + object.calle_domicilio + '</td>' +
+                            '<td>' + object.numero_domicilio + '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '</td>' +
+                            '</tr>';
                 $("#cuerpoTabla").append(html);
             } else {
                 var fila = $("#cuerpoTabla").find("[data-id='" + id + "']").parent().parent();
