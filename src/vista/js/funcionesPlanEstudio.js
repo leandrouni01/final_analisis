@@ -164,7 +164,7 @@ $(function () {
                     '&duracion=' + $("#duracion").find(':selected').val();
 
 
-            alert(datosEnviar);
+            //alert(datosEnviar);
             
             $.ajax({
                 url: url,
