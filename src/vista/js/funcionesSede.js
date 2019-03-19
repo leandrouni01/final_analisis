@@ -239,10 +239,8 @@ $(function () {
             $('#' + itemRecibido).html("");
             $('#' + itemRecibido).prepend("<option selected disabled> Seleccione </option>");
 
-            $.each(data, function (clave, value) {
-                var id = `id_${item}`;
-                var nombre = `nombre_${item}`;       
-                $('#' + itemRecibido).append('<option value="' + value[`${id}`] + '">' + value[`${nombre}`] + '</option>');
+            $.each(data, function (clave, value) {   
+                $('#' + itemRecibido).append('<option value="' + value[`id_${item}`] + '">' + value[`nombre_${item}`] + '</option>');
             });
         };
 
