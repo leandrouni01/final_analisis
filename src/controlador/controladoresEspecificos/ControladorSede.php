@@ -75,7 +75,7 @@ class ControladorSede extends ControladorGeneral {
 
     public function buscarProvincia($datos) {
         try {
-            $parametros = array("fk_pais" => $datos["id_pais"]);
+            $parametros = array("fk_pais" => $datos["id"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_PROV, $parametros);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
@@ -86,7 +86,7 @@ class ControladorSede extends ControladorGeneral {
 
     public function buscarLocalidades($datos) {
         try {
-            $parametros = array("fk_provincia" => $datos["id_provincia"]);
+            $parametros = array("fk_provincia" => $datos["id"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_LOC, $parametros);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
