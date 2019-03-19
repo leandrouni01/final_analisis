@@ -36,9 +36,10 @@ interface DbSentencias {
     //Carrera
     const LISTAR_CARRERAS = "SELECT nombre_carrera,id_carrera FROM carrera WHERE estado_carrera=1;";
     const INSERTAR_CARRERA= "INSERT INTO carrera(nombre_carrera) VALUE(?);";
-    const BUSCAR_ULTIMA_CARRERA= "SELECT nombre_carrera,id_carrera FROM carrera WHERE estado=1 AND id_carrera=(SELECT MAX(id_carrera)FROM carrera);";
+    const BUSCAR_ULTIMA_CARRERA= "SELECT nombre_carrera,id_carrera FROM carrera WHERE estado_carrera=1 AND id_carrera=(SELECT MAX(id_carrera)FROM carrera);";
     const ACTUALIZAR_CARRERA = "UPDATE carrera SET nombre_carrera= ? WHERE id_carrera= ?;";
     const ELIMINAR_CARRERA = "UPDATE carrera SET estado_carrera=0 WHERE id_carrera=?;";
+    const BUSCAR_CARRERA = "SELECT carrera.* FROM carrera WHERE carrera.nombre_carrera LIKE '?%' AND carrera.estado_carrera = 1";
     //Titulo
     const LISTAR_TITULOS= "SELECT titulo.* FROM titulo WHERE estado=1;";
     const INSERTAR_TITULO= "INSERT INTO titulo(nombre_titulo) VALUE (?);";
