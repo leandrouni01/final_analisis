@@ -39,8 +39,8 @@ class ControladorCarrera extends ControladorGeneral {
             $parametros = array('valor' => $datos['textBusca']);
             $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCAR_CARRERA);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia($query);
-            $arraySedes = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $arraySedes;
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
         } catch (Exception $e) {
             echo "Failed: " . $e->getMessage();
         }
