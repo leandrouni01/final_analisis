@@ -68,11 +68,11 @@
                 <div class="col-lg-1"/></div>
 
             <div class="col-lg-10">
-                <div class="well well-lg" style="background-color: #9acfea" >
+                <div class="well well-sm" style="background-color: #9acfea" >
                     <h1>Instituto Manuel Belgrano</h1>
                     <h4> Sistema de Carga de Carreras.</h4>
 
-                    <img align="right" style="width:130px; height:120px; position: absolute; top: 14px;left:810px" src="../css/iesmb.jpg" class="img-circle" alt=""/>                 
+                    <img align="right" style="width:100px; height:100px; position: absolute; top: 9px;left:849px" src="../css/iesmb.jpg" class="img-circle" alt=""/>                 
                 </div>
 
                 <table class="table">
@@ -95,6 +95,13 @@
 
                     </tr>
                 </table>
+                <div class='container-fluid'>
+
+                    <div id='alerta'>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -107,7 +114,7 @@
             <div class="col-lg-2"/></div>
 
         <div class="col-lg-8 thumbnail">
-            <table class="table table-bordered  table-hover">
+            <table class="table table-bordered  table-hover table-condensed">
                 <thead>
                     <tr>
                         <th><span class="glyphicon glyphicon-list-alt"></span> Nombre</th>
@@ -152,11 +159,14 @@
 
                         <!--    DECLARO UN TEXTBOX NOMBRE    -->
                         <div class="form-group">
-                            <label class='col-lg-2'>Nombre: </label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="nombre" name="nombre"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el Nombre">
+                            <label class='col-lg-2 control-label'>Nombre</label>
+                            <div class="col-lg-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input id="nombre" name="nombre" class="form-control" type="text" pattern="[A-Z,a-z]{4,20}" placeholder="Nombre"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="Debes completar el nombre">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -164,7 +174,7 @@
                 <div class="modal-footer">
                     <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
 
-                    <button type="button" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
+                    <button type="submit" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
                 </div>
             </form>
         </div>
