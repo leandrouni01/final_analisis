@@ -317,7 +317,7 @@ $(function () {
         };
 
         app.modificar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=sede";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Sede";
             var datosEnviar = $("#form").serialize();
             alert(datosEnviar);
             $.ajax({
