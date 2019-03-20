@@ -54,7 +54,7 @@ class ControladorSede extends ControladorGeneral {
             $controlador= new ControladorDomicilio();
             $controlador->eliminar($parametros);
             
-            $parametros = array("id_sede"=>$datos["id_sede"]);
+            $parametros = array("id"=>$datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_SEDE,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
