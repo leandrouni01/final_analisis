@@ -81,6 +81,7 @@ $(function () {
 
             $("#cuerpoTabla").on('click', '.eliminar', function () {
                 $("#id2").val($(this).attr("data-id"));
+                $("#id_domicilio2").val($(this).parent().parent().children().first().next().next().next().next().next().next().attr("data-fk_domicilio"));
                 $("#nombre2").prop('disabled', true);
                 $("#nombre2").val($(this).parent().parent().children().html());
                 $("#nro2").prop('disabled', true);
@@ -103,7 +104,7 @@ $(function () {
 
             $("#borrar").on('click', function () {
 
-                app.eliminar($("#id2").val());
+                app.eliminar($("#id2").val(), $("#id_domicilio2").val());
                 $("#modal2").modal('hide');
             });
 
@@ -319,7 +320,7 @@ $(function () {
         app.modificar = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Sede";
             var datosEnviar = $("#form").serialize();
-            alert(datosEnviar);
+            //alert(datosEnviar);
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -372,9 +373,11 @@ $(function () {
             }
         };
 
-        app.eliminar = function (id) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=sede";
-            var datosEnviar = {id: id};
+        app.eliminar = function (id, id_domicilio) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Sede";
+            var datosEnviar = {id: id, id_domicilio: id_domicilio};
+            //alert(datosEnviar.id);
+            //alert(datosEnviar.id_domicilio);
             $.ajax({
                 url: url,
                 method: 'POST',
