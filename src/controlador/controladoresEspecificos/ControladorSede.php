@@ -22,7 +22,7 @@ class ControladorSede extends ControladorGeneral {
             $parametros = array(
                 "nombre_sede" => $datos["nombre_sede"],
                 "numero_sede" => $datos["numero_sede"],
-                "telefono_sede" => $datos["telefono_sede"],);
+                "telefono_sede" => $datos["telefono_sede"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_SEDE, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimaSede();
@@ -75,7 +75,7 @@ class ControladorSede extends ControladorGeneral {
 
     public function buscarProvincia($datos) {
         try {
-            $parametros = array("fk_pais" => $datos["id_pais"]);
+            $parametros = array("fk_pais" => $datos["id"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_PROV, $parametros);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
@@ -86,7 +86,7 @@ class ControladorSede extends ControladorGeneral {
 
     public function buscarLocalidades($datos) {
         try {
-            $parametros = array("fk_provincia" => $datos["id_provincia"]);
+            $parametros = array("fk_provincia" => $datos["id"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_LOC, $parametros);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
@@ -101,7 +101,7 @@ class ControladorSede extends ControladorGeneral {
             $parametros = array(
             "calle_domicilio" => $datos["calle_domicilio"],
             "numero_domicilio" => $datos["numero_domicilio"],
-            "fk_localidad" => $datos["fk_localidad"],
+            "fk_localidad" => $datos["localidad"],
             "id_domicilio"=>$datos["id_domicilio"]);
         $controlador= new ControladorDomicilio();
         $controlador->modificar($parametros);

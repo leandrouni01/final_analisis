@@ -56,9 +56,10 @@ $(function () {
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $('#form').bootstrapValidator('resetForm', true);
                 $("#id").val($(this).attr("data-id"));
-                $("#nombre").val($(this).parent().parent().children().html());
-                $("#nro").val($(this).parent().parent().children().first().next().html());
-                $("#telefono").val($(this).parent().parent().children().first().next().next().html());
+                $("#id_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().attr("data-fk_domicilio"));
+                $("#nombre_sede").val($(this).parent().parent().children().html());
+                $("#numero_sede").val($(this).parent().parent().children().first().next().html());
+                $("#telefono_sede").val($(this).parent().parent().children().first().next().next().html());
                 $("#comboPais").val($(this).parent().parent().children().first().next().next().next().attr("data-fk_pais"));
 
                 $("#comboPais").change();
@@ -72,8 +73,8 @@ $(function () {
                     $("#combo").val($(this).parent().parent().children().first().next().next().next().next().next().attr("data-fk_localidad"));
                 }, 300);
 
-                $("#calle").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
-                $("#numero").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().html());
+                $("#calle_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
+                $("#numero_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().html());
                 $("#tituloModal").html("Editar Sede");
                 $("#modal").modal({show: true});
             });
@@ -186,21 +187,21 @@ $(function () {
             switch (item) {
                 case 'pais':
                     var datosEnviar = {id: id};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=pais";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Pais";
                     ajaxObj.data = datosEnviar;
                     break;
 
                 case 'provincia':
                     //var id_pais = $("#comboPais").find(':selected').val();
                     var datosEnviar = {id: id};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listarCombo&Formulario=provincia";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarProvincia&Formulario=Sede";
                     ajaxObj.data = datosEnviar;
                     break;
 
                 case 'localidad':
                     //var id_provincia = $("#comboProvincia").find(':selected').val();
                     var datosEnviar = {id: id};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listarCombo&Formulario=localidad";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarLocalidades&Formulario=Sede";
                     ajaxObj.data = datosEnviar;
                     break;
 
@@ -219,14 +220,17 @@ $(function () {
             switch (item) {
                 case 'pais':
                     var itemRecibido = 'comboPais';
+                    var item = 'pais';
                     break;
 
                 case 'provincia':
                     var itemRecibido = 'comboProvincia';
+                    var id = 'provincia';
                     break;
 
                 case 'localidad':
                     var itemRecibido = 'combo';
+                    var item = 'localidad';
                     break;
 
                 default:
@@ -236,8 +240,8 @@ $(function () {
             $('#' + itemRecibido).html("");
             $('#' + itemRecibido).prepend("<option selected disabled> Seleccione </option>");
 
-            $.each(data, function (clave, value) {
-                $('#' + itemRecibido).append('<option value="' + value.id + '">' + value.nombre + '</option>');
+            $.each(data, function (clave, value) {   
+                $('#' + itemRecibido).append('<option value="' + value[`id_${item}`] + '">' + value[`nombre_${item}`] + '</option>');
             });
         };
 
@@ -268,17 +272,17 @@ $(function () {
                 var linea = "";
                 $.each(data, function (clave, object) {
                     linea += '<tr>' +
-                            '<td>' + object.nombre + '</td>' +
-                            '<td>' + object.nro + '</td>' +
-                            '<td>' + object.telefono + '</td>' +
-                            '<td data-fk_pais="' + object.id_pais + '">' + object.nom_pais + '</td>' +
-                            '<td data-fk_provincia="' + object.id_provincia + '">' + object.nom_prov + '</td>' +
-                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nom_localidad + '</td>' +
-                            '<td>' + object.calle + '</td>' +
-                            '<td>' + object.numero_dom + '</td>' +
+                            '<td>' + object.nombre_sede + '</td>' +
+                            '<td>' + object.numero_sede + '</td>' +
+                            '<td>' + object.telefono_sede + '</td>' +
+                            '<td data-fk_pais="' + object.fk_pais + '">' + object.nombre_pais + '</td>' +
+                            '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_provincia + '</td>' +
+                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
+                            '<td data-fk_domicilio="' + object.fk_domicilio + '">' + object.calle_domicilio + '</td>' +
+                            '<td>' + object.numero_domicilio + '</td>' +
                             '<td>' +
-                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                             '</td>' +
                             '</tr>';
                 });
@@ -288,11 +292,12 @@ $(function () {
         };
 
         app.guardar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=sede";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Sede";
             var datosEnviar = $("#form").serialize();
+            //alert(datosEnviar);
             $.ajax({
                 url: url,
-                type: 'POST',
+                method: 'POST',
                 data: datosEnviar,
                 dataType: 'json',
                 success: function (datosRecibidos) {
@@ -314,9 +319,10 @@ $(function () {
         app.modificar = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=sede";
             var datosEnviar = $("#form").serialize();
+            alert(datosEnviar);
             $.ajax({
                 url: url,
-                type: 'POST',
+                method: 'POST',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
                     $("#modal").modal('hide');
@@ -334,30 +340,30 @@ $(function () {
         app.actualizarTabla = function (object, id) {
             if (id == 0) {
                 var html = '<tr>' +
-                        '<td>' + object.nombre + '</td>' +
-                        '<td>' + object.nro + '</td>' +
-                        '<td>' + object.telefono + '</td>' +
-                        '<td data-fk_pais="' + object.id_pais + '">' + object.nom_pais + '</td>' +
-                        '<td data-fk_provincia="' + object.id_provincia + '">' + object.nom_provincia + '</td>' +
-                        '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nom_localidad + '</td>' +
-                        '<td>' + object.calle + '</td>' +
-                        '<td>' + object.numero_dom + '</td>' +
-                        '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
-                        '</td>' +
-                        '</tr>';
+                            '<td>' + object.nombre_sede + '</td>' +
+                            '<td>' + object.numero_sede + '</td>' +
+                            '<td>' + object.telefono_sede + '</td>' +
+                            '<td data-fk_pais="' + object.fk_pais + '">' + object.nombre_pais + '</td>' +
+                            '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_provincia + '</td>' +
+                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
+                            '<td data-fk_domicilio="' + object.fk_domicilio + '">' + object.calle_domicilio + '</td>' +
+                            '<td>' + object.numero_domicilio + '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '</td>' +
+                            '</tr>';
                 $("#cuerpoTabla").append(html);
             } else {
                 var fila = $("#cuerpoTabla").find("[data-id='" + id + "']").parent().parent();
-                var html = '<td>' + $("#nombre").val() + '</td>' +
-                        '<td>' + $("#nro").val() + '</td>' +
-                        '<td>' + $("#telefono").val() + '</td>' +
+                var html = '<td>' + $("#nombre_sede").val() + '</td>' +
+                        '<td>' + $("#numero_sede").val() + '</td>' +
+                        '<td>' + $("#telefono_sede").val() + '</td>' +
                         '<td data-fk_pais="' + $("#comboPais").find(':selected').val() + '">' + $("#comboPais").find(':selected').text() + '</td>' +
                         '<td data-fk_provincia="' + $("#comboProvincia").find(':selected').val() + '">' + $("#comboProvincia").find(':selected').text() + '</td>' +
                         '<td data-fk_localidad="' + $("#combo").find(':selected').val() + '">' + $("#combo").find(':selected').text() + '</td>' +
-                        '<td>' + $("#calle").val() + '</td>' +
-                        '<td>' + $("#numero").val() + '</td>' +
+                        '<td>' + $("#calle_domicilio").val() + '</td>' +
+                        '<td>' + $("#numero_domicilio").val() + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                         '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
@@ -389,12 +395,12 @@ $(function () {
 
         app.limpiarModal = function () {//funcion para limpiar el modal
             $("#id").val(0);
-            $("#nombre").val('');
-            $("#nro").val('');
-            $("#telefono").val('');
-            $("#calle").val('');
-            $("#numero").val('');
-            $("#comboPais").html('');
+            $("#nombre_sede").val('');
+            $("#numero_sede").val('');
+            $("#telefono_sede").val('');
+            $("#calle_domicilio").val('');
+            $("#numero_domicilio").val('');
+            $("#comboPais").val('');
             $("#comboProvincia").html('');
             $("#combo").html('');
             $('#form').bootstrapValidator('resetForm', true);
