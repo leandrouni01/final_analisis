@@ -101,7 +101,7 @@ class ControladorSede extends ControladorGeneral {
             $parametros = array(
             "calle_domicilio" => $datos["calle_domicilio"],
             "numero_domicilio" => $datos["numero_domicilio"],
-            "fk_localidad" => $datos["localidad"],
+            "fk_localidad" => $datos["fk_localidad"],
             "id_domicilio"=>$datos["id_domicilio"]);
         $controlador= new ControladorDomicilio();
         $controlador->modificar($parametros);
@@ -110,7 +110,7 @@ class ControladorSede extends ControladorGeneral {
             "nombre_sede"=>$datos["nombre_sede"],
             "numero_sede"=>$datos["numero_sede"],
             "telefono_sede"=>$datos["telefono_sede"],
-            "id_sede"=>$datos["id_sede"]);
+            "id"=>$datos["id"]);
         $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_SEDE,$parametros);
         $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
