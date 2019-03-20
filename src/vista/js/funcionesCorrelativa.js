@@ -1,10 +1,10 @@
 $(function () {
     var TallerAvanzada = {};
-    
+
     var plan = "";
     var materia = "";
     var corr = "";
-    
+
     (function (app) {
         app.init = function () {
             app.listarPlanEstudio();
@@ -15,7 +15,6 @@ $(function () {
         app.bindings = function () {
             $("#agregar").on('click', function (event) {
                 $("#id").val(0);
-                app.limpiarModal();
                 app.listarPlanEstudio();
                 $("#comboPlanE").prop('disabled', false);
                 $("#comboMateria").prop('disabled', false);
@@ -23,10 +22,12 @@ $(function () {
                 $("#modalCorrelativa").modal({show: true});
             });
 
-            $("#guardar").on('click', function (event) {
+            $("#formMateria").on('success.form.bv', function (event) { //Función que se ejecuta una vez que el formulario está validado.
+
+                // Evitar el envío del form
                 event.preventDefault();
-                $("#comboPlanE").prop('disabled', false);
-                $("#comboMateria").prop('disabled', false);
+
+                //Ejecutar Ajax para enviar el form.
                 if ($("#id").val() == 0) {
                     app.guardar();
                 } else {
@@ -34,7 +35,7 @@ $(function () {
                 }
             });
 
-            $("#comboPlanE").change(function () {
+            $("#comboPlanE").on('change', function () {
                 app.listarMateria();
                 $(this).prop('disabled', true);
             });
@@ -56,40 +57,32 @@ $(function () {
             });
 
             $("#cuerpoTabla").on('click', '.editar', function () {
-                $("#id").val(1);
+                $("#id").val($(this).attr("data-id_correlativa"));
+                $("#tituloModal").html("Editar Correlativa");
                 plan = $(this).parent().parent().children().first().attr("data-id_planestudio");
                 materia = $(this).parent().parent().children().first().next().attr("data-id_materiaini");
                 corr = $(this).parent().parent().children().first().next().next().attr("data-id_correlativa");
-                
-                $("#comboPlanE").find(':selected').text($(this).parent().parent().children().html());
-                $("#comboPlanE").val($(this).parent().parent().children().attr("data-id_planestudio"));
+                $("#cambiarMateria").hide();
+                $("#cambiarCarrera").hide();
+                $("#comboPlanE").val($(this).parent().parent().children().first().attr("data-id_planestudio"));
                 $("#comboPlanE").prop('disabled', true);
-
-                var nombre = $(this).parent().parent().children().first().next().text();
-                var id_materia = $(this).parent().parent().children().attr("data-id_materiaini");
-                $("#comboMateria").append('<option value="' + id_materia + '">' + nombre + '</option>');
-
-                app.listarMateria2(nombre, id_materia);
+                $("#comboPlanE").change();
+                setTimeout(() => {
+                    $("#comboMateria").val($(this).parent().parent().children().first().next().attr("data-id_materiaini"));
+                    $("#comboMateria").change();
+                    setTimeout(() => {
+                        $("#comboCorrelativa").val($(this).parent().parent().children().first().next().next().attr("data-id_correlativa"));
+                        $("#modalCorrelativa").modal({show: true});
+                    }, 200);
+                }, 200);
                 $("#comboMateria").prop('disabled', true);
-
-                var nombre1 = $(this).parent().parent().children().first().next().next().text();
-                var id_correlativa = $(this).parent().parent().children().attr("data-id_correlativa");
-                app.listarCorrelativa2(nombre1, id_correlativa);
-                $("#tituloModal").html("Editar Correlativa");
-
-                $("#salir").on('click', function (event) {
-                    $("#comboPlanE").val('');
-                    $("#comboMateria").empty();
-                    $("#comboCorrelativa").empty();
-                });
-
-                $("#modalCorrelativa").modal({show: true});           
             });
 
-            $("#cuerpoTabla").on('click', '.eliminar', function () {   
+            $("#cuerpoTabla").on('click', '.eliminar', function () {
                 plan = $(this).parent().parent().children().first().attr("data-id_planestudio");
                 materia = $(this).parent().parent().children().first().next().attr("data-id_materiaini");
                 corr = $(this).parent().parent().children().first().next().next().attr("data-id_correlativa");
+                $("#id").val($(this).attr("data-id_correlativa"));
                 $("#plan2").prop('disabled', true);
                 $("#plan2").val($(this).parent().parent().children().html());
                 $("#materia2").prop('disabled', true);
@@ -97,16 +90,19 @@ $(function () {
                 $("#correlativa2").prop('disabled', true);
                 $("#correlativa2").val($(this).parent().parent().children().first().next().next().html());
                 $("#tituloModal2").html("¿Desea Eliminar Correlativa?");
-                $("#modal2").modal({show: true});                 
+                $("#modal2").modal({show: true});
             });
-            
+
             $("#borrar").on('click', function () {
-                app.eliminar(plan  , materia, corr);
-                $("#modal2").modal('hide');
+                app.eliminar(plan, materia, corr);
             });
 
             $("#formMateria").bootstrapValidator({
                 excluded: [],
+            });
+
+            $("#modalCorrelativa").on('hide.bs.modal', function () {
+                app.limpiarModal();
             });
         };
 
@@ -165,9 +161,9 @@ $(function () {
             });
         };
 
-        app.listarPlanEstudio = function (id) {  //funcion para listar carreras
+        app.listarPlanEstudio = function (id) {  //funcion para listar plan de estudios
             var datosEnviar = {id: id};
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=planestudio";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=PlanDeEstudios";
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -185,15 +181,15 @@ $(function () {
 
         app.rellenarCombo = function (data, itemRecibido) {   //funcion para rellenar la tabla de alumnos.
             $('#' + itemRecibido).html("");
-            $('#' + itemRecibido).prepend("<option value=''>Seleccione</option>");
+            $('#' + itemRecibido).prepend("<option selected disabled value=''>Seleccione una carrera</option>");
             $.each(data, function (clave, value) {
-                $('#' + itemRecibido).append('<option value="' + value.id_planestudio + '">' + value.resolucion + '</option>');
+                $('#' + itemRecibido).append('<option value="' + value.id_plan + '">' + value.nombre_carrera + '(' + value.resolucion + ')</option>');
             });
         };
 
         app.listarMateria = function () {
             var id = $("#comboPlanE").find(':selected').val();
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listarCombo&Formulario=materia";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscarMaterias&Formulario=Correlativas";
             var datosEnviar = {id: id};
             $.ajax({
                 url: url,
@@ -212,17 +208,18 @@ $(function () {
 
         app.rellenarCombo2 = function (data, itemRecibido) {   //funcion para rellenar la tabla de alumnos.
             $('#' + itemRecibido).html("");
-            $('#' + itemRecibido).prepend("<option value=''>Seleccione</option>");
+            $('#' + itemRecibido).prepend("<option selected disabled value=''>Seleccione una materia</option>");
             $.each(data, function (clave, value) {
-                $('#' + itemRecibido).append('<option value="' + value.id_materia + '">' + value.nombre + '</option>');
+                $('#' + itemRecibido).append('<option data-anio="' + value.anio + '" value="' + value.id_materia + '">' + value.nombre_materia + '</option>');
             });
         };
 
         app.listarCorrelativa = function () {
             var fk_planestudio = $("#comboPlanE").find(':selected').val();
             var id_materia = $("#comboMateria").find(':selected').val();
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listarCombo&Formulario=correlativa";
-            var datosEnviar = {fk_planestudio: fk_planestudio, id_materia: id_materia};
+            var anio = $("#comboMateria").find(":selected").attr("data-anio");
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscarMateria2&Formulario=Correlativas";
+            var datosEnviar = {fk_plan_de_estudio: fk_planestudio, id_materia: id_materia, anio: anio};
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -240,14 +237,14 @@ $(function () {
 
         app.rellenarCombo3 = function (data, itemRecibido) {   //funcion para rellenar la tabla de alumnos.
             $('#' + itemRecibido).html("");
-            $('#' + itemRecibido).prepend("<option value=''>Seleccione</option>");
+            $('#' + itemRecibido).prepend("<option selected disabled value=''>Seleccione una correlativa</option>");
             $.each(data, function (clave, value) {
-                $('#' + itemRecibido).append('<option value="' + value.id_materia + '">' + value.nombre + '</option>');
+                $('#' + itemRecibido).append('<option value="' + value.id_materia + '">' + value.nombre_materia + '</option>');
             });
         };
 
-        app.buscar = function () { //esta funcion lista todas las carreras
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=correlativa";
+        app.buscar = function () { //esta funcion lista todas las correlativas
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Correlativas";
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -261,16 +258,16 @@ $(function () {
             });
         };
 
-        app.rellenarTabla = function (data) {//funcion para rellenar la tabla carrera
+        app.rellenarTabla = function (data) {//funcion para rellenar la tabla correlativas
             var linea = "";
             $.each(data, function (clave, correlatividades) {
                 linea += '<tr>' +
-                        '<td data-id_planestudio="' + correlatividades.id_planestudio + '">'+ correlatividades.nombre + " ( " + correlatividades.resolucion + " )" +'</td>' +
-                        '<td data-id_materiaini="' + correlatividades.id_materia + '">' + correlatividades.Materia + '</td>' +
-                        '<td data-id_correlativa="' + correlatividades.id_correlativa + '">' + correlatividades.Correlatividad + '</td>' +
+                        '<td data-id_planestudio="' + correlatividades.fk_plan_de_estudios + '">' + correlatividades.nombre_carrera + " ( " + correlatividades.resolucion + " )" + '</td>' +
+                        '<td data-id_materiaini="' + correlatividades.id_materia + '">' + correlatividades.nombre_materia + '</td>' +
+                        '<td data-id_correlativa="' + correlatividades.id_correlativa + '">' + correlatividades.nombre_correlativa + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar"  data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar"  data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '<button data-id_correlativa="' + correlatividades.fk_plan_de_estudios + correlatividades.id_materia + correlatividades.id_correlativa + '" type="button" class="btn btn-sm btn-warning pull-left editar"  data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button data-id_correlativa="' + correlatividades.fk_plan_de_estudios + correlatividades.id_materia + correlatividades.id_correlativa + '" type="button" class="btn btn-sm btn-danger pull-right eliminar"  data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                         '</td>' +
                         '</tr>';
             });
@@ -278,21 +275,21 @@ $(function () {
         };
 
         app.guardar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=correlativa";
-            var datosEnviar =
-                    'id_materiaini=' + $("#comboMateria").find(':selected').val() +
-                    '&id_correlativa=' + $("#comboCorrelativa").find(':selected').val() +
-                    '&id_planestudio=' + $("#comboPlanE").find(':selected').val();
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Correlativas";
+            var datosEnviar = {id_materiaini: $("#comboMateria").find(':selected').val(),
+                id_correlativa: $("#comboCorrelativa").find(':selected').val(),
+                id_planestudio: $("#comboPlanE").find(':selected').val()};
 
             $.ajax({
                 url: url,
                 type: 'POST',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    $("#modalCorrelativa").modal({show: true});
-                    $("#comboPlanE").prop('disabled', true);
-                    $("#comboMateria").prop('disabled', true);
-                    app.actualizarTabla(datosRecibidos, $("#id").val());
+                    app.actualizarTabla($("#id").val());
+                    alert("Se ha cargado la correlativa con exito");
+                    $("#formMateria").bootstrapValidator("resetForm", true);
+                    $("#comboPlanE").val(datosEnviar.id_planestudio);
+                    $("#comboMateria").val(datosEnviar.id_materiaini);
                 },
                 error: function (datosRecibidos) {
                     alert('error al guardar');
@@ -301,73 +298,83 @@ $(function () {
         };
 
         app.modificar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=correlativa";
-            var plan2 = $("#comboPlanE").find(':selected').text();
-            var mat2 = $("#comboMateria").find(':selected').text();
-            var corr2 = $("#comboCorrelativa").find(':selected').val();
-            var datosEnviar = {nombre: mat2, resolucion: plan2, id_materia: corr2, id_planestudio: plan, id_materiaini: materia, id_correlativa: corr};
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Correlativas";
+            var datosEnviar = {
+                plan: plan,
+                materia: materia,
+                correlativa: corr,
+                nueva_correlativa: $("#comboCorrelativa").val()
+            };
             $.ajax({
                 url: url,
                 method: 'POST',
                 dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
+                    app.actualizarTabla($("#id").val());
                     $("#modalCorrelativa").modal('hide');
-                    app.buscar();
                 },
                 error: function (datosRecibidos) {
-                    alert(datosRecibidos);
+                    alert("Error al modificar correlativa");
                 }
             });
         };
 
-        app.actualizarTabla = function (data, id) {
+        app.actualizarTabla = function (id) {
             if (id == 0) {
                 var html =
                         '<tr>' +
-                        '<td>' + $("#comboPlanE").find(':selected').text() + '</td>' +
-                        '<td>' + $("#comboMateria").find(':selected').text() + '</td>' +
-                        '<td>' + $("#comboCorrelativa").find(':selected').text() + '</td>' +
+                        '<td data-id_planestudio="' + $("#comboPlanE").val() + '">' + $("#comboPlanE").find(':selected').html() + '</td>' +
+                        '<td data-id_materiaini="' + $("#comboMateria").val() + '">' + $("#comboMateria").find(':selected').html() + '</td>' +
+                        '<td data-id_correlativa="' + $("#comboCorrelativa").val() + '">' + $("#comboCorrelativa").find(':selected').html() + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar"  data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar"  data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '<button data-id_correlativa="' + $("#id").val() + '" type="button" class="btn btn-sm btn-warning pull-left editar"  data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button data-id_correlativa="' + $("#id").val() + '" type="button" class="btn btn-sm btn-danger pull-right eliminar"  data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                         '</td>' +
                         '</tr>';
                 $("#cuerpoTabla").append(html);
 
             } else {
-                var fila = $("#cuerpoTabla").find().parent().parent();
-                var html = '<td>' + $("#comboPlanE").find(':selected').text() + '</td>' +
-                        '<td>' + $("#comboMateria").find(':selected').text() + '</td>' +
-                        '<td>' + $("#comboCorrelativa").find(':selected').text() + '</td>' +
+                var fila = $("#cuerpoTabla").find("button[data-id_correlativa='" + id + "']").parent().parent();
+                var html = '<td data-id_planestudio="' + $("#comboPlanE").val() + '">' + $("#comboPlanE").find(':selected').html() + '</td>' +
+                        '<td data-id_materiaini="' + $("#comboMateria").val() + '">' + $("#comboMateria").find(':selected').html() + '</td>' +
+                        '<td data-id_correlativa="' + $("#comboCorrelativa").val() + '">' + $("#comboCorrelativa").find(':selected').html() + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar"  data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar"  data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
-                        '</td>' ;
-                        fila.html(html);
+                        '<button data-id_correlativa="' + $("#id").val() + '" type="button" class="btn btn-sm btn-warning pull-left editar"  data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button data-id_correlativa="' + $("#id").val() + '" type="button" class="btn btn-sm btn-danger pull-right eliminar"  data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '</td>';
+                fila.html(html);
             }
         };
 
         app.eliminar = function (plan, materia, corr) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=correlativa";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Correlativas";
             var datosEnviar = {id_planestudio: plan, id_materiaini: materia, id_correlativa: corr};
             $.ajax({
                 url: url,
                 method: 'POST',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    app.buscar();
+                    app.eliminarFila($("#id").val());
+                    $("#modal2").modal('hide');
                 },
                 error: function (datosRecibidos) {
                     alert('Error al eliminar');
                 }
             });
         };
+        
+        app.eliminarFila= function(id){
+            $("#cuerpoTabla").find("button[data-id_correlativa='"+id+"']").parent().parent().remove();
+        };
 
         app.limpiarModal = function () {//funcion para limpiar el modal           
-            $("#comboPlanE").html("");
+            $("#comboPlanE").val("");
             $("#comboMateria").html("");
             $("#comboCorrelativa").html("");
+            $("#formMateria").bootstrapValidator("resetForm", true);
+            $("#cambiarMateria").show();
+            $("#cambiarCarrera").show();
         };
 
         app.init();
