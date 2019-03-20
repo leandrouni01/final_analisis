@@ -55,8 +55,8 @@ $(function () {
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $('#form').bootstrapValidator('resetForm', true);
-                $("#id").val($(this).parent().parent().children().first().next().next().next().next().next().next().html().attr("data-fk_domicilio"));
-                $("#id_domicilio").val($(this).attr("data-id"));
+                $("#id").val($(this).attr("data-id"));
+                $("#id_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().attr("data-fk_domicilio"));
                 $("#nombre_sede").val($(this).parent().parent().children().html());
                 $("#numero_sede").val($(this).parent().parent().children().first().next().html());
                 $("#telefono_sede").val($(this).parent().parent().children().first().next().next().html());
