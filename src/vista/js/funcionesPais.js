@@ -38,14 +38,7 @@ $(function () {
                 $("#modalPais").modal({show: true});
                 //alert($(this).attr("data-id_pais"));
             });
-            $("#cuerpoTablaPais").on('click', '.ver', function (event) {
-                $("#id").val($(this).attr("data-id_pais"));
-                $("#nombrePais").val($(this).parent().parent().children().first().html());
-                $("#tituloModal").html("Ver Pais");
-                $("#submit").hide();
-                $("#inputNombre").attr("disabled", "true");
-                $("#modalPais").modal({show: true});
-            });
+            
             $("#cuerpoTablaPais").on('click', '.eliminar', function (event) {
                 $("#id").val($(this).attr("data-id_pais"));
                 $("#nombrePais").val($(this).parent().parent().children().first().html());
@@ -87,9 +80,8 @@ $(function () {
                 html += "<tr>\n\
                             <td>" + pais.nombre_pais + "</td>\n\
                             <td>\n\
-                                <a class='btn btn-info pull-left ver' data-id_pais'" + pais.id_pais + "'><span class='glyphicon glyphicon-info-sign'></span>Ver </a>\n\
-                                <a  class='btn btn-danger pull-left eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                                 <a class='btn btn-warning pull-left editar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                                <a class='btn btn-danger pull-right eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                             </td>\
                          </tr>";
             });
@@ -160,9 +152,8 @@ $(function () {
                 var html = "<tr>\n\
                             <td>" + pais.nombre_pais + "</td>\n\
                             <td>\n\
-                                <a class='btn btn-info pull-left ver' data-id_pais'" + pais.id_pais + "'><span class='glyphicon glyphicon-info-sign'></span>Ver </a>\n\
-                                <a  class='btn btn-danger pull-left eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                                 <a class='btn btn-warning pull-left editar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+\n\                             <a class='btn btn-danger pull-right eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                             </td>\
                          </tr>";
                 $("#cuerpoTablaPais").append(html);
@@ -171,9 +162,8 @@ $(function () {
                 var fila = $("#cuerpoTablaPais").find("a[data-id_pais='" + id + "']").parent().parent();
                 var html = "<td>" + $("#nombrePais").val() + "</td>\n\
                             <td>\n\
-                                <a class='btn btn-info pull-left ver' data-id_pais'" + id + "'><span class='glyphicon glyphicon-info-sign'></span>Ver </a>\n\
-                                <a  class='btn btn-danger pull-left eliminar' data-id_pais='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                                 <a class='btn btn-warning pull-left editar' data-id_pais='" + id + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+\n\                             <a  class='btn btn-danger pull-right eliminar' data-id_pais='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                             </td>";
                 fila.html(html);
             }

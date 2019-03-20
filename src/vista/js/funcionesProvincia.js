@@ -48,16 +48,6 @@ $(function () {
                 $("#eliminar").show();
                 $("#submit").hide();
             });
-
-            $("#cuerpoTablaProvincia").on("click", ".ver", function () {
-                $("#fieldsetProvincia").attr("disabled", "true");
-                $("#tituloModal").html("Ver provincia");
-                $("#id").val($(this).attr("data-id_provincia"));
-                $("#modalProvincia").modal({show: true});
-                $("#selectPais").find("option[value=" + $(this).parent().parent().children().first().next().attr("data-fk_pais") + "]").prop("selected", "true");
-                $("#nombreProvincia").val($(this).parent().parent().children().first().html());
-                $("#submit").hide();
-            });
             
             $("#eliminar").on('click',function(){
                 app.eliminarProvincia();
@@ -119,9 +109,8 @@ $(function () {
                              <td>" + datosProvincia.nombre_provincia + "</td>\n\
                              <td data-fk_pais='" + datosProvincia.fk_pais + "'>" + datosProvincia.nombre_pais + "</td>\n\
                              <td>\n\
-                                 <a class='btn btn-sm btn-info pull-left ver' data-id_provincia='" + datosProvincia.id_provincia + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
-                                 <a class='btn btn-sm btn-danger pull-left eliminar' data-id_provincia='" + datosProvincia.id_provincia + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                                  <a class='btn btn-sm btn-warning pull-left editar' data-id_provincia='" + datosProvincia.id_provincia + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                                 <a class='btn btn-sm btn-danger pull-right eliminar' data-id_provincia='" + datosProvincia.id_provincia + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                              </td>\n\
                         </tr>";
                 $("#cuerpoTablaProvincia").append(html);
@@ -130,9 +119,8 @@ $(function () {
                 html = "<td>" + $("#nombreProvincia").val() + "</td>\n\
                         <td data-fk_pais='" + $("#selectPais").find(":selected").val() + "'>" + $("#selectPais").find(":selected").html() + "</td>\n\
                         <td>\n\
-                             <a class='btn btn-sm btn-info pull-left ver' data-id_provincia='" + id + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
-                             <a class='btn btn-sm btn-danger pull-left eliminar' data-id_provincia='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                              <a class='btn btn-sm btn-warning pull-left editar' data-id_provincia='" + id + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                             <a class='btn btn-sm btn-danger pull-right eliminar' data-id_provincia='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                         </td>";
                 fila.html(html);
             }
@@ -183,9 +171,8 @@ $(function () {
                              <td>" + provincia.nombre_provincia + "</td>\n\
                              <td data-fk_pais='" + provincia.fk_pais + "'>" + provincia.nombre_pais + "</td>\n\
                              <td>\n\
-                                 <a class='btn btn-sm btn-info pull-left ver' data-id_provincia='" + provincia.id_provincia + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
-                                 <a class='btn btn-sm btn-danger pull-left eliminar' data-id_provincia='" + provincia.id_provincia + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                                  <a class='btn btn-sm btn-warning pull-left editar' data-id_provincia='" + provincia.id_provincia + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                                 <a class='btn btn-sm btn-danger pull-right eliminar' data-id_provincia='" + provincia.id_provincia + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                              </td>\n\
                         </tr>";
             });

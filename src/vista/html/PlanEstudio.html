@@ -69,11 +69,11 @@
                 <div class="col-lg-1"/></div>
 
             <div class="col-lg-10">
-                <div class="well well-lg" style="background-color: #9acfea" >
+                <div class="well well-sm" style="background-color: #9acfea" >
                     <h1>Instituto Manuel Belgrano</h1>
                     <h4> Sistema de Carga de Plan de Estudio.</h4>
 
-                    <img align="right" style="width:130px; height:120px; position: absolute; top: 14px;left:810px" src="../css/iesmb.jpg" class="img-circle" alt=""/>                 
+                    <img align="right" style="width:100px; height:100px; position: absolute; top: 9px;left:849px" src="../css/iesmb.jpg" class="img-circle" alt=""/>               
                 </div>
 
                 <table class="table">
@@ -96,7 +96,12 @@
 
                     </tr>
                 </table>
+                <div class='container-fluid'>
 
+                    <div id='alerta'>
+                    </div>
+
+                </div>
             </div>
         </div>
 
@@ -110,7 +115,7 @@
             <div class="col-lg-1"/></div>
 
         <div class="col-lg-10 thumbnail">
-            <table class="table table-bordered table-hover" id="tablaPlanEstudio">
+            <table class="table table-bordered table-hover table-condensed" id="tablaPlanEstudio">
                 <thead>
                     <tr>
                         <th>Carrera</th>
@@ -119,7 +124,7 @@
                         <th>Horas catedra</th>
                         <th>Horas reloj</th>
                         <th>Duracion</th>
-                        <th>Acciones</th>
+                        <th><span class="glyphicon glyphicon-cog"></span> Acciones</th>
                     </tr>  
                 </thead>
 
@@ -127,6 +132,7 @@
                 </tbody>
 
             </table>
+            <div id="alert"></div>
         </div>
         <div class="col-lg-1"></div> 
     </div>
@@ -145,8 +151,10 @@
                   data-bv-trigger="focus blur"
                   data-bv-live="enabled">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title" id="tituloModal">Nuevo Plan de Estudio</h3>
+                    <div class="well well-sm">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 align="left" class="modal-title" id="tituloModal">Nuevo Plan de Estudio</h3>
+                    </div>
 
                     <div class="modal-body">
                         <!--    DECLARO UN ID OCULTO    -->
@@ -155,65 +163,92 @@
                         </div>
 
 
+                        <!--    DECLARO UN SELECT CARRERA   -->
                         <div class="form-group">
-                            <label class='col-lg-2'>Carrera</label>
-                            <div class='col-lg-10'>
+                            <label class='col-lg-3 control-label'>Carrera</label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                    <select class="form-control" id="comboCarrera" name="comboCarrera" 
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar Carrera">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-                                <select class="form-control" id="combocarrera" name="combocarrera">
-                                </select>
+
+                        <!--    DECLARO UN TEXTBOX RESOLUCION    -->
+                        <div class="form-group">
+                            <label class='col-lg-3 control-label'>Resolución</label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input id="resolucion" name="resolucion" class="form-control" type="text" pattern="[A-Z,a-z,1-9]{4,20}" placeholder="Resolución"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="Debes completar el resolución">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--    DECLARO UN TEXTBOX FECHA    -->
+                        <div class="form-group">
+                            <label class='col-lg-3 control-label'>Fecha</label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    <input id="fecha" name="fecha" class="form-control" type="date"  placeholder="Fecha"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="Debes completar la fecha">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--    DECLARO UN TEXTBOX HORAS_CATEDRAS  -->
+                        <div class="form-group">
+                            <label class='col-lg-3 control-label'>Horas Catedras</label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    <input id="horas_catedra" name="horas_catedra" class="form-control" type="number" min="0"  placeholder="Horas catedras"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="Debes completar las horas catedra">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--    DECLARO UN TEXTBOX HORAS_RELOJ  -->
+                        <div class="form-group">
+                            <label class='col-lg-3 control-label'>Horas Reloj</label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    <input id="horas_reloj" name="horas_reloj" class="form-control" type="number" min="0"  placeholder="Horas reloj"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="Debes completar las horas reloj">
+                                </div>
                             </div>
                         </div>
 
 
                         <div class="form-group">
-                            <label class='col-lg-2'>Resolucion</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="resolucion" name="resolucion"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el número de resolución">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class='col-lg-2'>Fecha</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="date" id="fecha" name="fecha"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar con una fecha">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class='col-lg-2'>Horas catedra</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="horas_catedra" name="horas_catedra"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar la cantidad de horas">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class='col-lg-2'>Horas reloj</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="horas_reloj" name="horas_reloj"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar la cantidad de horas">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class='col-lg-2'>Duracion</label>
-                            <div class='col-lg-10'>
-                                <select class="form-control" id="duracion" name="duracion">
-                                    <option>3 </option>
-                                    <option>4 </option>
-                                    <option>5 </option>
-                                </select>
-
+                            <label class='col-lg-3 control-label'>Duracion</label>
+                            <div class='col-lg-9'>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    <select class="form-control" id="duracion" name="duracion"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes completar las horas reloj">                                        
+                                        <option value="1">1 </option>
+                                        <option value="2">2 </option>
+                                        <option value="3">3 </option>
+                                        <option value="4">4 </option>
+                                        <option value="5">5 </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>                            
                     </div>
@@ -221,7 +256,7 @@
                 <div class="modal-footer">
                     <button id="salir" type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
 
-                    <button type="button" id="guardar" class="btn btn-primary">Guardar</button>
+                    <button type="submit" id="guardar" class="btn btn-primary">Guardar</button>
                 </div>
             </form>
         </div>
@@ -305,7 +340,6 @@
                     <button  type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Salir</button>
 
                     <button type="button" id="borrar" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
-
                 </div>
             </form>
         </div>

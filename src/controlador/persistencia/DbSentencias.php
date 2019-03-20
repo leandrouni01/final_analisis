@@ -77,6 +77,7 @@ interface DbSentencias {
     const ACTUALIZAR_PLAN= "UPDATE plan_de_estudios SET fk_carrera=?,resolucion=?,fecha=?,horas_catedra=?,horas_reloj=?,duracion=? WHERE id_plan=?;";
     const BUSCAR_ULTIMO_PLAN= "SELECT plan_de_estudios.*,carrera.nombre_carrera FROM plan_de_estudios INNER JOIN carrera ON (fk_carrera=id_carrera) WHERE id_plan=(SELECT MAX(id_plan)FROM plan_de_estudios);";
     const ELIMINAR_PLAN= "UPDATE plan_de_estudios SET estado_plan=0 WHERE id_plan=?;";
+    const BUSCAR_PLANESTUDIO = "SELECT plan_de_estudios.*,carrera.`nombre_carrera` FROM plan_de_estudios INNER JOIN carrera ON (fk_carrera=id_carrera) WHERE estado_plan=1 AND carrera.nombre_carrera LIKE '?%' OR plan_de_estudios.resolucion LIKE '?%';";
     //Materia
     const LISTAR_MATERIAS= "SELECT materia.*,plan_de_estudios.`fk_carrera`,plan_de_estudios.`resolucion`,carrera.`nombre_carrera` FROM materia INNER JOIN plan_de_estudios ON(fk_plan_de_estudio=id_plan) INNER JOIN carrera ON(fk_carrera=id_carrera) WHERE estado_materia=1 ORDER BY nombre_carrera,resolucion,semestre,nombre_materia";
     const INSERTAR_MATERIA ="INSERT INTO materia(fk_plan_de_estudio,anio,nombre_materia,semestre,carga_horaria) VALUES (?,?,?,?,?);";

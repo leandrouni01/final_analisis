@@ -20,8 +20,12 @@ $(function () {
                 $("#modalMateria").modal({show: true});
             });
 
-            $("#guardar").on('click', function (event) {
+            $("#formMateria").on('success.form.bv', function (event) { //Función que se ejecuta una vez que el formulario está validado.
+
+                // Evitar el envío del form
                 event.preventDefault();
+
+                //Ejecutar Ajax para enviar el form.
                 if ($("#id").val() == 0) {
                     app.guardar();
                 } else {
@@ -339,6 +343,7 @@ $(function () {
             $("#carga_horaria").val('');
             $("#cambiarCarrera").show();
             $("#combo").removeAttr("disabled");
+            $("#formMateria").bootstrapValidator("resetForm", true);
         };
 
         app.limpiarModal2 = function () {//funcion para limpiar el modal
