@@ -157,17 +157,17 @@ $(function () {
 
         app.listarCombos = function (id, item) { //funcion para listar combos.
 
+            var item = $("#combos").val();//guardo en una variable el valor del combo, para poder compararlo en el switch.
             var ajaxObj = ({
                 type: 'POST',
                 dataType: 'json',
                 success: function (data) {
-                    app.rellenarCombos(data);
+                    app.rellenarCombos(data, item);
                 },
                 error: function () {
                     alert('error buscar');
                 }
             });
-            var item = $("#combos").val();//guardo en una variable el valor del combo, para poder compararlo en el switch.
             
             switch (item) {
                 case 'pais':
