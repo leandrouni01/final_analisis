@@ -56,9 +56,9 @@ $(function () {
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $('#form').bootstrapValidator('resetForm', true);
                 $("#id").val($(this).attr("data-id"));
-                $("#nombre").val($(this).parent().parent().children().html());
-                $("#nro").val($(this).parent().parent().children().first().next().html());
-                $("#telefono").val($(this).parent().parent().children().first().next().next().html());
+                $("#nombre_sede").val($(this).parent().parent().children().html());
+                $("#numero_sede").val($(this).parent().parent().children().first().next().html());
+                $("#telefono_sede").val($(this).parent().parent().children().first().next().next().html());
                 $("#comboPais").val($(this).parent().parent().children().first().next().next().next().attr("data-fk_pais"));
 
                 $("#comboPais").change();
@@ -72,8 +72,8 @@ $(function () {
                     $("#combo").val($(this).parent().parent().children().first().next().next().next().next().next().attr("data-fk_localidad"));
                 }, 300);
 
-                $("#calle").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
-                $("#numero").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().html());
+                $("#calle_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
+                $("#numero_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().html());
                 $("#tituloModal").html("Editar Sede");
                 $("#modal").modal({show: true});
             });
@@ -274,7 +274,7 @@ $(function () {
                             '<td>' + object.nombre_sede + '</td>' +
                             '<td>' + object.numero_sede + '</td>' +
                             '<td>' + object.telefono_sede + '</td>' +
-                            '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
+                            '<td data-fk_pais="' + object.fk_pais + '">' + object.nombre_pais + '</td>' +
                             '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
                             '<td>' + object.calle_domicilio + '</td>' +
@@ -341,7 +341,7 @@ $(function () {
                             '<td>' + object.nombre_sede + '</td>' +
                             '<td>' + object.numero_sede + '</td>' +
                             '<td>' + object.telefono_sede + '</td>' +
-                            '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
+                            '<td data-fk_pais="' + object.fk_pais + '">' + object.nombre_pais + '</td>' +
                             '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
                             '<td>' + object.calle_domicilio + '</td>' +
@@ -393,12 +393,12 @@ $(function () {
 
         app.limpiarModal = function () {//funcion para limpiar el modal
             $("#id").val(0);
-            $("#nombre").val('');
-            $("#nro").val('');
-            $("#telefono").val('');
-            $("#calle").val('');
-            $("#numero").val('');
-            $("#comboPais").html('');
+            $("#nombre_sede").val('');
+            $("#numero_sede").val('');
+            $("#telefono_sede").val('');
+            $("#calle_domicilio").val('');
+            $("#numero_domicilio").val('');
+            $("#comboPais").val('');
             $("#comboProvincia").html('');
             $("#combo").html('');
             $('#form').bootstrapValidator('resetForm', true);
