@@ -33,6 +33,7 @@ interface DbSentencias {
     const BUSCAR_ULTIMA_SEDE = "SELECT id_sede,nombre_sede,numero_sede,telefono_sede,fk_domicilio,calle_domicilio,numero_domicilio,fk_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM sede INNER JOIN domicilio ON (fk_domicilio=id_domicilio) INNER JOIN localidad ON (fk_localidad=id_localidad) INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE sede.estado=1 AND id_sede=(SELECT MAX(id_sede) FROM sede);";
     const ACTUALIZAR_SEDE= "UPDATE sede SET nombre_sede=?,numero_sede=?,telefono_sede=? WHERE id_sede=?;";
     const ELIMINAR_SEDE= "UPDATE sede SET estado=0 WHERE id_sede=?;";
+    const BUSCARDOR_SEDES = "SELECT id_sede,nombre_sede,numero_sede,telefono_sede,fk_domicilio,calle_domicilio,numero_domicilio,fk_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM sede INNER JOIN domicilio ON (fk_domicilio=id_domicilio) INNER JOIN localidad ON (fk_localidad=id_localidad) INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE sede.estado=1 AND nombre_sede LIKE '?%' OR numero_sede LIKE '?%';";
     //Carrera
     const LISTAR_CARRERAS = "SELECT nombre_carrera,id_carrera FROM carrera WHERE estado_carrera=1;";
     const INSERTAR_CARRERA= "INSERT INTO carrera(nombre_carrera) VALUE(?);";
