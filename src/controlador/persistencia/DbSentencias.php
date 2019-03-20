@@ -47,6 +47,7 @@ interface DbSentencias {
     const BUSCAR_ULTIMO_TITULO= "SELECT titulo.* FROM titulo WHERE estado=1 AND id_titulo=(SELECT MAX(id_titulo) FROM titulo);";
     const ACTUALIZAR_TITULO = "UPDATE titulo SET nombre_titulo=? WHERE id_titulo=?;";
     const ELIMINAR_TITULO = "UPDATE titulo SET estado=0 WHERE id_titulo=?;";
+    const BUSCAR_TITULOS = "SELECT titulo.* FROM titulo WHERE estado=1 AND nombre_titulo LIKE '?%' ORDER BY nombre_titulo";
     //Postgrado
     const LISTAR_POSTGRADOS= "SELECT postgrado.*,nombre_titulo FROM postgrado INNER JOIN titulo ON (fk_titulo=id_titulo) WHERE postgrado.estado=1 ORDER BY nombre_postgrado;";
     const INSERTAR_POSTGRADO= "INSERT INTO postgrado(nombre_postgrado,fk_titulo) VALUE (?,?);";
