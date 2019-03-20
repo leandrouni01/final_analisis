@@ -55,7 +55,8 @@ $(function () {
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $('#form').bootstrapValidator('resetForm', true);
-                $("#id").val($(this).attr("data-id"));
+                $("#id").val($(this).parent().parent().children().first().next().next().next().next().next().next().html().attr("data-fk_domicilio"));
+                $("#id_domicilio").val($(this).attr("data-id"));
                 $("#nombre_sede").val($(this).parent().parent().children().html());
                 $("#numero_sede").val($(this).parent().parent().children().first().next().html());
                 $("#telefono_sede").val($(this).parent().parent().children().first().next().next().html());
@@ -277,7 +278,7 @@ $(function () {
                             '<td data-fk_pais="' + object.fk_pais + '">' + object.nombre_pais + '</td>' +
                             '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
-                            '<td>' + object.calle_domicilio + '</td>' +
+                            '<td data-fk_domicilio="' + object.fk_domicilio + '">' + object.calle_domicilio + '</td>' +
                             '<td>' + object.numero_domicilio + '</td>' +
                             '<td>' +
                             '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
@@ -318,9 +319,10 @@ $(function () {
         app.modificar = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=sede";
             var datosEnviar = $("#form").serialize();
+            alert(datosEnviar);
             $.ajax({
                 url: url,
-                type: 'POST',
+                method: 'POST',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
                     $("#modal").modal('hide');
@@ -344,7 +346,7 @@ $(function () {
                             '<td data-fk_pais="' + object.fk_pais + '">' + object.nombre_pais + '</td>' +
                             '<td data-fk_provincia="' + object.fk_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
-                            '<td>' + object.calle_domicilio + '</td>' +
+                            '<td data-fk_domicilio="' + object.fk_domicilio + '">' + object.calle_domicilio + '</td>' +
                             '<td>' + object.numero_domicilio + '</td>' +
                             '<td>' +
                             '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_sede + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
@@ -354,14 +356,14 @@ $(function () {
                 $("#cuerpoTabla").append(html);
             } else {
                 var fila = $("#cuerpoTabla").find("[data-id='" + id + "']").parent().parent();
-                var html = '<td>' + $("#nombre").val() + '</td>' +
-                        '<td>' + $("#nro").val() + '</td>' +
-                        '<td>' + $("#telefono").val() + '</td>' +
+                var html = '<td>' + $("#nombre_sede").val() + '</td>' +
+                        '<td>' + $("#numero_sede").val() + '</td>' +
+                        '<td>' + $("#telefono_sede").val() + '</td>' +
                         '<td data-fk_pais="' + $("#comboPais").find(':selected').val() + '">' + $("#comboPais").find(':selected').text() + '</td>' +
                         '<td data-fk_provincia="' + $("#comboProvincia").find(':selected').val() + '">' + $("#comboProvincia").find(':selected').text() + '</td>' +
                         '<td data-fk_localidad="' + $("#combo").find(':selected').val() + '">' + $("#combo").find(':selected').text() + '</td>' +
-                        '<td>' + $("#calle").val() + '</td>' +
-                        '<td>' + $("#numero").val() + '</td>' +
+                        '<td>' + $("#calle_domicilio").val() + '</td>' +
+                        '<td>' + $("#numero_domicilio").val() + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                         '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
