@@ -64,6 +64,7 @@ interface DbSentencias {
     const BUSCAR_ULTIMO_CURSO= "SELECT curso.*,nombre_sede,numero_sede,resolucion,nombre_carrera FROM curso INNER JOIN sede ON(fk_sede=id_sede) INNER JOIN plan_de_estudios ON (fk_plan_de_estudios=id_plan) INNER JOIN carrera ON (fk_carrera=id_carrera) WHERE curso.estado=1 AND id_curso=(SELECT MAX(id_curso) FROM curso);";
     const ACTUALIZAR_CURSO= "UPDATE curso SET fk_sede=?,fk_plan_de_estudios=?,nombre_curso=?,anio_curso=? WHERE id_curso=?;";
     const ELIMINAR_CURSO= "UPDATE curso SET estado=0 WHERE id_curso=?;";
+    const BUSCADOR_CURSOS = "SELECT curso.*,nombre_sede,numero_sede,resolucion,nombre_carrera FROM curso INNER JOIN sede ON(fk_sede=id_sede) INNER JOIN plan_de_estudios ON (fk_plan_de_estudios=id_plan) INNER JOIN carrera ON (fk_carrera=id_carrera) WHERE curso.estado=1 AND nombre_curso LIKE '?%' OR nombre_carrera LIKE '?%'";
     const BUSCAR_CURSO= "SELECT nombre_curso,id_curso FROM curso WHERE fk_sede=? AND fk_plan_de_estudios=? AND anio_curso=? AND estado=1;";
     //Horario
     const LISTAR_HORARIOS= "SELECT horarios.*,nombre_profesor,apellido_profesor,id_plan,id_sede,materia.anio,nombre_carrera,resolucion,nombre_materia,nombre_sede,numero_sede,nombre_curso FROM horarios INNER JOIN profesor ON (fk_profesor=id_profesor) INNER JOIN materia ON (fk_materia=id_materia) INNER JOIN plan_de_estudios ON (fk_plan_de_estudio=id_plan) INNER JOIN carrera ON (fk_carrera=id_carrera) INNER JOIN curso ON (fk_curso=id_curso) INNER JOIN sede ON (fk_sede=id_sede) WHERE horarios.estado=1;";

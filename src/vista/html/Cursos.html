@@ -94,7 +94,7 @@
                         </td>
                     </tr>
                 </table>
-                
+
                 <div class='container-fluid'>
 
                     <div id='alerta'>
@@ -112,7 +112,7 @@
             <div class="col-lg-1"/></div>
 
         <div class="col-lg-10 thumbnail">
-            
+
             <table class="table table-bordered table-hover table-condensed" id="tabla">
                 <thead>
                     <tr>
@@ -126,7 +126,7 @@
 
                 <tbody id="cuerpoTabla" >
                 </tbody> 
-                
+
             </table>
 
             <div id="alert"></div>
@@ -135,7 +135,7 @@
         <div class="col-lg-1"></div> 
     </div>
 </div>
-                    
+
 <!-- Inicio modal -->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog ">
@@ -155,55 +155,76 @@
                     </div>
 
                     <div class="modal-body">
-                                <!--    DECLARO UN ID OCULTO    -->
-                                <div class="form-group">
-                                    <input class="form-control" type="hidden" id="id" name="id">
-                                </div>
+                        <!--    DECLARO UN ID OCULTO    -->
+                        <div class="form-group">
+                            <input class="form-control" type="hidden" id="id" name="id">
+                        </div>
 
-                                <div class="form-group">
-                                    <label class='col-lg-3'>Sede:</label>
-                                    <div class='col-lg-9'>
-                                        <input id="combos" type="hidden" value="sede" />
-                                        <select class="form-control" id="comboSede" name="comboSede">                                            
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-3'>Carrera:</label>
-                                    <div class='col-lg-9'>
-                                        <select class="form-control" id="comboCarrera" name="comboCarrera">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-3'>Año:</label>
-                                    <div class='col-lg-9'>
-                                        <select class="form-control" id="año" name="año">                                           
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class='col-lg-3'>Curso:</label>
-                                    <div class='col-lg-9'>
-                                        <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Ingrese el nombre del curso"
-                                               data-bv-notempty="true"
-                                               data-bv-notempty-message="Debes completar el Nombre">
-                                    </div>
+                        <!--    DECLARO UN SELECT SEDE  -->
+                        <div class="form-group">
+                            <label class='col-lg-3 control-label'>Sede</label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                    <select class="form-control" id="comboSede" name="comboSede" 
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar sede">
+                                    </select>
                                 </div>
                             </div>
+                        </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
 
-                    <button type="button" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
-                </div>
+                        <!--    DECLARO UN SELECT CARRERA   -->
+                        <div class="form-group">
+                            <label class='col-lg-3 control-label'>Carrera</label>
+                            <div class="col-lg-9">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                    <select class="form-control" id="comboCarrera" name="comboCarrera" 
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar carrera">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class='col-lg-3 control-label'>Año</label>
+                            <div class='col-lg-9'>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-sort-by-order"></i></span>
+                                    <select class="form-control" id="año" name="año"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar año" >                                           
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class='col-lg-3 control-label'>Curso</label>
+                            <div class='col-lg-9'>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input class="form-control" type="text" pattern="[A-Z-1-9]{2}" id="nombre" name="nombre" placeholder="Ingrese el nombre del curso"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="Debes completar el nombre del curso">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+
+                        <button type="submit" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
+                    </div>
             </form>
         </div>
     </div>
+</div>
 </div>
 <!-- FIN Modal -->
 
