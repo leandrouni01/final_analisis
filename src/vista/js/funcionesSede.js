@@ -55,8 +55,8 @@ $(function () {
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $('#form').bootstrapValidator('resetForm', true);
-                $("#id").val($(this).attr("data-id"));
-                $("#id_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().html()).attr("data-fk_domicilio");
+                $("#id").val($(this).parent().parent().children().first().next().next().next().next().next().next().html().attr("data-fk_domicilio"));
+                $("#id_domicilio").val($(this).attr("data-id"));
                 $("#nombre_sede").val($(this).parent().parent().children().html());
                 $("#numero_sede").val($(this).parent().parent().children().first().next().html());
                 $("#telefono_sede").val($(this).parent().parent().children().first().next().next().html());
@@ -317,24 +317,24 @@ $(function () {
         };
 
         app.modificar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Sede";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=sede";
             var datosEnviar = $("#form").serialize();
             alert(datosEnviar);
-//            $.ajax({
-//                url: url,
-//                method: 'POST',
-//                data: datosEnviar,
-//                success: function (datosRecibidos) {
-//                    $("#modal").modal('hide');
-//                    app.actualizarTabla(datosRecibidos, $("#id").val());
-//                    //app.listarCombos();
-//                    app.alertModif();
-//                },
-//                error: function (datosRecibidos) {
-//                    alert("Error en guardar");
-//                    alert(datosRecibidos);
-//                }
-//            });
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: datosEnviar,
+                success: function (datosRecibidos) {
+                    $("#modal").modal('hide');
+                    app.actualizarTabla(datosRecibidos, $("#id").val());
+                    //app.listarCombos();
+                    app.alertModif();
+                },
+                error: function (datosRecibidos) {
+                    alert("Error en guardar");
+                    alert(datosRecibidos);
+                }
+            });
         };
 
         app.actualizarTabla = function (object, id) {
