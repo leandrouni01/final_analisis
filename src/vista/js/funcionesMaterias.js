@@ -33,7 +33,7 @@ $(function () {
                 }
             });
 
-            $("#combo").on('change',function () {
+            $("#combo").on('change', function () {
                 app.listarDuracion();
                 $("#combo").prop("disabled", "true");
             });
@@ -99,7 +99,7 @@ $(function () {
             $("#formMateria").bootstrapValidator({
                 excluded: [],
             });
-            
+
             $("#modalMateria").on('hide.bs.modal', function () {
                 app.limpiarModal();
             });
@@ -228,26 +228,23 @@ $(function () {
 
         app.guardar = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Materia";
-            var datosEnviar =
-                    // atrapa el id que esta en el combo
-                    'fk_planestudio=' + $("#combo").find(':selected').val() +
-                    '&comboDuracion=' + $('#comboDuracion').find(':selected').val() +
-                    '&nombre=' + $('#nombre').val() +
-                    '&semestre=' + $('#semestre').val() +
-                    '&carga_horaria=' + $('#carga_horaria').val();
+            var datosEnviar = {
+                fk_planestudio: $("#combo").find(':selected').val(),
+                comboDuracion: $('#comboDuracion').find(':selected').val(),
+                nombre: $('#nombre').val(),
+                semestre: $('#semestre').val(),
+                carga_horaria: $('#carga_horaria').val()
+            };
 
             $.ajax({
                 url: url,
                 type: 'POST',
+                dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    app.buscar();
-                    $("#comboDuracion").val("");
-                    $("#semestre").val("");
-                    $("#nombre").val("");
-                    $("#anio").val("");
-                    $("#carga_horaria").val("");
-                    //app.actualizarTabla(datosRecibidos, $("#id").val());
+                    app.actualizarTabla(datosRecibidos, $("#id").val());
+                    $("#formMateria").bootstrapValidator("resetForm", true);
+                    $("#combo").val(datosEnviar.fk_planestudio);
                     alert("Exito al guardar Materia");
                 },
                 error: function (datosRecibidos) {
@@ -270,11 +267,11 @@ $(function () {
             $.ajax({
                 url: url,
                 type: 'POST',
+                dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
+                    app.actualizarTabla(datosRecibidos, $("#id").val());
                     $("#modalMateria").modal('hide');
-                    app.buscar();
-                    app.limpiarModal();
                 },
                 error: function (datosRecibidos) {
                     alert("Error en guardar materia");
@@ -287,21 +284,21 @@ $(function () {
             if (id == 0) {
                 var html =
                         '<tr>' +
-                        '<td>' + $("#combo").find(':selected').text() + '</td>' +
-                        '<td>' + $('#anio').find(':selected').val() + '</td>' +
-                        '<td>' + $('#nombre').val() + '</td>' +
-                        '<td>' + $('#semestre').val() + '</td>' +
-                        '<td>' + $('#carga_horaria').val() + '</td>' +
+                        '<td data-fk_plan="' + materia.fk_plan_de_estudio + '">' + materia.nombre_carrera + " (" + materia.resolucion + ")" + '</td>' +
+                        '<td>' + materia.semestre + '</td>' +
+                        '<td>' + materia.nombre_materia + '</td>' +
+                        '<td>' + materia.anio + '</td>' +
+                        '<td>' + materia.carga_horaria + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + materia.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + materia.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id_materia="' + materia.id_materia + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id_materia="' + materia.id_materia + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                         '</td>' +
                         '</tr>';
                 $("#cuerpoTabla").append(html);
             } else {
 
-                var fila = $("#cuerpoTabla").find("a[data-id_materia='" + id + "']").parent().parent();
-                var html = '<td>' + $("#combo").find(':selected').text() + '</td>' +
+                var fila = $("#cuerpoTabla").find("button[data-id_materia='" + id + "']").parent().parent();
+                var html = '<td data-id_fk_plan="' + $("#combo").val() + '">' + $("#combo").find(':selected').html() + '</td>' +
                         '<td>' + $('#anio').find(':selected').val() + '</td>' +
                         '<td>' + $('#nombre').val() + '</td>' +
                         '<td>' + $('#semestre').val() + '</td>' +
