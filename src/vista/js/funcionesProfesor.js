@@ -3,18 +3,6 @@ $(function () {
 
     (function (app) {
         app.init = function () {
-            app.listarCombos();//funcion para cargar combos.
-
-            setTimeout(() => {
-                $("#combos").val('titulo'); //asigno valor titulo para poder listar combos titulos
-                app.listarCombos();
-            }, 100); //la funcion se ejecutara despues de 100milesimas de segundos.
-
-            setTimeout(() => {
-                $("#combos").val('posgrado');//asigno valor posgrado para listar combos posgrado
-                app.listarCombos();
-            }, 200);//la funcion se ejecutara despues de 150milesimas de segundos.
-
             app.buscar();
             app.bindings();
         };
@@ -23,17 +11,14 @@ $(function () {
             $("#agregar").on('click', function (event) {
                 app.limpiarModal();
                 
-                $("#combos").val('pais'); //asigno valor 'pais' para poder listar combos en cascada (pais , provincia, localidad)
-                app.listarCombos();
+                app.listarCombos('Pais');//asigno valor 'pais' para poder listar combos en cascada (pais , provincia, localidad)
                 
                 setTimeout(() => { 
-                    $("#combos").val('titulo'); //asigno valor titulo para poder listar combos titulos
-                    app.listarCombos();
+                    app.listarCombos('Titulo');//asigno valor titulo para poder listar combos titulos
                 }, 150); //la funcion se ejecutara despues de 100milesimas de segundos.
                 
                 setTimeout(() => {
-                    $("#combos").val('posgrado');//asigno valor posgrado para listar combos posgrado
-                    app.listarCombos();
+                    app.listarCombos('Postgrado');//asigno valor posgrado para listar combos posgrado
                 }, 200);//la funcion se ejecutara despues de 150milesimas de segundos.
                 
                 $("#id").val(0);
@@ -42,13 +27,11 @@ $(function () {
             });
             
             $("#comboPais").change(function(){ //le asigno el metodo change,  cuando cambie de valor el comboPais se lista el comboProvincia
-               $("#combos").val('provincia');
-               app.listarCombos();
+               app.listarCombos('Provincia');
             });
             
             $("#comboProvincia").change(function(){
-               $("#combos").val('localidad');
-               app.listarCombos();
+               app.listarCombos('Localidad');
             });
 
             $("#textBusca").keyup(function (e) {
@@ -155,51 +138,45 @@ $(function () {
             });
         };
 
-        app.listarCombos = function (id, item) { //funcion para listar combos.
+        app.listarCombos = function (item) { //funcion para listar combos.
 
-            var item = $("#combos").val();//guardo en una variable el valor del combo, para poder compararlo en el switch.
             var ajaxObj = ({
-                type: 'POST',
+                method: 'POST',
                 dataType: 'json',
                 success: function (data) {
                     app.rellenarCombos(data, item);
                 },
                 error: function () {
-                    alert('error buscar');
+                    alert(`Error buscar ${item}`);
                 }
             });
             
+            //alert(item);
             switch (item) {
-                case 'pais':
-                    var datosEnviar = {id: id};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=pais";
-                    ajaxObj.data = datosEnviar;
+                case 'Pais':
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Pais";
                     break;
 
-                case 'provincia':
+                case 'Provincia':
                     var id_pais = $("#comboPais").find(':selected').val();
-                    var datosEnviar = {id: id_pais};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listarCombo&Formulario=provincia";
+                    var datosEnviar = {id_pais: id_pais};
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarProvincia&Formulario=Profesor";
                     ajaxObj.data = datosEnviar;
                     break;
 
-                case 'localidad':
+                case 'Localidad':
                     var id_provincia = $("#comboProvincia").find(':selected').val();
-                    var datosEnviar = {id: id_provincia};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listarCombo&Formulario=localidad";
+                    var datosEnviar = {id_provincia: id_provincia};
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarLocalidades&Formulario=Profesor";
                     ajaxObj.data = datosEnviar;
                     break;
                     
-                case 'titulo':
-                    var datosEnviar = {id: id};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=titulo";
-                    ajaxObj.data = datosEnviar;
+                case 'Titulo':
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Titulo";
                     break;
                     
-                case 'posgrado':
-                    var datosEnviar = {id: id};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=posgrado";
-                    ajaxObj.data = datosEnviar;
+                case 'Postgrado':
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Postgrado";
                     break;
 
                 default:
@@ -209,39 +186,19 @@ $(function () {
             jQuery.ajax(ajaxObj);
         };
 
-        app.rellenarCombos = function (data) {
+        app.rellenarCombos = function (data, item) {
 
-            var item = $("#combos").val();
-            switch (item) {
-                case 'pais':
-                    var itemRecibido = 'comboPais';
-                    break;
+            var tabla = item.toLowerCase();
+            var itemRecibido = `combo${item}`;
+            
+            //alert(tabla);
+            //alert(itemRecibido);
 
-                case 'provincia':
-                    var itemRecibido = 'comboProvincia';
-                    break;
-
-                case 'localidad':
-                    var itemRecibido = 'combo';
-                    break;
-                    
-                case 'titulo':
-                    var itemRecibido = 'comboTitulo';
-                    break;
-                    
-                case 'posgrado':
-                    var itemRecibido = 'comboPosgrado';
-                    break;
-
-                default:
-
-                    break;
-            }
             $('#' + itemRecibido).html("");
             $('#' + itemRecibido).prepend("<option value=''>Seleccione</option>");
 
             $.each(data, function (clave, value) {
-                $('#' + itemRecibido).append('<option value="' + value.id + '">' + value.nombre + '</option>');
+                $('#' + itemRecibido).append('<option value="' + value[`id_${tabla}`] + '">' + value[`nombre_${tabla}`] + '</option>');
             });
         };
 
