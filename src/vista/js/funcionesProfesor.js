@@ -140,7 +140,7 @@ $(function () {
         };
 
         app.busqueda = function (parametros) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=profesor";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=Profesor";
             $.ajax({
                 url: url,
                 method: 'POST',
