@@ -87,7 +87,7 @@ $(function () {
             });
 
             $("#form").bootstrapValidator({
-                excluded: [],
+                excluded: []
             });
         };
 

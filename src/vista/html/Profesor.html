@@ -182,14 +182,14 @@
                                 <div class="form-group">
                                     <label class='col-lg-4'>Apellido</label>
                                     <div class='col-lg-8'>
-                                        <input class="form-control" type="text" id="apellido_profesor" name="apellido_profesor">
+                                        <input class="form-control" type="text" pattern="[A-Z-a-z]" id="apellido_profesor" name="apellido_profesor">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class='col-lg-4'>DNI</label>
                                     <div class='col-lg-8'>
-                                        <input class="form-control" type="number" min="10000000" id="dni_profesor" name="dni_profesor">
+                                        <input class="form-control" type="number" maxlength="11" pattern="[0-9]" id="dni_profesor" name="dni_profesor">
                                     </div>
                                 </div>
                                 
