@@ -246,7 +246,7 @@ $(function () {
         };
 
         app.buscar = function () { //esta funcion lista todas las carreras
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=profesor";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Profesor";
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -273,16 +273,16 @@ $(function () {
                 var linea = "";
                 $.each(data, function (clave, object) {
                     linea += '<tr>' +
-                            '<td>' + object.nombre + '</td>' +
-                            '<td>' + object.apellido + '</td>' +
-                            '<td>' + object.dni + '</td>' +
-                            '<td data-fk_titulo="'+ object.fk_titulo +'">' + object.titulo + '</td>' +
-                            '<td data-fk_posgrado="' + object.fk_posgrado +'">' + object.posgrado + '</td>' + 
-                            '<td data-fk_pais="' + object.id_pais + '">' + object.nom_pais + '</td>' +
-                            '<td data-fk_provincia="' + object.id_provincia + '">' + object.nom_provincia + '</td>' +
-                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.localidad + '</td>' +
-                            '<td>' + object.calle + '</td>' +
-                            '<td>' + object.numero + '</td>' +
+                            '<td>' + object.nombre_profesor + '</td>' +
+                            '<td>' + object.apellido_profesor + '</td>' +
+                            '<td>' + object.dni_profesor + '</td>' +
+                            '<td data-fk_titulo="'+ object.fk_titulo +'">' + object.nombre_titulo + '</td>' +
+                            '<td data-fk_posgrado="' + object.fk_posgrado +'">' + object.nombre_postgrado + '</td>' + 
+                            '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
+                            '<td data-fk_provincia="' + object.id_provincia + '">' + object.nombre_provincia + '</td>' +
+                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
+                            '<td data-fk_domicilio="' + object.fk_domicilio + '">' + object.calle_domicilio + '</td>' +
+                            '<td>' + object.numero_domicilio + '</td>' +
                             '<td>' +
                             '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                             '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
@@ -351,21 +351,21 @@ $(function () {
         app.actualizarTabla = function (object, id) {
             if (id == 0) {
                 var html = '<tr>' +
-                        '<td>' + object.nombre + '</td>' +
-                        '<td>' + object.apellido + '</td>' +
-                        '<td>' + object.dni + '</td>' +
-                        '<td data-fk_titulo="' + object.fk_titulo + '">' + object.titulo + '</td>' +
-                        '<td data-fk_posgrado="' + object.fk_posgrado + '">' + object.posgrado + '</td>' +
-                        '<td data-fk_pais="' + object.id_pais + '">' + object.nom_pais + '</td>' +
-                        '<td data-fk_provincia="' + object.id_provincia + '">' + object.nom_provincia + '</td>' +
-                        '<td data-fk_localidad="' + object.fk_localidad + '">' + object.localidad + '</td>' +
-                        '<td>' + object.calle + '</td>' +
-                        '<td>' + object.numero + '</td>' +
-                        '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
-                        '</td>' +
-                        '</tr>';
+                            '<td>' + object.nombre_profesor + '</td>' +
+                            '<td>' + object.apellido_profesor + '</td>' +
+                            '<td>' + object.dni_profesor + '</td>' +
+                            '<td data-fk_titulo="'+ object.fk_titulo +'">' + object.nombre_titulo + '</td>' +
+                            '<td data-fk_posgrado="' + object.fk_posgrado +'">' + object.nombre_postgrado + '</td>' + 
+                            '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
+                            '<td data-fk_provincia="' + object.id_provincia + '">' + object.nombre_provincia + '</td>' +
+                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
+                            '<td data-fk_domicilio="' + object.fk_domicilio + '">' + object.calle_domicilio + '</td>' +
+                            '<td>' + object.numero_domicilio + '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '</td>' +
+                            '</tr>';
                 $("#cuerpoTabla").append(html);
 
             } else {
