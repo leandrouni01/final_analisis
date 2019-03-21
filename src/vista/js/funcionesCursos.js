@@ -287,8 +287,8 @@ $(function () {
                         '<td data-fk_sede="' + object.fk_sede + '">' + object.nombre_sede + ' ( ' + object.numero_sede + ' )' + '</td>' +
                         '<td>' + object.anio_curso + '</td>' +
                         '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_curso + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_curso + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                         '</td>' +
                         '</tr>';
                 $("#cuerpoTabla").append(html);

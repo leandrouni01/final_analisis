@@ -328,8 +328,8 @@ $(function () {
                         '<td data-id_materiaini="' + $("#comboMateria").val() + '">' + $("#comboMateria").find(':selected').html() + '</td>' +
                         '<td data-id_correlativa="' + $("#comboCorrelativa").val() + '">' + $("#comboCorrelativa").find(':selected').html() + '</td>' +
                         '<td>' +
-                        '<button data-id_correlativa="' + $("#id").val() + '" type="button" class="btn btn-sm btn-warning pull-left editar"  data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button data-id_correlativa="' + $("#id").val() + '" type="button" class="btn btn-sm btn-danger pull-right eliminar"  data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                        '<button data-id_correlativa="' + $("#comboPlanE").val() + $("#comboMateria").val() + $("#comboCorrelativa").val() +'" type="button" class="btn btn-sm btn-warning pull-left editar"  data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                        '<button data-id_correlativa="' + $("#comboPlanE").val() + $("#comboMateria").val() + $("#comboCorrelativa").val() + '" type="button" class="btn btn-sm btn-danger pull-right eliminar"  data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                         '</td>' +
                         '</tr>';
                 $("#cuerpoTabla").append(html);
