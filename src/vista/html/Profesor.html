@@ -66,210 +66,258 @@
 
         <div class="container">
             <div class="row">
-                
 
-            <div class="col-lg-12">
-                <div class="well well-sm" style="background-color: #9acfea" >
-                    <h1>Instituto Manuel Belgrano</h1>
-                    <h4>Sistema de Carga de Profesores.</h4>       
-                    <img style="width:100px; height:100px; position: absolute; top: 9px;left:1040px" src="../css/iesmb.jpg" class="img-circle" alt=""/>                 
-                </div>
 
-                <table class="table">
-                    <tr>
-                        <td align="">
-                            <button class="btn btn-primary btn-lg pull-left" id="agregar">
-                                <span class="glyphicon glyphicon-pencil"></span> Agregar
-                            </button>
-                        </td>
-                        <td>
-                            <div class="pull-right">
-                                <div class="input-group">
-                                    <input id="textBusca" type="text" class="form-control" placeholder="Buscar profesor.." aria-describedby="basic-addon2">
-                                    <span class="input-group-addon" id="basic-addon2">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                
-                <div class='container-fluid'>
-
-                    <div id='alerta'>
+                <div class="col-lg-12">
+                    <div class="well well-sm" style="background-color: #9acfea" >
+                        <h1>Instituto Manuel Belgrano</h1>
+                        <h4>Sistema de Carga de Profesores.</h4>       
+                        <img style="width:100px; height:100px; position: absolute; top: 9px;left:1040px" src="../css/iesmb.jpg" class="img-circle" alt=""/>                 
                     </div>
+
+                    <table class="table">
+                        <tr>
+                            <td align="">
+                                <button class="btn btn-primary btn-lg pull-left" id="agregar">
+                                    <span class="glyphicon glyphicon-pencil"></span> Agregar
+                                </button>
+                            </td>
+                            <td>
+                                <div class="pull-right">
+                                    <div class="input-group">
+                                        <input id="textBusca" type="text" class="form-control" placeholder="Buscar profesor.." aria-describedby="basic-addon2">
+                                        <span class="input-group-addon" id="basic-addon2">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class='container-fluid'>
+
+                        <div id='alerta'>
+                        </div>
+
+                    </div> 
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-12 thumbnail">
+
+                    <table class="table table-bordered table-hover table-condensed" id="tabla">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>DNI</th>
+                                <th>Título</th>
+                                <th>Posgrado</th>
+                                <th>País</th>
+                                <th>Provincia</th>
+                                <th>Localidad</th>
+                                <th>Calle</th>
+                                <th>Número</th>
+                                <th><span class="glyphicon glyphicon-cog"></span> Acciones</th>
+                            </tr>  
+                        </thead>
+
+                        <tbody id="cuerpoTabla" >
+                        </tbody>                                       
+                    </table>
+
+                    <div id="alert"></div>
 
                 </div> 
             </div>
         </div>
 
-    </div>
 
-    <div class="container">
 
-        <div class="row">
-
-        <div class="col-lg-12 thumbnail">
-            
-            <table class="table table-bordered table-hover table-condensed" id="tabla">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>DNI</th>
-                        <th>Título</th>
-                        <th>Posgrado</th>
-                        <th>País</th>
-                        <th>Provincia</th>
-                        <th>Localidad</th>
-                        <th>Calle</th>
-                        <th>Número</th>
-                        <th><span class="glyphicon glyphicon-cog"></span> Acciones</th>
-                    </tr>  
-                </thead>
-
-                <tbody id="cuerpoTabla" >
-                </tbody>                                       
-            </table>
-
-            <div id="alert"></div>
-
-        </div> 
-    </div>
-</div>
-                    
-        
-
-<!-- Inicio modal -->
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <form id="form" class="form-horizontal"
-                  data-bv-message="Este valor No es válido"
-                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
-                  data-bv-submitbuttons='button[type="submit"]'
-                  data-bv-trigger="focus blur"
-                  data-bv-live="enabled">
-                <div class="modal-header">
-                    <div class="well well-sm">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 align="left" class="modal-title" id="tituloModal">Nuevo Profesor</h3>
-                    </div>
-
-                    <div class="modal-body">
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <!--    DECLARO UN ID OCULTO    -->
-                                <div class="form-group">
-                                    <input class="form-control" type="hidden" id="id" name="id">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <input class="form-control" type="hidden" id="id_domicilio" name="id_domicilio">
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-4'>Nombre</label>
-                                    <div class='col-lg-8'>
-                                        <input class="form-control" type="text" pattern="[A-Z-a-z]" id="nombre_profesor" name="nombre_profesor">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-4'>Apellido</label>
-                                    <div class='col-lg-8'>
-                                        <input class="form-control" type="text" pattern="[A-Z-a-z]" id="apellido_profesor" name="apellido_profesor">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-4'>DNI</label>
-                                    <div class='col-lg-8'>
-                                        <input class="form-control" type="number" maxlength="11" pattern="[0-9]" id="dni_profesor" name="dni_profesor">
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class='col-lg-4'>Título</label>
-                                    <div class='col-lg-8'>
-                                        <select class="form-control" id="comboTitulo" name="fk_titulo">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-4'>Postgrado</label>
-                                    <div class='col-lg-8'>
-                                        <select class="form-control" id="comboPostgrado" name="fk_postgrado">
-                                        </select>
-                                    </div>
-                                </div>
-
+        <!-- Inicio modal -->
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <form id="form" class="form-horizontal"
+                          data-bv-message="Este valor No es válido"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                          data-bv-submitbuttons='button[type="submit"]'
+                          data-bv-trigger="focus blur"
+                          data-bv-live="enabled">
+                        <div class="modal-header">
+                            <div class="well well-sm">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 align="left" class="modal-title" id="tituloModal">Nuevo Profesor</h3>
                             </div>
 
-                            <div class="col-md-6">
-                                
-                                <div class="form-group">
-                                    <label class='col-lg-4'>País</label>
-                                    <div class='col-lg-8'>
-                                        <select class="form-control" id="comboPais" name="fk_pais">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-4'>Provincia</label>
-                                    <div class='col-lg-8'>
-                                        <select class="form-control" id="comboProvincia" name="fk_provincia">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-4'>Localidad</label>
-                                    <div class='col-lg-8'>
-                                        <select class="form-control" id="comboLocalidad" name="fk_localidad">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-4'>Dirección</label>
-                                    <div class='col-lg-8'>
-                                        <input class="form-control" type="text" id="calle_domicilio" name="calle_domicilio" placeholder='Calle'>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class='col-lg-4'>Nro</label>
-                                    <div class='col-lg-8'>
-                                        <input class="form-control" type="text" id="numero_domicilio" name="numero_domicilio" placeholder='Número'>
-                                    </div>
-                                </div>
-                            </div>
+                            <input class="form-control" type="hidden" id="id" name="id">
+                            <input class="form-control" type="hidden" id="id_domicilio" name="id_domicilio">
+                            
                         </div>
-                    </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                            <div class="modal-body">
 
-                    <button type="button" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>Nombre</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                    <input class="form-control" type="text" pattern="[A-Z-a-z]" id="nombre_profesor" name="nombre_profesor" placeholder="Nombre"
+                                                           data-bv-notempty="true"
+                                                           data-bv-notempty-message="Debes completar el nombre">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>Apellido</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                    <input class="form-control" type="text" pattern="[A-Z-a-z]" id="apellido_profesor" name="apellido_profesor" placeholder="Apellido"
+                                                           data-bv-notempty="true"
+                                                           data-bv-notempty-message="Debes completar el apellido">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>DNI</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                    <input class="form-control" type="number" maxlength="11" pattern="[0-9]" id="dni_profesor" name="dni_profesor" 
+                                                           data-bv-notempty="true"
+                                                           data-bv-notempty-message="Debes completar el DNI">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>Título</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                                    <select class="form-control" id="comboTitulo" name="fk_titulo" 
+                                                            data-bv-notempty="true"
+                                                            data-bv-notempty-message="Debes completar el título">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>Posgrado</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                                    <select class="form-control" id="comboPostgrado" name="fk_postgrado" 
+                                                            data-bv-notempty="true"
+                                                            data-bv-notempty-message="Debes completar el posgrado">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>País</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                                    <select class="form-control" id="comboPais" name="fk_pais"
+                                                            data-bv-notempty="true"
+                                                            data-bv-notempty-message="Debes completar el país">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>Provincia</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                                    <select class="form-control" id="comboProvincia" name="fk_provincia"
+                                                            data-bv-notempty="true"
+                                                            data-bv-notempty-message="Debes completar la provincia">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>Localidad</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                                    <select class="form-control" id="comboLocalidad" name="fk_localidad"   
+                                                            data-bv-notempty="true"
+                                                            data-bv-notempty-message="Debes completar la localidad">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>Dirección</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                                    <input class="form-control" type="text" id="calle_domicilio" name="calle_domicilio" placeholder='Calle'
+                                                           data-bv-notempty="true"
+                                                           data-bv-notempty-message="Debes completar la calle">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class='col-lg-1 control-label'>Nro</label>
+                                            <div class='col-lg-11'>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                                    <input class="form-control" type="text" id="numero_domicilio" name="numero_domicilio" placeholder='Número'  
+                                                           data-bv-notempty="true"
+                                                           data-bv-notempty-message="Debes completar el número">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+
+                                <button type="submit" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
+                            </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
-</div>
-<!-- FIN Modal -->
+        <!-- FIN Modal -->
 
 
-<script src="../js/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>   
-<script src="../js/funcionesProfesor.js" type="text/javascript"></script>
-</body>
+        <script src="../js/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="../js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../js/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>   
+        <script src="../js/funcionesProfesor.js" type="text/javascript"></script>
+    </body>
 </html>

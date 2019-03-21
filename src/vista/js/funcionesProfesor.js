@@ -43,16 +43,21 @@ $(function () {
                 }
             });
 
-            $("#guardar").on('click', function (event) {
+            $("#form").on('success.form.bv', function (event) { //Función que se ejecuta una vez que el formulario está validado.
+
+                // Evitar el envío del form
                 event.preventDefault();
+
+                //Ejecutar Ajax para enviar el form.
                 if ($("#id").val() == 0) {
-                    app.guardar();
+                    app.guardarPostgrado();
                 } else {
-                    app.modificar();
+                    app.editarPostgrado();
                 }
             });
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
+                $("#form").bootstrapValidator('resetForm', true);
                 $("#id").val($(this).attr("data-id"));
                 $("#nombre").val($(this).parent().parent().children().html());
                 $("#apellido").val($(this).parent().parent().children().first().next().html());
@@ -377,6 +382,7 @@ $(function () {
             $("#combo").html('');
             $("#calle").val('');
             $("#numero").val('');
+            $("#form").bootstrapValidator('resetForm', true);
         };
 
         app.init();
