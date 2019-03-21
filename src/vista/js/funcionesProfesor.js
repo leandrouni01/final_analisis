@@ -251,27 +251,25 @@ $(function () {
         };
 
         app.guardar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=profesor";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Profesor";
             var datosEnviar = $("#form").serialize();
+            alert(datosEnviar);
             $.ajax({
                 url: url,
-                type: 'POST',
-                data: datosEnviar,
+                method: 'POST',
+                //data: datosEnviar,
                 dataType: 'json',
                 success: function (datosRecibidos) {
                     $("#modal").modal('hide');
 
-                    $("#combos").val('pais'); //asigno valor 'pais' para poder listar combos en cascada (pais , provincia, localidad)
-                    app.listarCombos();
+                    app.listarCombos('Pais');
 
                     setTimeout(() => {
-                        $("#combos").val('titulo'); //asigno valor titulo para poder listar combos titulos
-                        app.listarCombos();
+                        app.listarCombos('Titulo');
                     }, 150); //la funcion se ejecutara despues de 100milesimas de segundos.
 
                     setTimeout(() => {
-                        $("#combos").val('posgrado');//asigno valor posgrado para listar combos posgrado
-                        app.listarCombos();
+                        app.listarCombos('Postgrado');
                     }, 200);//la funcion se ejecutara despues de 150milesimas de segundos.
 
                     app.actualizarTabla(datosRecibidos, $("#id").val());
