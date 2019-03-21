@@ -12,6 +12,7 @@ class ControladorProfesor extends ControladorGeneral {
     public function agregar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
+            //print_r($datos);
             $parametros = array(
                 "calle_domicilio" => $datos["calle_domicilio"],
                 "numero_domicilio" => $datos["numero_domicilio"],

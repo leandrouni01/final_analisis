@@ -50,9 +50,9 @@ $(function () {
 
                 //Ejecutar Ajax para enviar el form.
                 if ($("#id").val() == 0) {
-                    app.guardarPostgrado();
+                    app.guardar();
                 } else {
-                    app.editarPostgrado();
+                    app.modificar();
                 }
             });
 
@@ -258,25 +258,14 @@ $(function () {
         app.guardar = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Profesor";
             var datosEnviar = $("#form").serialize();
-            alert(datosEnviar);
+            //alert(datosEnviar);
             $.ajax({
                 url: url,
                 method: 'POST',
-                //data: datosEnviar,
+                data: datosEnviar,
                 dataType: 'json',
                 success: function (datosRecibidos) {
                     $("#modal").modal('hide');
-
-                    app.listarCombos('Pais');
-
-                    setTimeout(() => {
-                        app.listarCombos('Titulo');
-                    }, 150); //la funcion se ejecutara despues de 100milesimas de segundos.
-
-                    setTimeout(() => {
-                        app.listarCombos('Postgrado');
-                    }, 200);//la funcion se ejecutara despues de 150milesimas de segundos.
-
                     app.actualizarTabla(datosRecibidos, $("#id").val());
                     app.limpiarModal();
                     app.alertSave();
