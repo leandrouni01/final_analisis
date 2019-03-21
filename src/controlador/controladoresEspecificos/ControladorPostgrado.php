@@ -9,10 +9,10 @@ class ControladorPostgrado extends ControladorGeneral {
     }
 
     public function agregar($datos) {
-        try{
+        try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros= array ("nombre_postgrado"=>$datos["nombre_postgrado"],"fk_titulo"=>$datos["fk_titulo"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_POSTGRADO,$parametros);
+            $parametros = array("nombre_postgrado" => $datos["nombre_posgrado"], "fk_titulo" => $datos["fk_titulo"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_POSTGRADO, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimoPostgrado();
         } catch (Exception $e) {
@@ -20,11 +20,11 @@ class ControladorPostgrado extends ControladorGeneral {
             echo "Failed: " . $e->getMessage();
         }
     }
-    
-    public function buscarUltimoPostgrado (){
-        try{
-            $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_ULTIMO_POSTGRADO);
-            $fila= $resultado->fetch(PDO::FETCH_ASSOC);
+
+    public function buscarUltimoPostgrado() {
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_ULTIMO_POSTGRADO);
+            $fila = $resultado->fetch(PDO::FETCH_ASSOC);
             return $fila;
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();
@@ -33,14 +33,22 @@ class ControladorPostgrado extends ControladorGeneral {
     }
 
     public function buscar($datos) {
-        
+        try {
+            $parametros = array('valor' => $datos['textBusca']);
+            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCAR_POSGRADOS);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia($query);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Failed: " . $e->getMessage();
+        }
     }
 
     public function eliminar($datos) {
-        try{
+        try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros= array("id_postgrado"=>$datos["id_Postgrado"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_POSTGRADO,$parametros);
+            $parametros = array("id_postgrado" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_POSTGRADO, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();
@@ -49,9 +57,9 @@ class ControladorPostgrado extends ControladorGeneral {
     }
 
     public function listar($datos) {
-        try{
-            $resultado=  $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_POSTGRADOS);
-            $array= $resultado->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_POSTGRADOS);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
         } catch (Exception $e) {
             echo "Error :" . $e->getMessage();
@@ -59,10 +67,10 @@ class ControladorPostgrado extends ControladorGeneral {
     }
 
     public function modificar($datos) {
-        try{
+        try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros= array("nombre_postgrado"=>$datos["nombre_postgrado"],"fk_titulo"=>$datos["fk_titulo"],"id_postgrado"=>$datos["id_Postgrado"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_POSTGRADO,$parametros);
+            $parametros = array("nombre_postgrado" => $datos["nombre_posgrado"], "fk_titulo" => $datos["fk_titulo"], "id_postgrado" => $datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_POSTGRADO, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();
