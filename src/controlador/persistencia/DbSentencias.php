@@ -15,6 +15,7 @@ interface DbSentencias {
     const BUSCAR_ULTIMA_PROVINCIA = "SELECT id_provincia,nombre_provincia,fk_pais,nombre_pais FROM provincia INNER JOIN pais ON (fk_pais=id_pais) WHERE id_provincia=(SELECT MAX(id_provincia)FROM provincia);";
     const ACTUALIZAR_PROVINCIA = "UPDATE provincia SET nombre_provincia=?,fk_pais=? WHERE id_provincia=?;";
     const ELIMINAR_PROVINCIA = "UPDATE provincia SET estado=0 WHERE id_provincia=?;";
+    const BUSCAR_PROVINCIA= "SELECT id_provincia,nombre_provincia,fk_pais,nombre_pais FROM provincia INNER JOIN pais ON (fk_pais = id_pais) WHERE provincia.estado=1 AND nombre_provincia LIKE '?%' OR nombre_pais LIKE '?%' ORDER BY nombre_pais,nombre_provincia;";
     //Localidad
     const LISTAR_LOCALIDADES= "SELECT id_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM localidad INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE localidad.estado=1 ORDER BY nombre_provincia;";
     const LISTAR_PROV= "SELECT id_provincia,nombre_provincia FROM provincia WHERE fk_pais=?;";
