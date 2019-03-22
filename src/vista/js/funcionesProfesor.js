@@ -59,14 +59,24 @@ $(function () {
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $("#form").bootstrapValidator('resetForm', true);
                 $("#id").val($(this).attr("data-id"));
-                $("#nombre").val($(this).parent().parent().children().html());
-                $("#apellido").val($(this).parent().parent().children().first().next().html());
-                $("#dni").val($(this).parent().parent().children().first().next().next().html());
-                $("#comboTitulo").val($(this).parent().parent().children().first().next().next().next().attr('data-fk_titulo'));
-                $("#comboPosgrado").val($(this).parent().parent().children().first().next().next().next().next().attr('data-fk_posgrado'));
+                $("id_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().attr('fk_domicilio'));
+                $("#nombre_profesor").val($(this).parent().parent().children().html());
+                $("#apellido_profesor").val($(this).parent().parent().children().first().next().html());
+                $("#dni_profesor").val($(this).parent().parent().children().first().next().next().html());
+                app.listarCombos('Titulo');
+                setTimeout( () => {
+                    $("#comboTitulo").val($(this).parent().parent().children().first().next().next().next().attr('data-fk_titulo'));
+                },100);
+                app.listarCombos('Postgrado');
+                setTimeout( () => {
+                     $("#comboPostgrado").val($(this).parent().parent().children().first().next().next().next().next().attr('data-fk_posgrado'));
+                },100);
                 
-                $("#comboPais").val($(this).parent().parent().children().first().next().next().next().next().next().attr('data-fk_pais'));                
-                $("#comboPais").change();
+                app.listarCombos('Pais');
+                setTimeout( () => {
+                    $("#comboPais").val($(this).parent().parent().children().first().next().next().next().next().next().attr('data-fk_pais'));
+                    $("#comboPais").change();
+                },100);
                 
                 setTimeout(()=>{
                     $("#comboProvincia").val($(this).parent().parent().children().first().next().next().next().next().next().next().attr('data-fk_provincia'));
@@ -74,13 +84,13 @@ $(function () {
                 }, 200);
                 
                 setTimeout(()=>{
-                    $("#combo").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().attr('data-fk_localidad'));
+                    $("#comboLocalidad").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().attr('data-fk_localidad'));
                 },300);
                 
-                $("#calle").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
-                $("#numero").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().next().html());
+                $("#calle_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
+                $("#numero_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().next().html());
                 $("#tituloModal").html("Editar Profesor");
-                $("#modal").modal({show: true})
+                $("#modal").modal({show: true});
             });
 
             $("#cuerpoTabla").on('click', '.eliminar', function () {
@@ -239,7 +249,7 @@ $(function () {
                             '<td>' + object.apellido_profesor + '</td>' +
                             '<td>' + object.dni_profesor + '</td>' +
                             '<td data-fk_titulo="'+ object.fk_titulo +'">' + object.nombre_titulo + '</td>' +
-                            '<td data-fk_posgrado="' + object.fk_posgrado +'">' + object.nombre_postgrado + '</td>' + 
+                            '<td data-fk_posgrado="' + object.fk_postgrado +'">' + object.nombre_postgrado + '</td>' + 
                             '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
                             '<td data-fk_provincia="' + object.id_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
@@ -279,22 +289,23 @@ $(function () {
         app.modificar = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=profesor";
             var datosEnviar = $("#form").serialize();
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: datosEnviar,
-                success: function (datosRecibidos) {
-                    $("#modal").modal('hide');
-                    app.actualizarTabla(datosRecibidos, $("#id").val());
-                    //app.buscar();
-                    //app.listarCombos();
-                    app.alertModif();
-                },
-                error: function (datosRecibidos) {
-                    alert("Error en guardar");
-                    alert(datosRecibidos);
-                }
-            });
+            alert(datosEnviar);
+//            $.ajax({
+//                url: url,
+//                type: 'POST',
+//                data: datosEnviar,
+//                success: function (datosRecibidos) {
+//                    $("#modal").modal('hide');
+//                    app.actualizarTabla(datosRecibidos, $("#id").val());
+//                    //app.buscar();
+//                    //app.listarCombos();
+//                    app.alertModif();
+//                },
+//                error: function (datosRecibidos) {
+//                    alert("Error en guardar");
+//                    alert(datosRecibidos);
+//                }
+//            });
         };
 
         app.actualizarTabla = function (object, id) {
@@ -304,7 +315,7 @@ $(function () {
                             '<td>' + object.apellido_profesor + '</td>' +
                             '<td>' + object.dni_profesor + '</td>' +
                             '<td data-fk_titulo="'+ object.fk_titulo +'">' + object.nombre_titulo + '</td>' +
-                            '<td data-fk_posgrado="' + object.fk_posgrado +'">' + object.nombre_postgrado + '</td>' + 
+                            '<td data-fk_posgrado="' + object.fk_postgrado +'">' + object.nombre_postgrado + '</td>' + 
                             '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
                             '<td data-fk_provincia="' + object.id_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
