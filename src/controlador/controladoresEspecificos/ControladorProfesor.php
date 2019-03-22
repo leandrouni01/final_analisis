@@ -49,7 +49,7 @@ class ControladorProfesor extends ControladorGeneral {
     public function buscar($datos) {
         try {
             $parametros = array('valor' => $datos['textBusca']);
-            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCAR_PROFESOR);
+            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCADOR_PROFESOR);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia($query);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
@@ -99,6 +99,17 @@ class ControladorProfesor extends ControladorGeneral {
         try {
             $parametros = array("fk_provincia" => $datos["id_provincia"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_LOC, $parametros);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
+    public function buscarPostgrados($datos) {
+        try {
+            $parametros = array("fk_titulo" => $datos["id_titulo"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_POST, $parametros);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
         } catch (Exception $e) {

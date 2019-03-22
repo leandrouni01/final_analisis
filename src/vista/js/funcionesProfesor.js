@@ -11,19 +11,17 @@ $(function () {
             $("#agregar").on('click', function (event) {
                 app.limpiarModal();
                 
+                app.listarCombos('Titulo');//asigno valor titulo para poder listar combos titulos
+                
                 app.listarCombos('Pais');//asigno valor 'pais' para poder listar combos en cascada (pais , provincia, localidad)
-                
-                setTimeout(() => { 
-                    app.listarCombos('Titulo');//asigno valor titulo para poder listar combos titulos
-                }, 150); //la funcion se ejecutara despues de 100milesimas de segundos.
-                
-                setTimeout(() => {
-                    app.listarCombos('Postgrado');//asigno valor posgrado para listar combos posgrado
-                }, 200);//la funcion se ejecutara despues de 150milesimas de segundos.
                 
                 $("#id").val(0);
                 $("#tituloModal").html("Nuevo Profesor");
                 $("#modal").modal({show: true});
+            });
+            
+            $("#comboTitulo").change(function(){ //le asigno el metodo change,  cuando cambie de valor el comboTitulo se lista el comboPostgrado
+               app.listarCombos('Postgrado');
             });
             
             $("#comboPais").change(function(){ //le asigno el metodo change,  cuando cambie de valor el comboPais se lista el comboProvincia
@@ -58,20 +56,21 @@ $(function () {
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 app.limpiarModal();
-                $("#form").bootstrapValidator('resetForm', true);
                 $("#id").val($(this).attr("data-id"));
                 $("#id_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().attr('data-fk_domicilio'));
                 $("#nombre_profesor").val($(this).parent().parent().children().html());
                 $("#apellido_profesor").val($(this).parent().parent().children().first().next().html());
                 $("#dni_profesor").val($(this).parent().parent().children().first().next().next().html());
+                
                 app.listarCombos('Titulo');
                 setTimeout( () => {
                     $("#comboTitulo").val($(this).parent().parent().children().first().next().next().next().attr('data-fk_titulo'));
+                    $("#comboTitulo").change();
                 },100);
-                app.listarCombos('Postgrado');
+                
                 setTimeout( () => {
                      $("#comboPostgrado").val($(this).parent().parent().children().first().next().next().next().next().attr('data-fk_postgrado'));
-                },100);
+                },150);
                 
                 app.listarCombos('Pais');
                 setTimeout( () => {
@@ -104,16 +103,18 @@ $(function () {
                 $("#apellido_profesor").val($(this).parent().parent().children().first().next().html());
                 $("#dni_profesor").prop('disabled', true);
                 $("#dni_profesor").val($(this).parent().parent().children().first().next().next().html());
+                
                 app.listarCombos('Titulo');
                 setTimeout( () => {
                     $("#comboTitulo").prop('disabled', true);
                     $("#comboTitulo").val($(this).parent().parent().children().first().next().next().next().attr('data-fk_titulo'));
+                    $("#comboTitulo").change();
                 },100);
-                app.listarCombos('Postgrado');
+                
                 setTimeout( () => {
                     $("#comboPostgrado").prop('disabled', true);
                     $("#comboPostgrado").val($(this).parent().parent().children().first().next().next().next().next().attr('data-fk_postgrado'));
-                },100);
+                },150);
                 
                 app.listarCombos('Pais');
                 setTimeout( () => {
@@ -242,7 +243,10 @@ $(function () {
                     break;
                     
                 case 'Postgrado':
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Postgrado";
+                    var id_titulo = $("#comboTitulo").find(':selected').val();
+                    var datosEnviar = {id_titulo: id_titulo};
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarPostgrados&Formulario=Profesor";
+                    ajaxObj.data = datosEnviar;
                     break;
 
                 default:
@@ -430,7 +434,7 @@ $(function () {
             $("#apellido_profesor").val('');
             $("#dni_profesor").val('');
             $("#comboTitulo").html('');
-            $("#comboPosgrado").html('');
+            $("#comboPostgrado").html('');
             $("#comboPais").html('');
             $("#comboProvincia").html('');
             $("#comboLocalidad").html('');
