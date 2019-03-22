@@ -363,7 +363,7 @@ $(function () {
                         '<td data-fk_pais="' + $("#comboPais").find(':selected').val() + '">' + $("#comboPais").find(':selected').text() + '</td>' +
                         '<td data-fk_provincia="' + $("#comboProvincia").find(':selected').val() + '">' + $("#comboProvincia").find(':selected').text() + '</td>' +
                         '<td data-fk_localidad="' + $("#combo").find(':selected').val() + '">' + $("#combo").find(':selected').text() + '</td>' +
-                        '<td>' + $("#calle_domicilio").val() + '</td>' +
+                        '<td data-fk_domicilio="' + $("#id_domicilio").val() + '">' + $("#calle_domicilio").val() + '</td>' +
                         '<td>' + $("#numero_domicilio").val() + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
