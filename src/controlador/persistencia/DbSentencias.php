@@ -8,6 +8,7 @@ interface DbSentencias {
     const BUSCAR_ULTIMO_PAIS = "SELECT nombre_pais,id_pais FROM pais WHERE estado=1 AND id_pais=(SELECT MAX(id_pais) FROM pais);";
     const ACTUALIZAR_PAIS = "UPDATE pais SET nombre_pais= ? WHERE id_pais= ?;";
     const ELIMINAR_PAIS = "UPDATE pais SET estado=0 WHERE id_pais=?;";
+    const BUSCAR_PAIS = "SELECT nombre_pais,id_pais FROM pais WHERE estado=1 AND nombre_pais LIKE '?%' ORDER BY nombre_pais;";
     //Provincia
     const LISTAR_PROVINCIAS = "SELECT id_provincia,nombre_provincia,fk_pais,nombre_pais FROM provincia INNER JOIN pais ON (fk_pais = id_pais) WHERE provincia.estado=1 ORDER BY nombre_pais,nombre_provincia;";
     const INSERTAR_PROVINCIA = "INSERT INTO provincia(nombre_provincia,fk_pais) VALUES (?,?);";
