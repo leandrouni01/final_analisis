@@ -65,7 +65,7 @@ class ControladorProfesor extends ControladorGeneral {
             $controlador= new ControladorDomicilio();
             $controlador->eliminar($parametros);
             
-            $parametros= array("id_profesor"=>$datos["id_profesor"]);
+            $parametros= array("id_profesor"=>$datos["id"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_PROFESOR,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {

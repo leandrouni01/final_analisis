@@ -57,6 +57,7 @@ $(function () {
             });
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
+                app.limpiarModal();
                 $("#form").bootstrapValidator('resetForm', true);
                 $("#id").val($(this).attr("data-id"));
                 $("#id_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().attr('data-fk_domicilio'));
@@ -94,7 +95,57 @@ $(function () {
             });
 
             $("#cuerpoTabla").on('click', '.eliminar', function () {
-                app.eliminar($(this).attr("data-id"));
+                app.limpiarModal();
+                $("#id").val($(this).attr("data-id"));
+                $("#id_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().attr('data-fk_domicilio'));
+                $("#nombre_profesor").prop('disabled', true);
+                $("#nombre_profesor").val($(this).parent().parent().children().html());
+                $("#apellido_profesor").prop('disabled', true);
+                $("#apellido_profesor").val($(this).parent().parent().children().first().next().html());
+                $("#dni_profesor").prop('disabled', true);
+                $("#dni_profesor").val($(this).parent().parent().children().first().next().next().html());
+                app.listarCombos('Titulo');
+                setTimeout( () => {
+                    $("#comboTitulo").prop('disabled', true);
+                    $("#comboTitulo").val($(this).parent().parent().children().first().next().next().next().attr('data-fk_titulo'));
+                },100);
+                app.listarCombos('Postgrado');
+                setTimeout( () => {
+                    $("#comboPostgrado").prop('disabled', true);
+                    $("#comboPostgrado").val($(this).parent().parent().children().first().next().next().next().next().attr('data-fk_postgrado'));
+                },100);
+                
+                app.listarCombos('Pais');
+                setTimeout( () => {
+                    $("#comboPais").prop('disabled', true);
+                    $("#comboPais").val($(this).parent().parent().children().first().next().next().next().next().next().attr('data-fk_pais'));
+                    $("#comboPais").change();
+                },100);
+                
+                setTimeout(()=>{
+                    $("#comboProvincia").prop('disabled', true);
+                    $("#comboProvincia").val($(this).parent().parent().children().first().next().next().next().next().next().next().attr('data-fk_provincia'));
+                    $("#comboProvincia").change();
+                }, 200);
+                
+                setTimeout(()=>{
+                    $("#comboLocalidad").prop('disabled', true);
+                    $("#comboLocalidad").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().attr('data-fk_localidad'));
+                },300);
+                
+                $("#calle_domicilio").prop('disabled', true);
+                $("#calle_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
+                $("#numero_domicilio").prop('disabled', true);
+                $("#numero_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().next().html());
+                $("#tituloModal").html("Eliminar Profesor");
+                $("#guardar").hide();
+                $("#borrar").removeClass('hidden');
+                $("#modal").modal({show: true});
+            });
+            
+            $("#borrar").on('click', function () {
+               app.eliminar($("#id").val(), $("#id_domicilio").val());
+                $("#modal").modal('hide');
             });
 
             $("#salirModal").on('click', function (e) {
@@ -296,8 +347,6 @@ $(function () {
                 success: function (datosRecibidos) {
                     $("#modal").modal('hide');
                     app.actualizarTabla(datosRecibidos, $("#id").val());
-                    //app.buscar();
-                    //app.listarCombos();
                     app.alertModif();
                 },
                 error: function (datosRecibidos) {
@@ -348,9 +397,11 @@ $(function () {
             }
         };
 
-        app.eliminar = function (id) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=profesor";
-            var datosEnviar = {id: id};
+        app.eliminar = function (id, id_domicilio) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Profesor";
+            var datosEnviar = {id: id, id_domicilio: id_domicilio};
+            //alert(datosEnviar.id);
+            //alert(datosEnviar.id_domicilio);
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -370,6 +421,9 @@ $(function () {
         };
 
         app.limpiarModal = function () {//funcion para limpiar el modal
+            $("#guardar").show();
+            $("#borrar").addClass('hidden');
+            app.habilitarCampos();
             $("#id").val(0);
             $("#id_domicilio").val();
             $("#nombre_profesor").val('');
@@ -383,6 +437,19 @@ $(function () {
             $("#calle_domicilio").val('');
             $("#numero_domicilio").val('');
             $("#form").bootstrapValidator('resetForm', true);
+        };
+
+        app.habilitarCampos = () => {
+            $("#nombre_profesor").prop('disabled', false);
+            $("#apellido_profesor").prop('disabled', false);
+            $("#dni_profesor").prop('disabled', false);
+            $("#comboTitulo").prop('disabled', false);
+            $("#comboPostgrado").prop('disabled', false);
+            $("#comboPais").prop('disabled', false);
+            $("#comboProvincia").prop('disabled', false);
+            $("#comboLocalidad").prop('disabled', false);
+            $("#calle_domicilio").prop('disabled', false);
+            $("#numero_domicilio").prop('disabled', false);
         };
 
         app.init();
