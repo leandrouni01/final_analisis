@@ -59,7 +59,7 @@ $(function () {
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $("#form").bootstrapValidator('resetForm', true);
                 $("#id").val($(this).attr("data-id"));
-                $("id_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().attr('fk_domicilio'));
+                $("#id_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().attr('data-fk_domicilio'));
                 $("#nombre_profesor").val($(this).parent().parent().children().html());
                 $("#apellido_profesor").val($(this).parent().parent().children().first().next().html());
                 $("#dni_profesor").val($(this).parent().parent().children().first().next().next().html());
@@ -256,8 +256,8 @@ $(function () {
                             '<td data-fk_domicilio="' + object.fk_domicilio + '">' + object.calle_domicilio + '</td>' +
                             '<td>' + object.numero_domicilio + '</td>' +
                             '<td>' +
-                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_profesor + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_profesor + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                             '</td>' +
                             '</tr>';
                 });
@@ -289,23 +289,23 @@ $(function () {
         app.modificar = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=profesor";
             var datosEnviar = $("#form").serialize();
-            alert(datosEnviar);
-//            $.ajax({
-//                url: url,
-//                type: 'POST',
-//                data: datosEnviar,
-//                success: function (datosRecibidos) {
-//                    $("#modal").modal('hide');
-//                    app.actualizarTabla(datosRecibidos, $("#id").val());
-//                    //app.buscar();
-//                    //app.listarCombos();
-//                    app.alertModif();
-//                },
-//                error: function (datosRecibidos) {
-//                    alert("Error en guardar");
-//                    alert(datosRecibidos);
-//                }
-//            });
+            //alert(datosEnviar);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: datosEnviar,
+                success: function (datosRecibidos) {
+                    $("#modal").modal('hide');
+                    app.actualizarTabla(datosRecibidos, $("#id").val());
+                    //app.buscar();
+                    //app.listarCombos();
+                    app.alertModif();
+                },
+                error: function (datosRecibidos) {
+                    alert("Error en guardar");
+                    alert(datosRecibidos);
+                }
+            });
         };
 
         app.actualizarTabla = function (object, id) {
@@ -322,8 +322,8 @@ $(function () {
                             '<td data-fk_domicilio="' + object.fk_domicilio + '">' + object.calle_domicilio + '</td>' +
                             '<td>' + object.numero_domicilio + '</td>' +
                             '<td>' +
-                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_profesor + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_profesor + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                             '</td>' +
                             '</tr>';
                 $("#cuerpoTabla").append(html);
@@ -331,16 +331,16 @@ $(function () {
             } else {
                 //Modifico un Pais existente, busco la fila.
                 var fila = $("#cuerpoTabla").find("[data-id='" + id + "']").parent().parent();
-                var html = '<td>' + $("#nombre").val() + '</td>' +
-                        '<td>' + $("#apellido").val() + '</td>' +
-                        '<td>' + $("#dni").val() + '</td>' +
+                var html = '<td>' + $("#nombre_profesor").val() + '</td>' +
+                        '<td>' + $("#apellido_profesor").val() + '</td>' +
+                        '<td>' + $("#dni_profesor").val() + '</td>' +
                         '<td data-fk_titulo="'+ $("#comboTitulo").find(':selected').val() +'">' + $("#comboTitulo").find(':selected').text() + '</td>' +
-                        '<td data-fk_posgrado="'+ $("#comboPosgrado").find(':selected').val() +'">' + $("#comboPosgrado").find(':selected').text() + '</td>' +
+                        '<td data-fk_postgrado="'+ $("#comboPostgrado").find(':selected').val() +'">' + $("#comboPostgrado").find(':selected').text() + '</td>' +
                         '<td data-fk_pais="'+ $("#comboPais").find(':selected').val() +'">' + $("#comboPais").find(':selected').text() + '</td>' +
                         '<td data-fk_provincia="'+ $("#comboProvincia").find(':selected').val() +'">' + $("#comboProvincia").find(':selected').text() + '</td>' +
-                        '<td data-fk_localidad="'+ $("#combo").find(':selected').val() +'">' + $("#combo").find(':selected').text() + '</td>' +
-                        '<td>' + $("#calle").val() + '</td>' +
-                        '<td>' + $("#numero").val() + '</td>' +
+                        '<td data-fk_localidad="'+ $("#comboLocalidad").find(':selected').val() +'">' + $("#comboLocalidad").find(':selected').text() + '</td>' +
+                        '<td data-fk_domicilio="'+ $("#calle_domicilio").attr('data-fk_domicilio') +'">' + $("#calle_domicilio").val() + '</td>' +
+                        '<td>' + $("#numero_domicilio").val() + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + id + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                         '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + id + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 

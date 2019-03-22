@@ -124,7 +124,7 @@ class ControladorProfesor extends ControladorGeneral {
                 "fk_postgrado" => $datos["fk_postgrado"],
                 "fk_domicilio" => $datos["id_domicilio"],
                 "dni_profesor" => $datos["dni_profesor"],
-                "id_profesor" => $datos["id_profesor"]
+                "id_profesor" => $datos["id"]
             );
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_PROFESOR, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
