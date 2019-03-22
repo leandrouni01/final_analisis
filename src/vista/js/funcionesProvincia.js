@@ -29,6 +29,15 @@ $(function () {
                 }
             });
 
+            $("#textBusca").keyup(function (e) {
+                var parametros = $(this).val();
+                if (parametros == "") {
+                    app.buscarProvincias();
+                } else {
+                    app.busqueda(parametros);
+                }
+            });
+
             $("#cuerpoTablaProvincia").on('click', '.editar', function () {
                 $("#tituloModal").html("Editar provincia");
                 $("#id").val($(this).attr("data-id_provincia"));
@@ -48,11 +57,11 @@ $(function () {
                 $("#eliminar").show();
                 $("#submit").hide();
             });
-            
-            $("#eliminar").on('click',function(){
+
+            $("#eliminar").on('click', function () {
                 app.eliminarProvincia();
             });
-            
+
             $("#formProvincia").bootstrapValidator({
                 excluded: []
             });
@@ -165,9 +174,16 @@ $(function () {
             })
         };
         app.rellenarTabla = function (datosProvincia) {
-            var html = "";
-            $.each(datosProvincia, function (clave, provincia) {
-                html += "<tr>\n\
+            if (datosProvincia == '') {
+                var alerta = '<div class="alert alert-danger" role="alert">' +
+                        '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error de búsqueda!' + '</strong>' + ' No existen registros con los valores ingresados.' +
+                        '</div>';
+                $("#cuerpoTablaProvincia").html('');
+                $("#alert").html(alerta);
+            } else {
+                var html = "";
+                $.each(datosProvincia, function (clave, provincia) {
+                    html += "<tr>\n\
                              <td>" + provincia.nombre_provincia + "</td>\n\
                              <td data-fk_pais='" + provincia.fk_pais + "'>" + provincia.nombre_pais + "</td>\n\
                              <td>\n\
@@ -175,8 +191,11 @@ $(function () {
                                  <a class='btn btn-sm btn-danger pull-right eliminar' data-id_provincia='" + provincia.id_provincia + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                              </td>\n\
                         </tr>";
-            });
-            $("#cuerpoTablaProvincia").html(html);
+                });
+                $("#alert").html('');
+                $("#cuerpoTablaProvincia").html(html);
+            }
+
         };
         app.buscarPaises = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Pais";
@@ -201,13 +220,29 @@ $(function () {
             $("#selectPais").html(html);
         };
 
+        app.busqueda = function (parametros) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=Provincia";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: {textBusca: parametros},
+                success: function (data) {
+                    app.rellenarTabla(data);
+                },
+                error: function () {
+                    alert('error busqueda');
+                }
+            });
+        };
+
         app.limpiarModal = function () {
             $("#nombreProvincia").val("");
             $("#selectPais").val('');
             $("#fieldsetProvincia").removeAttr("disabled");
             $("#submit").show();
             $("#eliminar").hide();
-            $("#formProvincia").bootstrapValidator("resetForm",true);
+            $("#formProvincia").bootstrapValidator("resetForm", true);
         };
 
         app.init();

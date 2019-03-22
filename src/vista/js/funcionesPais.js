@@ -14,7 +14,7 @@ $(function () {
                 $("#tituloModal").html("Agregar Pais");
                 $("#modalPais").modal({show: true});
             });
-            $("#formPais").on('success.form.bv' , function (event) { //Función que se ejecuta una vez que el formulario está validado.
+            $("#formPais").on('success.form.bv', function (event) { //Función que se ejecuta una vez que el formulario está validado.
 
                 // Evitar el envío del form
                 event.preventDefault();
@@ -26,9 +26,18 @@ $(function () {
                     app.editarPais();
                 }
             });
-            
-            $("#eliminar").on('click',function(){
-               app.eliminarPais(); 
+
+            $("#textBusca").keyup(function (e) {
+                var parametros = $(this).val();
+                if (parametros == "") {
+                    app.buscarPais();
+                } else {
+                    app.busqueda(parametros);
+                }
+            });
+
+            $("#eliminar").on('click', function () {
+                app.eliminarPais();
             });
 
             $("#cuerpoTablaPais").on('click', '.editar', function (event) {
@@ -38,7 +47,7 @@ $(function () {
                 $("#modalPais").modal({show: true});
                 //alert($(this).attr("data-id_pais"));
             });
-            
+
             $("#cuerpoTablaPais").on('click', '.eliminar', function (event) {
                 $("#id").val($(this).attr("data-id_pais"));
                 $("#nombrePais").val($(this).parent().parent().children().first().html());
@@ -52,7 +61,7 @@ $(function () {
             $("#modalPais").on('hide.bs.modal', function () {
                 app.limpiarModal();
             });
-            
+
             $("#formPais").bootstrapValidator({
                 excluded: []
             });
@@ -76,16 +85,25 @@ $(function () {
 
         app.rellenarTabla = function (datosPais) {
             var html = "";
-            $.each(datosPais, function (clave, pais) {
-                html += "<tr>\n\
+            if (datosPais == '') {
+                var alerta = '<div class="alert alert-danger" role="alert">' +
+                        '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error de búsqueda!' + '</strong>' + ' No existen registros con los valores ingresados.' +
+                        '</div>';
+                $("#cuerpoTablaPais").html('');
+                $("#alert").html(alerta);
+            } else {
+                $.each(datosPais, function (clave, pais) {
+                    html += "<tr>\n\
                             <td>" + pais.nombre_pais + "</td>\n\
                             <td>\n\
                                 <a class='btn btn-warning pull-left editar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
                                 <a class='btn btn-danger pull-right eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                             </td>\
                          </tr>";
-            });
-            $("#cuerpoTablaPais").html(html);
+                });
+                $("#cuerpoTablaPais").html(html);
+                $("#alert").html('');
+            }
         };
 
         app.guardarPais = function () {
@@ -153,7 +171,7 @@ $(function () {
                             <td>" + pais.nombre_pais + "</td>\n\
                             <td>\n\
                                 <a class='btn btn-warning pull-left editar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
-\n\                             <a class='btn btn-danger pull-right eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
+                                <a class='btn btn-danger pull-right eliminar' data-id_pais='" + pais.id_pais + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                             </td>\
                          </tr>";
                 $("#cuerpoTablaPais").append(html);
@@ -163,11 +181,28 @@ $(function () {
                 var html = "<td>" + $("#nombrePais").val() + "</td>\n\
                             <td>\n\
                                 <a class='btn btn-warning pull-left editar' data-id_pais='" + id + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
-\n\                             <a  class='btn btn-danger pull-right eliminar' data-id_pais='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
+                                <a  class='btn btn-danger pull-right eliminar' data-id_pais='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar </a>\n\
                             </td>";
                 fila.html(html);
             }
         };
+
+        app.busqueda = function (parametros) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=Pais";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: {textBusca: parametros},
+                success: function (data) {
+                    app.rellenarTabla(data);
+                },
+                error: function () {
+                    alert('error busqueda');
+                }
+            });
+        };
+
         app.limpiarModal = function () {
             $("#id").val(0);
             $("#nombrePais").val("");
