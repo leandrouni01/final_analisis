@@ -69,7 +69,7 @@ $(function () {
                 },100);
                 app.listarCombos('Postgrado');
                 setTimeout( () => {
-                     $("#comboPostgrado").val($(this).parent().parent().children().first().next().next().next().next().attr('data-fk_posgrado'));
+                     $("#comboPostgrado").val($(this).parent().parent().children().first().next().next().next().next().attr('data-fk_postgrado'));
                 },100);
                 
                 app.listarCombos('Pais');
@@ -225,7 +225,6 @@ $(function () {
                 dataType: 'json',
                 success: function (datosRecibidos) {
                     app.rellenarTabla(datosRecibidos);
-
                 },
                 error: function () {
                     alert('error buscar domicilio');
@@ -249,7 +248,7 @@ $(function () {
                             '<td>' + object.apellido_profesor + '</td>' +
                             '<td>' + object.dni_profesor + '</td>' +
                             '<td data-fk_titulo="'+ object.fk_titulo +'">' + object.nombre_titulo + '</td>' +
-                            '<td data-fk_posgrado="' + object.fk_postgrado +'">' + object.nombre_postgrado + '</td>' + 
+                            '<td data-fk_postgrado="' + object.fk_postgrado +'">' + object.nombre_postgrado + '</td>' + 
                             '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
                             '<td data-fk_provincia="' + object.id_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
@@ -315,7 +314,7 @@ $(function () {
                             '<td>' + object.apellido_profesor + '</td>' +
                             '<td>' + object.dni_profesor + '</td>' +
                             '<td data-fk_titulo="'+ object.fk_titulo +'">' + object.nombre_titulo + '</td>' +
-                            '<td data-fk_posgrado="' + object.fk_postgrado +'">' + object.nombre_postgrado + '</td>' + 
+                            '<td data-fk_postgrado="' + object.fk_postgrado +'">' + object.nombre_postgrado + '</td>' + 
                             '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
                             '<td data-fk_provincia="' + object.id_provincia + '">' + object.nombre_provincia + '</td>' +
                             '<td data-fk_localidad="' + object.fk_localidad + '">' + object.nombre_localidad + '</td>' +
@@ -339,7 +338,7 @@ $(function () {
                         '<td data-fk_pais="'+ $("#comboPais").find(':selected').val() +'">' + $("#comboPais").find(':selected').text() + '</td>' +
                         '<td data-fk_provincia="'+ $("#comboProvincia").find(':selected').val() +'">' + $("#comboProvincia").find(':selected').text() + '</td>' +
                         '<td data-fk_localidad="'+ $("#comboLocalidad").find(':selected').val() +'">' + $("#comboLocalidad").find(':selected').text() + '</td>' +
-                        '<td data-fk_domicilio="'+ $("#calle_domicilio").attr('data-fk_domicilio') +'">' + $("#calle_domicilio").val() + '</td>' +
+                        '<td data-fk_domicilio="'+ $("#id_domicilio").val() +'">' + $("#calle_domicilio").val() + '</td>' +
                         '<td>' + $("#numero_domicilio").val() + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + id + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
@@ -372,16 +371,17 @@ $(function () {
 
         app.limpiarModal = function () {//funcion para limpiar el modal
             $("#id").val(0);
-            $("#nombre").val('');
-            $("#apellido").val('');
-            $("#dni").val('');
+            $("#id_domicilio").val();
+            $("#nombre_profesor").val('');
+            $("#apellido_profesor").val('');
+            $("#dni_profesor").val('');
             $("#comboTitulo").html('');
             $("#comboPosgrado").html('');
             $("#comboPais").html('');
             $("#comboProvincia").html('');
-            $("#combo").html('');
-            $("#calle").val('');
-            $("#numero").val('');
+            $("#comboLocalidad").html('');
+            $("#calle_domicilio").val('');
+            $("#numero_domicilio").val('');
             $("#form").bootstrapValidator('resetForm', true);
         };
 
