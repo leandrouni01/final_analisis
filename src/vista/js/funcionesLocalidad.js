@@ -33,6 +33,15 @@ $(function () {
                 app.eliminarLocalidad();
             });
 
+            $("#textBusca").keyup(function (e) {
+                var parametros = $(this).val();
+                if (parametros == "") {
+                    app.buscarLocalidades();
+                } else {
+                    app.busqueda(parametros);
+                }
+            });
+
             $("#cuerpoTablaLocalidades").on('click', '.editar', function () {
                 $("#tituloModal").html("Editar localidad");
                 $("#id").val($(this).attr("data-id_localidad"));
@@ -189,10 +198,33 @@ $(function () {
             });
         };
 
+        app.busqueda = function (parametros) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=Localidad";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: {textBusca: parametros},
+                success: function (data) {
+                    app.rellenarTabla(data);
+                },
+                error: function () {
+                    alert('error busqueda');
+                }
+            });
+        };
+
         app.rellenarTabla = function (datosLocalidad) {
-            var html = "";
-            $.each(datosLocalidad, function (clave, localidad) {
-                html += "<tr>\n\
+            if (datosLocalidad == '') {
+                var alerta = '<div class="alert alert-danger" role="alert">' +
+                        '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error de búsqueda!' + '</strong>' + ' No existen registros con los valores ingresados.' +
+                        '</div>';
+                $("#cuerpoTablaLocalidades").html('');
+                $("#alert").html(alerta);
+            } else {
+                var html = "";
+                $.each(datosLocalidad, function (clave, localidad) {
+                    html += "<tr>\n\
                             <td>" + localidad.nombre_localidad + "</td>\n\
                             <td data-id_pais='" + localidad.fk_pais + "'>" + localidad.nombre_pais + "</td>\n\
                             <td data-id_provincia='" + localidad.fk_provincia + "'>" + localidad.nombre_provincia + "</td>\n\
@@ -201,8 +233,10 @@ $(function () {
                                 <a class='btn btn-sm btn-danger pull-right eliminar' data-id_localidad='" + localidad.id_localidad + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                             </td>\n\
                         </tr>";
-            });
-            $("#cuerpoTablaLocalidades").html(html);
+                });
+                $("#alert").html('');
+                $("#cuerpoTablaLocalidades").html(html);
+            }
         };
 
         app.buscarPaises = function () {

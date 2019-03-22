@@ -17,12 +17,13 @@ interface DbSentencias {
     const ELIMINAR_PROVINCIA = "UPDATE provincia SET estado=0 WHERE id_provincia=?;";
     const BUSCAR_PROVINCIA= "SELECT id_provincia,nombre_provincia,fk_pais,nombre_pais FROM provincia INNER JOIN pais ON (fk_pais = id_pais) WHERE provincia.estado=1 AND nombre_provincia LIKE '?%' OR nombre_pais LIKE '?%' ORDER BY nombre_pais,nombre_provincia;";
     //Localidad
-    const LISTAR_LOCALIDADES= "SELECT id_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM localidad INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE localidad.estado=1 ORDER BY nombre_provincia;";
+    const LISTAR_LOCALIDADES= "SELECT id_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM localidad INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE localidad.estado=1 ORDER BY nombre_localidad,nombre_provincia,nombre_pais;";
     const LISTAR_PROV= "SELECT id_provincia,nombre_provincia FROM provincia WHERE fk_pais=?;";
     const INSERTAR_LOCALIDAD = "INSERT INTO localidad(nombre_localidad,fk_provincia) VALUES (?,?);";
     const BUSCAR_ULTIMA_LOCALIDAD = "SELECT id_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM localidad INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE localidad.estado=1 AND id_localidad=(SELECT MAX(id_localidad) FROM localidad);";
     const ACTUALIZAR_LOCALIDAD = "UPDATE localidad SET fk_provincia=?,nombre_localidad=? WHERE id_localidad=?;";
     const ELIMINAR_LOCALIDAD = "UPDATE localidad SET estado=0 WHERE id_localidad=?;";
+    const BUSCAR_LOCALIDAD = "SELECT id_localidad,nombre_localidad,fk_provincia,nombre_provincia,fk_pais,nombre_pais FROM localidad INNER JOIN provincia ON (fk_provincia=id_provincia) INNER JOIN pais ON (fk_pais=id_pais) WHERE localidad.estado=1 AND nombre_localidad LIKE '?%' OR nombre_provincia LIKE '?%' OR nombre_pais LIKE '?%' ORDER BY nombre_localidad,nombre_provincia,nombre_pais;";
     //Domicilio
     const INSERTAR_DOMICILIO = "INSERT INTO domicilio(calle_domicilio,numero_domicilio,fk_localidad) VALUES (?,?,?);";
     const ACTUALIZAR_DOMICILIO = "UPDATE domicilio SET calle_domicilio=?,numero_domicilio=?,fk_localidad=? WHERE id_domicilio=?;";
