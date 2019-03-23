@@ -1,8 +1,6 @@
 $(function () {
     var TallerAvanzada = {};
 
-    var id = "";
-    var duracion = "";
 
     (function (app) {
         app.init = function () {
@@ -272,6 +270,7 @@ $(function () {
                 success: function (datosRecibidos) {
                     app.actualizarTabla(datosRecibidos, $("#id").val());
                     $("#modalMateria").modal('hide');
+                    app.alertModif();
                 },
                 error: function (datosRecibidos) {
                     alert("Error en guardar materia");
@@ -296,12 +295,12 @@ $(function () {
                         '</tr>';
                 $("#cuerpoTabla").append(html);
             } else {
-
+                
                 var fila = $("#cuerpoTabla").find("button[data-id_materia='" + id + "']").parent().parent();
-                var html = '<td data-id_fk_plan="' + $("#combo").val() + '">' + $("#combo").find(':selected').html() + '</td>' +
-                        '<td>' + $('#anio').find(':selected').val() + '</td>' +
+                var html = '<td data-fk_plan="' + $("#combo").val() + '">' + $("#combo").find(':selected').html() + '</td>' +
+                        '<td>' + $("#semestre").find(":selected").val() + '</td>' +
                         '<td>' + $('#nombre').val() + '</td>' +
-                        '<td>' + $('#semestre').val() + '</td>' +
+                        '<td>' + $('#comboDuracion').val() + '</td>' +
                         '<td>' + $('#carga_horaria').val() + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
@@ -320,6 +319,7 @@ $(function () {
                 data: datosEnviar,
                 success: function (datosRecibidos) {
                     app.borrarFila(id);
+                    app.alertDelete();
                 },
                 error: function (datosRecibidos) {
                     alert('Error al eliminar');
@@ -329,6 +329,29 @@ $(function () {
 
         app.borrarFila = function (id) {//funcion para borrar una fila de la tabla carrera
             var fila = $("#cuerpoTabla").find("[data-id_materia='" + id + "']").parent().parent().remove();
+        };
+
+        app.alertModif = function () {
+            var alerta = '<div class="alert alert-warning" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-saved"></span>' + ' ¡Actualizado con exito!' + '</strong>' + ' Se modificó un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+
+        app.alertDelete = function () {
+            var alerta = '<div class="alert alert-danger" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-remove"></span>' + ' ¡Eliminado con exito!' + '</strong>' + ' Se elimino un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+
+        app.showAlert = function () {
+            $("#alerta").fadeIn();
+            setTimeout(function () {
+                $("#alerta").fadeOut();
+            }, 1500);
         };
 
         app.limpiarModal = function () {//funcion para limpiar el modal
