@@ -118,6 +118,7 @@ $(function () {
                 success: function (datosRecibidos) {
                     app.actualizarTabla(datosRecibidos, $("#id").val());
                     $("#modalPais").modal('hide');
+                    app.alertSave();
                 },
                 error: function (datosRecibidos) {
                     alert("Error en guardar pais");
@@ -136,6 +137,7 @@ $(function () {
                     //alert("editar");
                     app.actualizarTabla(datosRecibidos, $("#id").val());
                     $("#modalPais").modal('hide');
+                    app.alertModif();
                 },
                 error: function (datosRecibidos) {
                     alert("Error en editar pais");
@@ -155,6 +157,7 @@ $(function () {
                     //alert("entré");
                     app.borrarFila($("#id").val());
                     $("#modalPais").modal('hide');
+                    app.alertDelete();
                 },
                 error: function (datosRecibidos) {
                     alert("Error al eliminar pais");
@@ -185,6 +188,37 @@ $(function () {
                             </td>";
                 fila.html(html);
             }
+        };
+        
+        app.alertSave = function () {
+            var alerta = '<div class="alert alert-success" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-saved"></span>' + ' ¡Agregado con exito!' + '</strong>' + ' Se cargo un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+
+        app.alertModif = function () {
+            var alerta = '<div class="alert alert-warning" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-saved"></span>' + ' ¡Actualizado con exito!' + '</strong>' + ' Se modificó un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+
+        app.alertDelete = function () {
+            var alerta = '<div class="alert alert-danger" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-remove"></span>' + ' ¡Eliminado con exito!' + '</strong>' + ' Se elimino un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+        
+        app.showAlert = function () {
+            $("#alerta").fadeIn();
+            setTimeout(function () {
+                $("#alerta").fadeOut();
+            }, 1500);
         };
 
         app.busqueda = function (parametros) {
