@@ -39,13 +39,21 @@ class ControladorMateria extends ControladorGeneral {
     }
 
     public function buscar($datos) {
-        
+        try {
+            $parametros = array("valor" => $datos["textBusca"]);
+            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCAR_MATERIA);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia($query);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
     }
-    
-    public function buscarPlan($datos){
-        try{
-            $parametros= array("id_plan"=> $datos["id"]);
-            $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_PLAN,$parametros);
+
+    public function buscarPlan($datos) {
+        try {
+            $parametros = array("id_plan" => $datos["id"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_PLAN, $parametros);
             $fila = $resultado->fetch();
             return $fila;
         } catch (Exception $e) {

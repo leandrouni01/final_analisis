@@ -31,6 +31,15 @@ $(function () {
                 }
             });
 
+            $("#textBusca").keyup(function (e) {
+                var parametros = $(this).val();
+                if (parametros == "") {
+                    app.buscar();
+                } else {
+                    app.busqueda(parametros);
+                }
+            });
+
             $("#combo").on('change', function () {
                 app.listarDuracion();
                 $("#combo").prop("disabled", "true");
@@ -204,24 +213,49 @@ $(function () {
             });
         };
 
-        app.rellenarTabla = function (data) {//funcion para rellenar la tabla carrera
-            var linea = "";
-            $.each(data, function (clave, materia) {
-                if (materia.nombre_materia != "Ninguna") {
-                    linea += '<tr>' +
-                            '<td data-fk_plan="' + materia.fk_plan_de_estudio + '">' + materia.nombre_carrera + " (" + materia.resolucion + ")" + '</td>' +
-                            '<td>' + materia.semestre + '</td>' +
-                            '<td>' + materia.nombre_materia + '</td>' +
-                            '<td>' + materia.anio + '</td>' +
-                            '<td>' + materia.carga_horaria + '</td>' +
-                            '<td>' +
-                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id_materia="' + materia.id_materia + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id_materia="' + materia.id_materia + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
-                            '</td>' +
-                            '</tr>';
+        app.busqueda = function (parametros) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=Materia";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: {textBusca: parametros},
+                success: function (data) {
+                    app.rellenarTabla(data);
+                },
+                error: function () {
+                    alert('error busqueda');
                 }
             });
-            $("#cuerpoTabla").html(linea);
+        };
+
+        app.rellenarTabla = function (data) {//funcion para rellenar la tabla materia
+            if (data == '') {
+                var alerta = '<div class="alert alert-danger" role="alert">' +
+                        '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error de búsqueda!' + '</strong>' + ' No existen registros con los valores ingresados.' +
+                        '</div>';
+                $("#cuerpoTabla").html('');
+                $("#alert").html(alerta);
+            } else {
+                var linea = "";
+                $.each(data, function (clave, materia) {
+                    if (materia.nombre_materia != "Ninguna") {
+                        linea += '<tr>' +
+                                '<td data-fk_plan="' + materia.fk_plan_de_estudio + '">' + materia.nombre_carrera + " (" + materia.resolucion + ")" + '</td>' +
+                                '<td>' + materia.semestre + '</td>' +
+                                '<td>' + materia.nombre_materia + '</td>' +
+                                '<td>' + materia.anio + '</td>' +
+                                '<td>' + materia.carga_horaria + '</td>' +
+                                '<td>' +
+                                '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id_materia="' + materia.id_materia + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                                '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id_materia="' + materia.id_materia + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                                '</td>' +
+                                '</tr>';
+                    }
+                });
+                $("#alert").html('');
+                $("#cuerpoTabla").html(linea);
+            }
         };
 
         app.guardar = function () {
@@ -295,7 +329,7 @@ $(function () {
                         '</tr>';
                 $("#cuerpoTabla").append(html);
             } else {
-                
+
                 var fila = $("#cuerpoTabla").find("button[data-id_materia='" + id + "']").parent().parent();
                 var html = '<td data-fk_plan="' + $("#combo").val() + '">' + $("#combo").find(':selected').html() + '</td>' +
                         '<td>' + $("#semestre").find(":selected").val() + '</td>' +

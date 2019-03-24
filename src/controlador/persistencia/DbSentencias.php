@@ -88,13 +88,14 @@ interface DbSentencias {
     const ELIMINAR_PLAN= "UPDATE plan_de_estudios SET estado_plan=0 WHERE id_plan=?;";
     const BUSCAR_PLANESTUDIO = "SELECT plan_de_estudios.*,carrera.`nombre_carrera` FROM plan_de_estudios INNER JOIN carrera ON (fk_carrera=id_carrera) WHERE estado_plan=1 AND carrera.nombre_carrera LIKE '?%' OR plan_de_estudios.resolucion LIKE '?%';";
     //Materia
-    const LISTAR_MATERIAS= "SELECT materia.*,plan_de_estudios.`fk_carrera`,plan_de_estudios.`resolucion`,carrera.`nombre_carrera` FROM materia INNER JOIN plan_de_estudios ON(fk_plan_de_estudio=id_plan) INNER JOIN carrera ON(fk_carrera=id_carrera) WHERE estado_materia=1 ORDER BY nombre_carrera,resolucion,semestre,nombre_materia";
+    const LISTAR_MATERIAS= "SELECT materia.*,plan_de_estudios.`fk_carrera`,plan_de_estudios.`resolucion`,carrera.`nombre_carrera` FROM materia INNER JOIN plan_de_estudios ON(fk_plan_de_estudio=id_plan) INNER JOIN carrera ON(fk_carrera=id_carrera) WHERE estado_materia=1 ORDER BY nombre_carrera,resolucion,semestre,nombre_materia;";
     const INSERTAR_MATERIA ="INSERT INTO materia(fk_plan_de_estudio,anio,nombre_materia,semestre,carga_horaria) VALUES (?,?,?,?,?);";
     const BUSCAR_ULTIMA_MATERIA= "SELECT materia.*,plan_de_estudios.`fk_carrera`,plan_de_estudios.`resolucion`,carrera.`nombre_carrera` FROM materia INNER JOIN plan_de_estudios ON(fk_plan_de_estudio=id_plan) INNER JOIN carrera ON(fk_carrera=id_carrera) WHERE estado_materia=1 and id_materia=(SELECT MAX(id_materia)FROM materia WHERE estado_materia=1);";
     const ACTUALIZAR_MATERIA= "UPDATE materia SET fk_plan_de_estudio=?,anio=?,nombre_materia=?,semestre=?,carga_horaria=? WHERE id_materia=?;";
     const ELIMINAR_MATERIA= "UPDATE materia SET estado_materia=0 WHERE id_materia=?;";
     const BUSCAR_PLAN = "SELECT duracion,id_plan FROM plan_de_estudios WHERE id_plan=?;";
     const BUSCAR_MATERIAS= "SELECT nombre_materia,id_materia,anio FROM materia WHERE fk_plan_de_estudio=? ORDER BY anio,nombre_materia;";
+    const BUSCAR_MATERIA= "SELECT materia.*,plan_de_estudios.`fk_carrera`,plan_de_estudios.`resolucion`,carrera.`nombre_carrera` FROM materia INNER JOIN plan_de_estudios ON(fk_plan_de_estudio=id_plan) INNER JOIN carrera ON(fk_carrera=id_carrera) WHERE estado_materia=1 AND nombre_materia LIKE '?%' OR nombre_carrera LIKE '?%' ORDER BY nombre_carrera,resolucion,semestre,nombre_materia;";
     //Correlativas
     const LISTAR_CORRELATIVAS= "SELECT nombre_carrera,resolucion,materia_1.`nombre_materia`,correlativa.`nombre_materia` AS nombre_correlativa,materia_1.`id_materia`,correlativa.`id_materia` AS id_correlativa,fk_plan_de_estudios FROM correlativas INNER JOIN plan_de_estudios ON (fk_plan_de_estudios=id_plan) INNER JOIN carrera ON (fk_carrera=id_carrera) INNER JOIN materia AS materia_1 ON (fk_materia=materia_1.id_materia) INNER JOIN materia AS correlativa ON (fk_correlativa=correlativa.id_materia) WHERE estado_correlativa=1 ORDER BY nombre_carrera,resolucion,materia_1.nombre_materia,correlativa.nombre_materia;";
     const INSERTAR_CORRELATIVA= "INSERT INTO correlativas(fk_plan_de_estudios,fk_materia,fk_correlativa) VALUES (?,?,?);";
