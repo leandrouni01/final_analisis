@@ -61,6 +61,18 @@ class ControladorCorrelativas extends ControladorGeneral {
             echo "Error :" . $e->getMessage();
         }
     }
+    
+    public function buscarC($datos){
+        try{
+            $parametros = array("valor" => $datos['textBusca']);
+            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCAR_CORRELATIVA);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia($query);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
 
     public function eliminar($datos) {
         try {
