@@ -347,6 +347,7 @@ $(function () {
                 success: function (datosRecibidos) {
                     app.actualizarTabla($("#id").val());
                     $("#modalCorrelativa").modal('hide');
+                    app.alertModif();
                 },
                 error: function (datosRecibidos) {
                     alert("Error al modificar correlativa");
@@ -391,6 +392,7 @@ $(function () {
                 success: function (datosRecibidos) {
                     app.eliminarFila($("#id").val());
                     $("#modal2").modal('hide');
+                    app.alertDelete();
                 },
                 error: function (datosRecibidos) {
                     alert('Error al eliminar');
@@ -400,6 +402,29 @@ $(function () {
 
         app.eliminarFila = function (id) {
             $("#cuerpoTabla").find("button[data-id_correlativa='" + id + "']").parent().parent().remove();
+        };
+        
+        app.alertModif = function () {
+            var alerta = '<div class="alert alert-warning" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-saved"></span>' + ' ¡Actualizado con exito!' + '</strong>' + ' Se modificó un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+
+        app.alertDelete = function () {
+            var alerta = '<div class="alert alert-danger" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-remove"></span>' + ' ¡Eliminado con exito!' + '</strong>' + ' Se elimino un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+        
+        app.showAlert = function () {
+            $("#alerta").fadeIn();
+            setTimeout(function () {
+                $("#alerta").fadeOut();
+            }, 1500);
         };
 
         app.limpiarModal = function () {//funcion para limpiar el modal           
