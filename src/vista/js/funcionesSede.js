@@ -3,7 +3,7 @@ $(function () {
 
     (function (app) {
         app.init = function () {
-            app.listarCombos(1,'pais');
+            app.listarCombos('Pais');
             app.buscar();
             app.bindings();
         };
@@ -12,8 +12,8 @@ $(function () {
 
             $("#agregar").on('click', function (event) {
                 app.limpiarModal();                                                                                                                                                                                                                                                                                                                                                                                                   //limpio el modal entero
-                var item = $("#combos").val('pais'); //asigno el valor de pais para poder listar nuevamente los combos.
-                app.listarCombos(1,'pais');
+                //var item = $("#combos").val('pais'); //asigno el valor de pais para poder listar nuevamente los combos.
+                app.listarCombos('Pais');
 
                 $("#id").val(0);
                 $("#tituloModal").html("Nueva Sede");
@@ -35,13 +35,11 @@ $(function () {
             });
 
             $("#comboPais").change(function () {
-                var item = 'provincia';
-                app.listarCombos($("#comboPais").find(':selected').val(),'provincia');
+                app.listarCombos('Provincia');
             });
 
             $("#comboProvincia").change(function () {
-                var item = $("#combos").val('localidad');
-                app.listarCombos($("#comboProvincia").find(':selected').val(),'localidad');
+                app.listarCombos('Localidad');
             });
 
             $("#textBusca").keyup(function (e) {
@@ -169,7 +167,7 @@ $(function () {
             });
         };
 
-        app.listarCombos = function (id, item) { //funcion para listar combos.
+        app.listarCombos = function (item) { //funcion para listar combos.
 
             var ajaxObj = ({
                 type: 'POST',
@@ -178,7 +176,7 @@ $(function () {
                     app.rellenarCombos(data,item);
                 },
                 error: function () {
-                    alert('error buscar');
+                    alert(`Error al buscar ${item}`);
                 }
             });
 
@@ -186,22 +184,20 @@ $(function () {
             //alert(item);
 
             switch (item) {
-                case 'pais':
-                    var datosEnviar = {id: id};
+                case 'Pais':
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Pais";
-                    ajaxObj.data = datosEnviar;
                     break;
 
-                case 'provincia':
-                    //var id_pais = $("#comboPais").find(':selected').val();
-                    var datosEnviar = {id: id};
+                case 'Provincia':
+                    var id_pais = $("#comboPais").find(':selected').val();
+                    var datosEnviar = {id: id_pais};
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarProvincia&Formulario=Sede";
                     ajaxObj.data = datosEnviar;
                     break;
 
-                case 'localidad':
-                    //var id_provincia = $("#comboProvincia").find(':selected').val();
-                    var datosEnviar = {id: id};
+                case 'Localidad':
+                    var id_provincia = $("#comboProvincia").find(':selected').val();
+                    var datosEnviar = {id: id_provincia};
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarLocalidades&Formulario=Sede";
                     ajaxObj.data = datosEnviar;
                     break;
@@ -217,32 +213,17 @@ $(function () {
 
         app.rellenarCombos = function (data,item) {
 
-            //var item = $("#combos").val();
-            switch (item) {
-                case 'pais':
-                    var itemRecibido = 'comboPais';
-                    var item = 'pais';
-                    break;
+            var tabla = item.toLowerCase();
+            var itemRecibido = `combo${item}`;
+            
+            //alert(tabla);
+            //alert(itemRecibido);
 
-                case 'provincia':
-                    var itemRecibido = 'comboProvincia';
-                    var id = 'provincia';
-                    break;
-
-                case 'localidad':
-                    var itemRecibido = 'combo';
-                    var item = 'localidad';
-                    break;
-
-                default:
-
-                    break;
-            }
             $('#' + itemRecibido).html("");
-            $('#' + itemRecibido).prepend("<option selected disabled> Seleccione </option>");
+            $('#' + itemRecibido).prepend("<option value=''>Seleccione</option>");
 
-            $.each(data, function (clave, value) {   
-                $('#' + itemRecibido).append('<option value="' + value[`id_${item}`] + '">' + value[`nombre_${item}`] + '</option>');
+            $.each(data, function (clave, value) {
+                $('#' + itemRecibido).append('<option value="' + value[`id_${tabla}`] + '">' + value[`nombre_${tabla}`] + '</option>');
             });
         };
 
