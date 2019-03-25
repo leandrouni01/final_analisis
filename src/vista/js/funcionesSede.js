@@ -68,7 +68,7 @@ $(function () {
                 }, 200);
 
                 setTimeout(() => {
-                    $("#combo").val($(this).parent().parent().children().first().next().next().next().next().next().attr("data-fk_localidad"));
+                    $("#comboLocalidad").val($(this).parent().parent().children().first().next().next().next().next().next().attr("data-fk_localidad"));
                 }, 300);
 
                 $("#calle_domicilio").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
@@ -343,7 +343,7 @@ $(function () {
                         '<td>' + $("#telefono_sede").val() + '</td>' +
                         '<td data-fk_pais="' + $("#comboPais").find(':selected').val() + '">' + $("#comboPais").find(':selected').text() + '</td>' +
                         '<td data-fk_provincia="' + $("#comboProvincia").find(':selected').val() + '">' + $("#comboProvincia").find(':selected').text() + '</td>' +
-                        '<td data-fk_localidad="' + $("#combo").find(':selected').val() + '">' + $("#combo").find(':selected').text() + '</td>' +
+                        '<td data-fk_localidad="' + $("#comboLocalidad").find(':selected').val() + '">' + $("#comboLocalidad").find(':selected').text() + '</td>' +
                         '<td data-fk_domicilio="' + $("#id_domicilio").val() + '">' + $("#calle_domicilio").val() + '</td>' +
                         '<td>' + $("#numero_domicilio").val() + '</td>' +
                         '<td>' +
