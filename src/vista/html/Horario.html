@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Administrar Horarios</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body style="background-color: lightblue">
+        <div class="container">
+            
+            <nav class="navbar navbar-default">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar Lugares<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="pais.html">Administrar Pais</a></li>
+                            <li><a href="provincia.html">Administrar Provincia</a></li>
+                            <li><a href="localidad.html">Administrar Localidad</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar Personas<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="profesor.html">Administrar Profesor</a></li>
+                            <li><a href="titulo.html">Administrar Titulo</a></li>
+                            <li><a href="postgrado.html">Administrar Postgrado</a></li>
+                            <li><a>Administrar Alumno</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar Sedes<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="sede.html">Administrar Sede</a></li>
+                            <li><a href="carrera.html">Administrar Carrera</a></li>
+                            <li><a href="plan_de_estudios.html">Administrar Plan de Estudios</a></li>
+                            <li><a href="materia.html">Administrar Materia</a></li>
+                            <li><a href="correlativas.html">Administrar Correlativas</a></li>
+                            <li><a href="curso.html">Administrar Curso</a></li>
+                            <li><a href="horario.html">Administrar Horarios</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="jumbotron">
+                <h1>Administar Horarios</h1>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <button type="button" class="btn btn-lg btn-primary" id="agregarHorario">Agregar</button>
+                </div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4"></div>
+            </div>
+            <div class="row">
+                <h1> </h1>
+            </div>
+            <table class="table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>Profesor</th>
+                        <th>Carrera</th>
+                        <th>Materia</th>
+                        <th>Sede</th>
+                        <th>Curso</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Dia</th>
+                        <th>Ciclo Lectivo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTablaHorario">
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal fade" id="modalHorario" tabindex="-1" role="dialog" aria-labelledby="modalHorario" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="formHorario" class="form-horizontal">
+                        <div class="modal-header">
+                            <h4 id="tituloModal"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input id="id_horario" name="id_horario" type="hidden" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input id="anioMateria" name="anio_materia" type="hidden" class="form-control">
+                            </div>
+                            <fieldset id="fieldsetHorario">
+                                <div class="form-group">
+                                    <label class="col-lg-3">Profesor</label>
+                                    <div class="col-lg-9">
+                                        <select id="selectProfesor" name="fk_profesor" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3">Carrera</label>
+                                    <div class="col-lg-9">
+                                        <select id="selectPlan" name="fk_plan" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="materia">
+                                    <label class="col-lg-3">Materia</label>
+                                    <div class="col-lg-9">
+                                        <select id="selectMateria" name="fk_materia" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="sede">
+                                    <label class="col-lg-3">Sede</label>
+                                    <div class="col-lg-9">
+                                        <select id="selectSede" name="fk_sede" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="curso">
+                                    <label class="col-lg-3">Curso</label>
+                                    <div class="col-lg-9">
+                                        <select id="selectCurso" name="fk_curso" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3">Hora Inicio</label>
+                                    <div class="col-lg-9">
+                                        <input type="time" class="form-control" id="inicioHorario" name="inicio_horario">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3">Hora Fin</label>
+                                    <div class="col-lg-9">
+                                        <input type="time" class="form-control" id="finHorario" name="fin_horario">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3">Dia</label>
+                                    <div class="col-lg-9">
+                                        <select id="selectDia" name="dia_horario" class="form-control">
+                                            <option value="0">Selecione un dia</option>
+                                            <option value="Lunes">Lunes</option>
+                                            <option value="Martes">Martes</option>
+                                            <option value="Miercoles">Miercoles</option>
+                                            <option value="Jueves">Jueves</option>
+                                            <option value="Viernes">Viernes</option>
+                                            <option value="Sebado">Sabado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3">Ciclo Lectivo</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" id="cicloLectivo" name="ciclo_lectivo_horario">
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-default">Salir</button>
+                            <button type="button" id="accion" class="btn btn-primary"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/bootstrap/Jquery/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="../js/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../js/funcionesHorario.js" type="text/javascript"></script>
+    </body>
+</html>
