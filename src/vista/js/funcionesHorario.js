@@ -23,14 +23,14 @@ $(function () {
             $("#accion").on('click',function(){
                 if($("#accion").html()=="Guardar"){
                     $("#selectPlan").prop('disabled', false);
-                    $("#selectProfesor").prop('disabled', false);
+                    $("#selectSede").prop('disabled', false);
                     if($("#id_horario").val()==0){
                         app.guardarHorario();
                     }else{
                         app.editarHorario();
                     }
                     $("#selectPlan").prop('disabled', true);
-                    $("#selectProfesor").prop('disabled', true);
+                    $("#selectSede").prop('disabled', true);
                 }else{
                     app.eliminarHorario();
                 }
@@ -41,20 +41,20 @@ $(function () {
                $("#selectPlan").prop('disabled', true);
             });
             
+            $("#selectSede").on('change',function(){
+                $("#profesor").show();
+                $("#selectSede").prop('disabled', true);
+            });
+            
             $("#selectProfesor").on('change', () => {
                $("#materia").show();
-               $("#selectProfesor").prop('disabled', true);
             });
             
             $("#selectMateria").on('change', () => {
-               $("#sede").show(); 
+               app.buscarCursos();
+               $("#curso").show(); 
             });
-            
-            $("#selectSede").on('change',function(){
-                app.buscarCursos();
-                $("#curso").show();
-            });
-            
+               
             $("#selectCurso").on('change', () => {
                $("#hora_inicio").show();
                $("#hora_fin").show();
@@ -66,8 +66,8 @@ $(function () {
                $("#selectPlan").prop('disabled', false);
             });
             
-            $("#cambiarProfesor").on('click', () => {
-               $("#selectProfesor").prop('disabled', false);
+            $("#cambiarSede").on('click', () => {
+               $("#selectSede").prop('disabled', false);
             });
             
             $("#cuerpoTablaHorario").on('click','.editar',function(){
@@ -421,11 +421,11 @@ $(function () {
         app.limpiarModal= function(){
             $("#id_horario").val("");
             $("#anioMateria").val("");
-            $("#selectProfesor").val(0);
             $("#selectPlan").val(0);
-            $("#materia").hide();
-            $("#sede").hide();
-            $("#curso").hide();
+            $("#selectPlan").prop('disabled', false);
+            $("#selectSede").val(0);
+            $("#selectSede").prop('disabled', false);
+            $("#selectProfesor").val(0);
             $("#inicioHorario").val(0);
             $("#finHorario").val(0);
             $("#selectDia").val(0);
@@ -436,7 +436,7 @@ $(function () {
         
         app.ocultarCampos = () => {
             $("#materia").hide();
-            $("#sede").hide();
+            $("#profesor").hide();
             $("#curso").hide();
             $("#hora_inicio").hide();
             $("#hora_fin").hide();
