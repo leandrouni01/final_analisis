@@ -7,83 +7,146 @@ and open the template in the editor.
 <html>
     <head>
         <title>Administrar Horarios</title>
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <link rel="shortcut icon" href="../css/iesmb.jpg">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="../css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
         <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="../css/bootstrapValidator.min.css" rel="stylesheet" type="text/css"/>
     </head>
-    <body style="background-color: lightblue">
-        <div class="container">
-
-            <nav class="navbar navbar-default">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar Lugares<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="pais.html">Administrar Pais</a></li>
-                            <li><a href="provincia.html">Administrar Provincia</a></li>
-                            <li><a href="localidad.html">Administrar Localidad</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar Personas<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="profesor.html">Administrar Profesor</a></li>
-                            <li><a href="titulo.html">Administrar Titulo</a></li>
-                            <li><a href="postgrado.html">Administrar Postgrado</a></li>
-                            <li><a>Administrar Alumno</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrar Sedes<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="sede.html">Administrar Sede</a></li>
-                            <li><a href="carrera.html">Administrar Carrera</a></li>
-                            <li><a href="plan_de_estudios.html">Administrar Plan de Estudios</a></li>
-                            <li><a href="materia.html">Administrar Materia</a></li>
-                            <li><a href="correlativas.html">Administrar Correlativas</a></li>
-                            <li><a href="curso.html">Administrar Curso</a></li>
-                            <li><a href="horario.html">Administrar Horarios</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-
-            <div class="jumbotron">
-                <h1>Administar Horarios</h1>
-            </div>
+    <body style="background-color: aliceblue">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-4">
-                    <button type="button" class="btn btn-lg btn-primary" id="agregarHorario">Agregar</button>
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-inverse" role="navigation" style="margin-top: 8px">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="../../index.html"><span class="glyphicon glyphicon-th-list"></span> Menu Principal</a>
+                            </div>
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+                                    <li><a href="Alumno.html">Alumno</a></li>
+                                    <li><a href="Profesor.html">Profesor</a></li>
+                                    <li><a href="LibroTemas.html">Libro de Temas</a></li>
+                                </ul>
+
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Académica <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="Carrera.html">Carrera</a></li>
+                                            <li><a href="PlanEstudio.html">Plan de Estudio</a></li>
+                                            <li><a href="Materias.html">Materias</a></li>
+                                            <li><a href="Correlatividades.html">Correlatividades</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Localización <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="Pais.html">País</a></li>
+                                            <li><a href="Provincia.html">Provincia</a></li>
+                                            <li><a href="Localidad.html">Localidad</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li class="active"><a href="Sede.html">Sede</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div><!-- /.navbar-collapse -->
+                        </div><!-- /.container-fluid -->
+                    </nav>
                 </div>
-                <div class="col-lg-4"></div>
-                <div class="col-lg-4"></div>
             </div>
+        </div>
+
+        <div class="container">
             <div class="row">
-                <h1> </h1>
+                <div class="col-lg-1"/></div>
+
+            <div class="col-lg-10">
+                <div class="well well-sm" style="background-color: #9acfea" >
+                    <h1>Instituto Manuel Belgrano</h1>
+                    <h4> Sistema de Carga de Horarios.</h4>
+
+                    <img align="right" style="width:100px; height:100px; position: absolute; top: 9px;left:849px" src="../css/iesmb.jpg" class="img-circle" alt=""/>                 
+                </div>
+
+                <table class="table">
+                    <tr>
+                        <td align="">
+                            <button class="btn btn-primary btn-lg pull-left" id="agregar" data-toggle="tooltip" data-placement="left" title="Cargar registro">
+                                <span class="glyphicon glyphicon-pencil"></span> Agregar
+                            </button>
+                        </td>
+                        <td>
+                            <div class="pull-right">
+                                <div class="input-group">
+                                    <input id="textBusca" type="text" class="form-control" placeholder="Buscar horario.." aria-describedby="basic-addon2">
+                                    <span class="input-group-addon" id="basic-addon2">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                </table>
+                <div class='container-fluid'>
+
+                    <div id='alerta'>
+                    </div>
+
+                </div>
+
             </div>
-            <table class="table-condensed table-striped">
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-1"/></div>
+
+        <div class="col-lg-10 thumbnail">
+
+            <table class="table table-bordered table-hover table-condensed" id="tabla">
                 <thead>
                     <tr>
-                        <th>Profesor</th>
                         <th>Carrera</th>
-                        <th>Materia</th>
+                        <th>Profesor</th>
                         <th>Sede</th>
+                        <th>Materia</th>
                         <th>Curso</th>
                         <th>Inicio</th>
                         <th>Fin</th>
                         <th>Dia</th>
                         <th>Ciclo Lectivo</th>
                         <th>Acciones</th>
-                    </tr>
+                        <th><span class="glyphicon glyphicon-cog"></span> Acciones</th>
+                    </tr>  
                 </thead>
-                <tbody id="cuerpoTablaHorario">
 
+                <tbody id="cuerpoTabla" >
                 </tbody>
+
             </table>
+            <div id="alert"></div>
         </div>
+        <div class="col-lg-1"></div> 
+    </div>
+</div>
 
         <!--MODAL-->
         <div class="modal fade" id="modalHorario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
