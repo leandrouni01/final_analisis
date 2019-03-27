@@ -268,7 +268,7 @@ $(function () {
         };
 
         app.modificar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=profesor";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Profesor";
             var datosEnviar = $("#form").serialize();
             //alert(datosEnviar);
             $.ajax({
