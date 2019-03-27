@@ -3,9 +3,6 @@ $(function () {
 
     (function (app) {
         app.init = function () {
-            $("#materia").hide();
-            $("#sede").hide();
-            $("#curso").hide();
             app.buscarHorarios();
             app.buscarProfesores();
             app.buscarCarrera();
@@ -16,6 +13,7 @@ $(function () {
         app.bindings = function () {
 
             $("#agregarHorario").on('click', function () {
+                app.ocultarCampos();
                 $("#tituloModal").html("Agregar horario");
                 $("#id_horario").val(0);
                 $("#modalHorario").modal({show: true});
@@ -24,11 +22,15 @@ $(function () {
             
             $("#accion").on('click',function(){
                 if($("#accion").html()=="Guardar"){
+                    $("#selectPlan").prop('disabled', false);
+                    $("#selectProfesor").prop('disabled', false);
                     if($("#id_horario").val()==0){
                         app.guardarHorario();
                     }else{
                         app.editarHorario();
                     }
+                    $("#selectPlan").prop('disabled', true);
+                    $("#selectProfesor").prop('disabled', true);
                 }else{
                     app.eliminarHorario();
                 }
@@ -36,19 +38,38 @@ $(function () {
             
             $("#selectPlan").on('change',function(){
                app.buscarMaterias();
-               $("#materia").show();
-               $("#sede").hide();
-               $("#curso").hide();
+               $("#selectPlan").prop('disabled', true);
             });
             
-            $("#selectMateria").on('change',function(){
-               $("#sede").show();
-               $("#curso").hide();
+            $("#selectProfesor").on('change', () => {
+               $("#materia").show();
+               $("#selectProfesor").prop('disabled', true);
             });
+            
+            $("#selectMateria").on('change', () => {
+               $("#sede").show(); 
+            });
+            
             $("#selectSede").on('change',function(){
                 app.buscarCursos();
-               $("#curso").show(); 
+                $("#curso").show();
             });
+            
+            $("#selectCurso").on('change', () => {
+               $("#hora_inicio").show();
+               $("#hora_fin").show();
+               $("#dia").show();
+               $("#ciclo_lectivo").show();
+            });
+            
+            $("#cambiarMateria").on('click', () => {
+               $("#selectPlan").prop('disabled', false);
+            });
+            
+            $("#cambiarProfesor").on('click', () => {
+               $("#selectProfesor").prop('disabled', false);
+            });
+            
             $("#cuerpoTablaHorario").on('click','.editar',function(){
                $("#id_horario").val($(this).attr("data-id_horario"));
                $("#accion").html("Guardar");
@@ -71,7 +92,7 @@ $(function () {
                $("#inicioHorario").val($(this).parent().parent().children().first().next().next().next().next().next().html());
                $("#finHorario").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
                $("#selectDia").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().html());
-               $("#cicloLectivo").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
+               $("#selectCicloLectivo").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
             });
             $("#cuerpoTablaHorario").on('click','.eliminar',function(){
                $("#id_horario").val($(this).attr("data-id_horario"));
@@ -96,7 +117,7 @@ $(function () {
                $("#inicioHorario").val($(this).parent().parent().children().first().next().next().next().next().next().html());
                $("#finHorario").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
                $("#selectDia").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().html());
-               $("#cicloLectivo").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
+               $("#selectCicloLectivo").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
             });
             $("#cuerpoTablaHorario").on('click','.ver',function(){
                $("#id_horario").val($(this).attr("data-id_horario"));
@@ -121,7 +142,7 @@ $(function () {
                $("#inicioHorario").val($(this).parent().parent().children().first().next().next().next().next().next().html());
                $("#finHorario").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
                $("#selectDia").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().html());
-               $("#cicloLectivo").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
+               $("#selectCicloLectivo").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
             });
             
             $("#modalHorario").on('hide.bs.modal', function () {
@@ -197,7 +218,7 @@ $(function () {
                              <td data-anio_materia'"+ $("#anioMateria") +"'>" + $("#inicioHorario").val() + "</td>\n\
                              <td>" + $("#finHorario").val() + "</td>\n\
                              <td>" + $("#selectDia").val() + "</td>\n\
-                             <td>" + $("#cicloLectivo").val() + "</td>\n\
+                             <td>" + $("#selectCicloLectivo").val() + "</td>\n\
                              <td>\n\
                                  <a class='ver btn btn-info' data-id_horario='" + id + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
                                  <a class='eliminar btn btn-danger' data-id_horario='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
@@ -408,9 +429,19 @@ $(function () {
             $("#inicioHorario").val(0);
             $("#finHorario").val(0);
             $("#selectDia").val(0);
-            $("#cicloLectivo").val("");
+            $("#selectCicloLectivo").val(0);
             $("#fieldsetHorario").removeAttr("disabled");
             $("#accion").show();
+        };
+        
+        app.ocultarCampos = () => {
+            $("#materia").hide();
+            $("#sede").hide();
+            $("#curso").hide();
+            $("#hora_inicio").hide();
+            $("#hora_fin").hide();
+            $("#dia").hide();
+            $("#ciclo_lectivo").hide();
         };
 
         app.init();

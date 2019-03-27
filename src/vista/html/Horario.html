@@ -85,32 +85,54 @@ and open the template in the editor.
             </table>
         </div>
 
-        <div class="modal fade" id="modalHorario" tabindex="-1" role="dialog" aria-labelledby="modalHorario" aria-hidden="true">
-            <div class="modal-dialog">
+        <!--MODAL-->
+        <div class="modal fade" id="modalHorario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
                 <div class="modal-content">
-                    <form id="formHorario" class="form-horizontal">
+                    <form id="form" class="form-horizontal"
+                          data-bv-message="Este valor No es válido"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                          data-bv-submitbuttons='button[type="submit"]'
+                          data-bv-trigger="focus blur"
+                          data-bv-live="enabled">
                         <div class="modal-header">
-                            <h4 id="tituloModal"></h4>
+                            <div class="well well-sm">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 align="left" class="modal-title" id="tituloModal">Nuevo Horario</h3>
+                            </div>
+
+                            <input class="form-control" type="hidden" id="id" name="id">
+                            <input class="form-control" type="hidden" id="id_domicilio" name="id_domicilio">
+
                         </div>
+
                         <div class="modal-body">
-                            <div class="form-group">
-                                <input id="id_horario" name="id_horario" type="hidden" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input id="anioMateria" name="anio_materia" type="hidden" class="form-control">
-                            </div>
-                            <fieldset id="fieldsetHorario">
+
+                            <div class="row">
+
                                 <div class="form-group">
-                                    <label class="col-lg-3">Profesor</label>
-                                    <div class="col-lg-9">
-                                        <select id="selectProfesor" name="fk_profesor" class="form-control"></select>
+                                    <label class="col-lg-2">Carrera</label>
+                                    <div class="col-lg-6">
+                                        <select id="selectPlan" name="fk_plan" class="form-control"></select>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <button type="button" id="cambiarMateria" class="btn btn-info"><span class="glyphicon glyphicon-floppy-save"></span>Cambiar Materia</button>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-lg-3">Carrera</label>
-                                    <div class="col-lg-9">
-                                        <select id="selectPlan" name="fk_plan" class="form-control"></select>
+                                    <label class="col-lg-2">Profesor</label>
+                                    <div class="col-lg-6">
+                                        <select id="selectProfesor" name="fk_profesor" class="form-control"></select>
                                     </div>
+                                    <div class="col-lg-4">
+                                        <button type="button" id="cambiarProfesor" class="btn btn-info"><span class="glyphicon glyphicon-floppy-save"></span>Cambiar Profesor</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    
+                                    
                                 </div>
                                 <div class="form-group" id="materia">
                                     <label class="col-lg-3">Materia</label>
@@ -130,19 +152,19 @@ and open the template in the editor.
                                         <select id="selectCurso" name="fk_curso" class="form-control"></select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="hora_inicio">
                                     <label class="col-lg-3">Hora Inicio</label>
                                     <div class="col-lg-9">
                                         <input type="time" class="form-control" id="inicioHorario" name="inicio_horario">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="hora_fin">
                                     <label class="col-lg-3">Hora Fin</label>
                                     <div class="col-lg-9">
                                         <input type="time" class="form-control" id="finHorario" name="fin_horario">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="dia">
                                     <label class="col-lg-3">Dia</label>
                                     <div class="col-lg-9">
                                         <select id="selectDia" name="dia_horario" class="form-control">
@@ -156,18 +178,26 @@ and open the template in the editor.
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="ciclo_lectivo">
                                     <label class="col-lg-3">Ciclo Lectivo</label>
                                     <div class="col-lg-9">
-                                        <input type="text" class="form-control" id="cicloLectivo" name="ciclo_lectivo_horario">
+                                        <select class="form-control" id="selectCicloLectivo" name="ciclo_lectivo_horario">
+                                            <option value="0">Selecione el ciclo lectivo</option>
+                                            <option value="2019">2019</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </fieldset>
+
+                            </div>
+
                         </div>
                         <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn btn-default">Salir</button>
-                            <button type="button" id="accion" class="btn btn-primary"></button>
+                            <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+
+                            <button type="button" id="borrar" class="btn btn-danger hidden"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+                            <button type="submit" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
                         </div>
+
                     </form>
                 </div>
             </div>
