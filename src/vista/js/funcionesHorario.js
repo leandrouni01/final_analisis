@@ -44,6 +44,10 @@ $(function () {
             $("#selectSede").on('change',function(){
                 $("#profesor").show();
                 $("#selectSede").prop('disabled', true);
+                //alert($("#selectMateria").val());
+                if($("#selectMateria").val() != 0){
+                   app.buscarCursos();   
+               }
             });
             
             $("#selectProfesor").on('change', () => {
@@ -68,6 +72,7 @@ $(function () {
             
             $("#cambiarSede").on('click', () => {
                $("#selectSede").prop('disabled', false);
+               
             });
             
             $("#cuerpoTablaHorario").on('click','.editar',function(){
