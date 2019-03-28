@@ -427,10 +427,12 @@ $(function () {
           var año = new Date();
           var html = "";
           //alert(año.getFullYear());
+          html += '<option value="0">Selecione el ciclo lectivo</option>';
           for(var i = 2000; i <= año.getFullYear(); i++){
               html += `<option value='${i}'>` + i + "</option>";
           }  
           $("#selectCicloLectivo").html(html);
+          $("#selectCicloLectivo").val(0);
         };
         
         app.limpiarModal= function(){
