@@ -66,7 +66,7 @@ $(function () {
                $("#ciclo_lectivo").show();
             });
             
-            $("#cambiarMateria").on('click', () => {
+            $("#cambiarPlan").on('click', () => {
                $("#selectPlan").prop('disabled', false);
             });
             
