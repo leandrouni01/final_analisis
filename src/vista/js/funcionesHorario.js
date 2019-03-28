@@ -4,9 +4,9 @@ $(function () {
     (function (app) {
         app.init = function () {
             app.buscarHorarios();
-            app.buscarProfesores();
-            app.buscarCarrera();
-            app.buscarSedes();
+            app.listarCombos('Profesor');
+            app.listarCombos('Plan');
+            app.listarCombos('Sede');
             app.bindings();
             app.rellenarCiclo();
         };
@@ -38,7 +38,7 @@ $(function () {
             });
             
             $("#selectPlan").on('change',function(){
-               app.buscarMaterias();
+               app.listarCombos('Materia');
                $("#selectPlan").prop('disabled', true);
             });
             
@@ -47,7 +47,7 @@ $(function () {
                 $("#selectSede").prop('disabled', true);
                 //alert($("#selectMateria").val());
                 if($("#selectMateria").val() != 0){
-                   app.buscarCursos();   
+                   app.listarCombos('Curso');   
                }
             });
             
@@ -56,7 +56,7 @@ $(function () {
             });
             
             $("#selectMateria").on('change', () => {
-               app.buscarCursos();
+               app.listarCombos('Curso');
                $("#curso").show(); 
             });
                
@@ -294,134 +294,223 @@ $(function () {
             });
             $("#cuerpoTablaHorario").html(html);
         };
-
-        app.buscarProfesores = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Profesor";
-            $.ajax({
-                url: url,
-                method: 'GET',
-                dataType: 'json',
-                success: function (datosRecibidos) {
-                    app.rellenarProfesores(datosRecibidos);
-                },
-                error: function (datosRecibidos) {
-                    alert("Error al buscar profesores");
-                    alert(datosRecibidos);
-                }
-            });
-        };
-
-        app.rellenarProfesores = function (datosProfesor) {
-            var html = "<option value=0>Seleccione un profesor</option>";
-            $.each(datosProfesor, function (clave, profesor) {
-                html += "<option value='" + profesor.id_profesor + "'>" + profesor.nombre_profesor + " " + profesor.apellido_profesor + "</option>";
-            });
-            $("#selectProfesor").html(html);
-        };
         
-        app.buscarCarrera = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=PlanDeEstudios";
-            $.ajax({
-                url: url,
-                method: 'GET',
-                dataType: 'json',
-                success: function (datosRecibidos) {
-                    app.rellenarCarrera(datosRecibidos);
-                },
-                error: function (datosRecibidos) {
-                    alert("Error al buscar carreras");
-                    alert(datosRecibidos);
-                }
-            });
-        };
-
-        app.rellenarCarrera = function (datosPlan) {
-            var html = "<option value=0>Seleccione una carrera</option>";
-            $.each(datosPlan, function (clave, plan) {
-                html += "<option value='" + plan.id_plan + "'>" + plan.nombre_carrera + " (Resolucion:" + plan.resolucion + ")</option>";
-            });
-            $("#selectPlan").html(html);
-        };
-        
-        app.buscarMaterias = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=buscarMaterias&Formulario=Horario";
-            var datosEnviar= {"fk_plan": $("#selectPlan").val()};
-            $.ajax({
-                url: url,
+        app.listarCombos = (item) => {
+            var ajaxObj = ({
                 method: 'POST',
                 dataType: 'json',
-                data: datosEnviar,
-                success: function (datosRecibidos) {
-                    app.rellenarMaterias(datosRecibidos);
+                success: function (data) {
+                    app.rellenarCombos(data, item);
                 },
-                error: function (datosRecibidos) {
-                    alert("Error al buscar materias");
-                    alert(datosRecibidos);
+                error: function () {
+                    alert(`Error buscar ${item}`);
                 }
             });
+
+            //alert(item); 
+            switch (item) {
+                case 'Profesor':
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Profesor";
+                    break;
+
+                case 'Plan':
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=PlanDeEstudios";
+                    break;
+
+                case 'Materia':
+                    var datosEnviar= {"fk_plan": $("#selectPlan").val()};
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarMaterias&Formulario=Horario";
+                    ajaxObj.data = datosEnviar;
+                    break;
+
+                case 'Sede':
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Sede";
+                    break;
+
+                case 'Curso':
+                    var datosEnviar = {
+                        "fk_sede": $("#selectSede").val(),
+                        "fk_plan": $("#selectPlan").val(),
+                        "anio": $("#selectMateria").find(":selected").attr("data-anio")
+                    };
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Horario";
+                    ajaxObj.data = datosEnviar;
+                    break;
+
+                default:
+                    break;
+            }
+
+            jQuery.ajax(ajaxObj);
         };
 
-        app.rellenarMaterias = function (datosMateria) {
-            var html = "<option value=0>Seleccione una materia</option>";
-            $.each(datosMateria, function (clave, materia) {
-                html += "<option data-anio='"+materia.anio+"' value='" + materia.id_materia + "'>" + materia.nombre_materia + "</option>";
+        app.rellenarCombos = (data, item) => {
+            var itemRecibido = `select${item}`;
+            var html = "";
+            
+            //alert(itemRecibido);
+
+            $('#' + itemRecibido).html("");
+
+            $.each(data, function (clave, value) {
+                switch(item){
+                    case 'Profesor':
+                        html += "<option value='" + value.id_profesor + "'>" + value.nombre_profesor + " " + value.apellido_profesor + "</option>";
+                    break;
+                
+                    case 'Plan':
+                        html += "<option value='" + value.id_plan + "'>" + value.nombre_carrera + " (Resolucion:" + value.resolucion + ")</option>";
+                    break;
+                    
+                    case 'Materia':
+                        html += "<option data-anio='"+ value.anio+"' value='" + value.id_materia + "'>" + value.nombre_materia + "</option>";
+                    break;
+                    
+                    case 'Sede':
+                        html += "<option value='" + value.id_sede + "'>" + value.nombre_sede +" (Numero:"+ value.numero_sede+ ")</option>";
+                    break;
+                    
+                    case 'Curso':
+                        html += "<option value='" + value.id_curso + "'>" + value.nombre_curso + "</option>";
+                    break;
+                
+                    default:
+                    break;
+                }
             });
-            $("#selectMateria").html(html);
+            
+            $('#' + itemRecibido).html(html);
+            $('#' + itemRecibido).prepend("<option value='0'>Seleccione</option>");
+            $('#' + itemRecibido).val(0);
         };
-        
-        app.buscarSedes= function(){
-          var url="../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Sede";
-          $.ajax({
-              url: url,
-              method: 'GET',
-              dataType: 'json',
-              success: function(datosRecibidos){
-                  app.rellenarSedes(datosRecibidos);
-              },
-              error: function(datosRecibidos){
-                  alert("Error al buscar sedes");
-                  alert(datosRecibidos);
-              }
-          });
-        };
-        
-        app.rellenarSedes = function (datosSede) {
-            var html = "<option value=0>Seleccione una sede</option>";
-            $.each(datosSede, function (clave, sede) {
-                html += "<option value='" + sede.id_sede + "'>" + sede.nombre_sede +" (Numero:"+sede.numero_sede+ ")</option>";
-            });
-            $("#selectSede").html(html);
-        };
-        
-        app.buscarCursos= function(){
-            var url= "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Horario";
-            var datosEnviar= {
-                "fk_sede": $("#selectSede").val(),
-                "fk_plan": $("#selectPlan").val(),
-                "anio": $("#selectMateria").find(":selected").attr("data-anio")
-            };
-            $.ajax({
-               url: url,
-               method: 'POST',
-               dataType: 'json',
-               data: datosEnviar,
-               success: function(datosRecibidos){
-                   app.rellenarCursos(datosRecibidos);
-               },
-               error: function(datosRecibidos){
-                   alert("Error al buscar cursos");
-                   alert(datosRecibidos);
-               }
-            });
-        };
-        
-        app.rellenarCursos= function(datosCurso){
-            var html = "<option value=0>Seleccione un curso</option>";
-            $.each(datosCurso, function (clave, curso) {
-                html += "<option value='" + curso.id_curso + "'>" + curso.nombre_curso + "</option>";
-            });
-            $("#selectCurso").html(html);
-        };
+
+//        app.buscarProfesores = function () {
+//            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Profesor";
+//            $.ajax({
+//                url: url,
+//                method: 'GET',
+//                dataType: 'json',
+//                success: function (datosRecibidos) {
+//                    app.rellenarProfesores(datosRecibidos);
+//                },
+//                error: function (datosRecibidos) {
+//                    alert("Error al buscar profesores");
+//                    alert(datosRecibidos);
+//                }
+//            });
+//        };
+//
+//        app.rellenarProfesores = function (datosProfesor) {
+//            var html = "<option value=0>Seleccione un profesor</option>";
+//            $.each(datosProfesor, function (clave, profesor) {
+//                html += "<option value='" + profesor.id_profesor + "'>" + profesor.nombre_profesor + " " + profesor.apellido_profesor + "</option>";
+//            });
+//            $("#selectProfesor").html(html);
+//        };
+//        
+//        app.buscarCarrera = function () {
+//            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=PlanDeEstudios";
+//            $.ajax({
+//                url: url,
+//                method: 'GET',
+//                dataType: 'json',
+//                success: function (datosRecibidos) {
+//                    app.rellenarCarrera(datosRecibidos);
+//                },
+//                error: function (datosRecibidos) {
+//                    alert("Error al buscar carreras");
+//                    alert(datosRecibidos);
+//                }
+//            });
+//        };
+//
+//        app.rellenarCarrera = function (datosPlan) {
+//            var html = "<option value=0>Seleccione una carrera</option>";
+//            $.each(datosPlan, function (clave, plan) {
+//                html += "<option value='" + plan.id_plan + "'>" + plan.nombre_carrera + " (Resolucion:" + plan.resolucion + ")</option>";
+//            });
+//            $("#selectPlan").html(html);
+//        };
+//        
+//        app.buscarMaterias = function () {
+//            var url = "../../controlador/ruteador/Ruteador.php?accion=buscarMaterias&Formulario=Horario";
+//            var datosEnviar= {"fk_plan": $("#selectPlan").val()};
+//            $.ajax({
+//                url: url,
+//                method: 'POST',
+//                dataType: 'json',
+//                data: datosEnviar,
+//                success: function (datosRecibidos) {
+//                    app.rellenarMaterias(datosRecibidos);
+//                },
+//                error: function (datosRecibidos) {
+//                    alert("Error al buscar materias");
+//                    alert(datosRecibidos);
+//                }
+//            });
+//        };
+//
+//        app.rellenarMaterias = function (datosMateria) {
+//            var html = "<option value=0>Seleccione una materia</option>";
+//            $.each(datosMateria, function (clave, materia) {
+//                html += "<option data-anio='"+materia.anio+"' value='" + materia.id_materia + "'>" + materia.nombre_materia + "</option>";
+//            });
+//            $("#selectMateria").html(html);
+//        };
+//        
+//        app.buscarSedes= function(){
+//          var url="../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Sede";
+//          $.ajax({
+//              url: url,
+//              method: 'GET',
+//              dataType: 'json',
+//              success: function(datosRecibidos){
+//                  app.rellenarSedes(datosRecibidos);
+//              },
+//              error: function(datosRecibidos){
+//                  alert("Error al buscar sedes");
+//                  alert(datosRecibidos);
+//              }
+//          });
+//        };
+//        
+//        app.rellenarSedes = function (datosSede) {
+//            var html = "<option value=0>Seleccione una sede</option>";
+//            $.each(datosSede, function (clave, sede) {
+//                html += "<option value='" + sede.id_sede + "'>" + sede.nombre_sede +" (Numero:"+sede.numero_sede+ ")</option>";
+//            });
+//            $("#selectSede").html(html);
+//        };
+//        
+//        app.buscarCursos= function(){
+//            var url= "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Horario";
+//            var datosEnviar= {
+//                "fk_sede": $("#selectSede").val(),
+//                "fk_plan": $("#selectPlan").val(),
+//                "anio": $("#selectMateria").find(":selected").attr("data-anio")
+//            };
+//            $.ajax({
+//               url: url,
+//               method: 'POST',
+//               dataType: 'json',
+//               data: datosEnviar,
+//               success: function(datosRecibidos){
+//                   app.rellenarCursos(datosRecibidos);
+//               },
+//               error: function(datosRecibidos){
+//                   alert("Error al buscar cursos");
+//                   alert(datosRecibidos);
+//               }
+//            });
+//        };
+//        
+//        app.rellenarCursos= function(datosCurso){
+//            var html = "<option value=0>Seleccione un curso</option>";
+//            $.each(datosCurso, function (clave, curso) {
+//                html += "<option value='" + curso.id_curso + "'>" + curso.nombre_curso + "</option>";
+//            });
+//            $("#selectCurso").html(html);
+//        };
         
         app.rellenarCiclo = () => {
           var año = new Date();
