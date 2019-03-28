@@ -47,7 +47,7 @@ $(function () {
                 $("#profesor").show();
                 $("#selectSede").prop('disabled', true);
                 //alert($("#selectMateria").val());
-                if($("#selectMateria").val() != 0){
+                if($("#selectMateria").find(":selected").val() != 0){
                    app.listarCombos('Curso');   
                }
             });
@@ -400,7 +400,7 @@ $(function () {
             });
             
             $('#' + itemRecibido).html(html);
-            $('#' + itemRecibido).prepend("<option value='0'>Seleccione</option>");
+            $('#' + itemRecibido).prepend("<option selected disabled value='0'>Seleccione</option>");
             $('#' + itemRecibido).val(0);
         };
 
@@ -408,7 +408,7 @@ $(function () {
           var año = new Date();
           var html = "";
           //alert(año.getFullYear());
-          html += '<option value="0">Selecione el ciclo lectivo</option>';
+          html += '<option selected disabled value="0">Selecione el ciclo lectivo</option>';
           for(var i = 2000; i <= año.getFullYear(); i++){
               html += `<option value='${i}'>` + i + "</option>";
           }  
