@@ -8,6 +8,7 @@ $(function () {
             app.buscarCarrera();
             app.buscarSedes();
             app.bindings();
+            app.rellenarCiclo();
         };
 
         app.bindings = function () {
@@ -71,8 +72,7 @@ $(function () {
             });
             
             $("#cambiarSede").on('click', () => {
-               $("#selectSede").prop('disabled', false);
-               
+               $("#selectSede").prop('disabled', false); 
             });
             
             $("#cuerpoTablaHorario").on('click','.editar',function(){
@@ -421,6 +421,16 @@ $(function () {
                 html += "<option value='" + curso.id_curso + "'>" + curso.nombre_curso + "</option>";
             });
             $("#selectCurso").html(html);
+        };
+        
+        app.rellenarCiclo = () => {
+          var año = new Date();
+          var html = "";
+          //alert(año.getFullYear());
+          for(var i = 2000; i <= año.getFullYear(); i++){
+              html += `<option value='${i}'>` + i + "</option>";
+          }  
+          $("#selectCicloLectivo").html(html);
         };
         
         app.limpiarModal= function(){
