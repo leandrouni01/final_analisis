@@ -196,8 +196,9 @@ and open the template in the editor.
                             <div class="col-lg-5">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                                    <select id="selectPlan" name="fk_plan" class="form-control">
-                                        
+                                    <select id="selectPlan" name="fk_plan" class="form-control"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar una Carrera">
                                     </select>
                                 </div>
                             </div>
@@ -211,7 +212,10 @@ and open the template in the editor.
                             <div class="col-lg-5">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                    <select id="selectSede" name="fk_sede" class="form-control"></select>
+                                    <select id="selectSede" name="fk_sede" class="form-control"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar una Sede">
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -224,7 +228,10 @@ and open the template in the editor.
                             <div class="col-lg-5">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
-                                    <select id="selectProfesor" name="fk_profesor" class="form-control"></select>
+                                    <select id="selectProfesor" name="fk_profesor" class="form-control"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar un Profesor">
+                                    </select>
                                 </div> 
                             </div>
                         </div>
@@ -234,7 +241,10 @@ and open the template in the editor.
                             <div class="col-lg-5">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span> 
-                                    <select id="selectMateria" name="fk_materia" class="form-control"></select>
+                                    <select id="selectMateria" name="fk_materia" class="form-control"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar una Materia">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -244,7 +254,10 @@ and open the template in the editor.
                             <div class="col-lg-5">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></span> 
-                                    <select id="selectCurso" name="fk_curso" class="form-control"></select>
+                                    <select id="selectCurso" name="fk_curso" class="form-control"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar un Curso">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -254,7 +267,10 @@ and open the template in the editor.
                             <div class="col-lg-5">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span> 
-                                    <select class="form-control" id="selectInicioHorario" name="inicio_horario"></select>
+                                    <select class="form-control" id="selectInicioHorario" name="inicio_horario"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar Horario de inicio">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +280,10 @@ and open the template in the editor.
                             <div class="col-lg-5">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span> 
-                                    <select class="form-control" id="selectFinHorario" name="fin_horario"></select>
+                                    <select class="form-control" id="selectFinHorario" name="fin_horario"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar Horario de finalización">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -274,14 +293,15 @@ and open the template in the editor.
                             <div class="col-lg-5">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span> 
-                                    <select id="selectDia" name="dia_horario" class="form-control">
+                                    <select id="selectDia" name="dia_horario" class="form-control"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar un Día">
                                         <option value="0">Selecione un dia</option>
                                         <option value="Lunes">Lunes</option>
                                         <option value="Martes">Martes</option>
                                         <option value="Miercoles">Miercoles</option>
                                         <option value="Jueves">Jueves</option>
                                         <option value="Viernes">Viernes</option>
-                                        <option value="Sebado">Sabado</option>
                                     </select>
                                 </div>
                             </div>
@@ -291,9 +311,10 @@ and open the template in the editor.
                             <label class="col-lg-3 control-label">Ciclo Lectivo</label>
                             <div class="col-lg-5">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-paperclip"></i></span> 
-                                    <select class="form-control" id="selectCicloLectivo" name="ciclo_lectivo_horario">
-
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span> 
+                                    <select class="form-control" id="selectCicloLectivo" name="ciclo_lectivo_horario"
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="Debes seleccionar un Año">
                                     </select>
                                 </div>
                             </div>
