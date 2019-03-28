@@ -91,6 +91,27 @@ class ControladorHorario extends ControladorGeneral {
         }
     }
 
+    public function listarModulosInicio($datos) {
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_MODULOS_INICIO);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
+    public function buscarModulosFin($datos) {
+        try {
+            $parametros = array("id_modulo" => $datos["id_modulo"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_MODULOS_FIN, $parametros);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
     public function modificar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();

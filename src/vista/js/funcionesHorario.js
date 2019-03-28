@@ -7,6 +7,7 @@ $(function () {
             app.listarCombos('Profesor');
             app.listarCombos('Plan');
             app.listarCombos('Sede');
+            app.listarCombos('InicioHorario');
             app.bindings();
             app.rellenarCiclo();
         };
@@ -65,6 +66,10 @@ $(function () {
                $("#hora_fin").show();
                $("#dia").show();
                $("#ciclo_lectivo").show();
+            });
+            
+            $("#selectInicioHorario").on('change', () => {
+                app.listarCombos('FinHorario');
             });
             
             $("#cambiarPlan").on('click', () => {
@@ -336,6 +341,16 @@ $(function () {
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Horario";
                     ajaxObj.data = datosEnviar;
                     break;
+                    
+                case 'InicioHorario':
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listarModulosInicio&Formulario=Horario";
+                    break;
+
+                case 'FinHorario':
+                    var datosEnviar = {id_modulo: $("#selectInicioHorario").find(":selected").val()};
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarModulosFin&Formulario=Horario";
+                    ajaxObj.data = datosEnviar;
+                    break;    
 
                 default:
                     break;
@@ -374,6 +389,11 @@ $(function () {
                         html += "<option value='" + value.id_curso + "'>" + value.nombre_curso + "</option>";
                     break;
                 
+                    case 'InicioHorario':
+                    case 'FinHorario':
+                        html += "<option value='" + value.id_modulo + "'>" + value.hora_modulo + "</option>";
+                    break;
+                    
                     default:
                     break;
                 }
@@ -384,134 +404,6 @@ $(function () {
             $('#' + itemRecibido).val(0);
         };
 
-//        app.buscarProfesores = function () {
-//            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Profesor";
-//            $.ajax({
-//                url: url,
-//                method: 'GET',
-//                dataType: 'json',
-//                success: function (datosRecibidos) {
-//                    app.rellenarProfesores(datosRecibidos);
-//                },
-//                error: function (datosRecibidos) {
-//                    alert("Error al buscar profesores");
-//                    alert(datosRecibidos);
-//                }
-//            });
-//        };
-//
-//        app.rellenarProfesores = function (datosProfesor) {
-//            var html = "<option value=0>Seleccione un profesor</option>";
-//            $.each(datosProfesor, function (clave, profesor) {
-//                html += "<option value='" + profesor.id_profesor + "'>" + profesor.nombre_profesor + " " + profesor.apellido_profesor + "</option>";
-//            });
-//            $("#selectProfesor").html(html);
-//        };
-//        
-//        app.buscarCarrera = function () {
-//            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=PlanDeEstudios";
-//            $.ajax({
-//                url: url,
-//                method: 'GET',
-//                dataType: 'json',
-//                success: function (datosRecibidos) {
-//                    app.rellenarCarrera(datosRecibidos);
-//                },
-//                error: function (datosRecibidos) {
-//                    alert("Error al buscar carreras");
-//                    alert(datosRecibidos);
-//                }
-//            });
-//        };
-//
-//        app.rellenarCarrera = function (datosPlan) {
-//            var html = "<option value=0>Seleccione una carrera</option>";
-//            $.each(datosPlan, function (clave, plan) {
-//                html += "<option value='" + plan.id_plan + "'>" + plan.nombre_carrera + " (Resolucion:" + plan.resolucion + ")</option>";
-//            });
-//            $("#selectPlan").html(html);
-//        };
-//        
-//        app.buscarMaterias = function () {
-//            var url = "../../controlador/ruteador/Ruteador.php?accion=buscarMaterias&Formulario=Horario";
-//            var datosEnviar= {"fk_plan": $("#selectPlan").val()};
-//            $.ajax({
-//                url: url,
-//                method: 'POST',
-//                dataType: 'json',
-//                data: datosEnviar,
-//                success: function (datosRecibidos) {
-//                    app.rellenarMaterias(datosRecibidos);
-//                },
-//                error: function (datosRecibidos) {
-//                    alert("Error al buscar materias");
-//                    alert(datosRecibidos);
-//                }
-//            });
-//        };
-//
-//        app.rellenarMaterias = function (datosMateria) {
-//            var html = "<option value=0>Seleccione una materia</option>";
-//            $.each(datosMateria, function (clave, materia) {
-//                html += "<option data-anio='"+materia.anio+"' value='" + materia.id_materia + "'>" + materia.nombre_materia + "</option>";
-//            });
-//            $("#selectMateria").html(html);
-//        };
-//        
-//        app.buscarSedes= function(){
-//          var url="../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Sede";
-//          $.ajax({
-//              url: url,
-//              method: 'GET',
-//              dataType: 'json',
-//              success: function(datosRecibidos){
-//                  app.rellenarSedes(datosRecibidos);
-//              },
-//              error: function(datosRecibidos){
-//                  alert("Error al buscar sedes");
-//                  alert(datosRecibidos);
-//              }
-//          });
-//        };
-//        
-//        app.rellenarSedes = function (datosSede) {
-//            var html = "<option value=0>Seleccione una sede</option>";
-//            $.each(datosSede, function (clave, sede) {
-//                html += "<option value='" + sede.id_sede + "'>" + sede.nombre_sede +" (Numero:"+sede.numero_sede+ ")</option>";
-//            });
-//            $("#selectSede").html(html);
-//        };
-//        
-//        app.buscarCursos= function(){
-//            var url= "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Horario";
-//            var datosEnviar= {
-//                "fk_sede": $("#selectSede").val(),
-//                "fk_plan": $("#selectPlan").val(),
-//                "anio": $("#selectMateria").find(":selected").attr("data-anio")
-//            };
-//            $.ajax({
-//               url: url,
-//               method: 'POST',
-//               dataType: 'json',
-//               data: datosEnviar,
-//               success: function(datosRecibidos){
-//                   app.rellenarCursos(datosRecibidos);
-//               },
-//               error: function(datosRecibidos){
-//                   alert("Error al buscar cursos");
-//                   alert(datosRecibidos);
-//               }
-//            });
-//        };
-//        
-//        app.rellenarCursos= function(datosCurso){
-//            var html = "<option value=0>Seleccione un curso</option>";
-//            $.each(datosCurso, function (clave, curso) {
-//                html += "<option value='" + curso.id_curso + "'>" + curso.nombre_curso + "</option>";
-//            });
-//            $("#selectCurso").html(html);
-//        };
-        
         app.rellenarCiclo = () => {
           var año = new Date();
           var html = "";
@@ -532,8 +424,8 @@ $(function () {
             $("#selectSede").val(0);
             $("#selectSede").prop('disabled', false);
             $("#selectProfesor").val(0);
-            $("#inicioHorario").val(0);
-            $("#finHorario").val(0);
+            $("#selectInicioHorario").val(0);
+            $("#selectFinHorario").val(0);
             $("#selectDia").val(0);
             $("#selectCicloLectivo").val(0);
             $("#fieldsetHorario").removeAttr("disabled");
