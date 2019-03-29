@@ -17,24 +17,18 @@ $(function () {
             $("#agregarHorario").on('click', function () {
                 app.ocultarCampos();
                 $("#tituloModal").html("Agregar horario");
-                $("#id_horario").val(0);
+                $("#id").val(0);
                 $("#modalHorario").modal({show: true});
                 $("#accion").html("Guardar");
             });
             
-            $("#accion").on('click',function(){
-                if($("#accion").html()=="Guardar"){
-                    $("#selectPlan").prop('disabled', false);
-                    $("#selectSede").prop('disabled', false);
-                    if($("#id_horario").val()==0){
-                        app.guardarHorario();
-                    }else{
-                        app.editarHorario();
-                    }
-                    $("#selectPlan").prop('disabled', true);
-                    $("#selectSede").prop('disabled', true);
+            $("#form").on('success.form.bv',function(event){
+                event.preventDefault();
+                
+                if($("#id").val()==0){
+                    app.guardarHorario();
                 }else{
-                    app.eliminarHorario();
+                    app.editarHorario();
                 }
             });
             
@@ -129,30 +123,9 @@ $(function () {
                $("#selectDia").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().html());
                $("#selectCicloLectivo").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
             });
-            $("#cuerpoTablaHorario").on('click','.ver',function(){
-               $("#id_horario").val($(this).attr("data-id_horario"));
-               $("#accion").hide();
-               $("#tituloModal").html("Ver horario");
-               $("#fieldsetHorario").attr("disabled","true");
-               $("#selectProfesor").val($(this).parent().parent().children().first().attr("data-id_profesor"));
-               $("#selectPlan").val($(this).parent().parent().children().first().next().attr("data-id_plan"));
-               $("#selectPlan").change();
-                setTimeout(()=>{
-                    $("#selectMateria").val($(this).parent().parent().children().first().next().next().attr("data-id_materia"));
-                    $("#selectMateria").change();
-                    setTimeout(()=>{
-                        $("#selectSede").val($(this).parent().parent().children().first().next().next().next().attr("data-id_sede"));
-                        $("#selectSede").change();
-                        setTimeout(()=>{
-                            $("#selectCurso").val($(this).parent().parent().children().first().next().next().next().next().attr("data-id_curso"));
-                            $("#modalHorario").modal({show:true});
-                        },200);
-                    },200);
-                },200);
-               $("#inicioHorario").val($(this).parent().parent().children().first().next().next().next().next().next().html());
-               $("#finHorario").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
-               $("#selectDia").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().html());
-               $("#selectCicloLectivo").val($(this).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
+            
+            $("#form").bootstrapValidator({
+                excluded: []
             });
             
             $("#modalHorario").on('hide.bs.modal', function () {
@@ -162,14 +135,14 @@ $(function () {
         
         app.guardarHorario= function(){
           var url= "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Horario";
-          var datosEnviar= $("#formHorario").serialize();
+          var datosEnviar= $("#form").serialize();
           $.ajax({
              url: url,
              method: 'POST',
              dataType: 'json',
              data: datosEnviar,
              success: function(datosRecibidos){
-                 app.actualizarTabla(datosRecibidos,$("#id_horario").val());
+                 app.actualizarTabla(datosRecibidos,$("#id").val());
                  $("#modalHorario").modal('hide');
              },
              error: function(datosRecibidos){
@@ -188,7 +161,7 @@ $(function () {
              dataType: 'json',
              data: datosEnviar,
              success: function(datosRecibidos){
-                 app.actualizarTabla(datosRecibidos,$("#id_horario").val());
+                 app.actualizarTabla(datosRecibidos,$("#id").val());
                  $("#modalHorario").modal('hide');
              },
              error: function(datosRecibidos){
@@ -207,32 +180,30 @@ $(function () {
                              <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
                              <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
                              <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
-                             <td data-anio_materia'"+horario.anio+"'>" + horario.inicio_horario + "</td>\n\
-                             <td>" + horario.fin_horario + "</td>\n\
+                             <td data-id_inicio='"+horario.fk_modulo_inicio+"'>" + horario.hora_inicio + "</td>\n\
+                             <td data-id_fin='"+horario.fk_modulo_fin+"'>" + horario.hora_fin + "</td>\n\
                              <td>" + horario.dia_horario + "</td>\n\
                              <td>" + horario.ciclo_lectivo_horario + "</td>\n\
                              <td>\n\
-                                 <a class='ver btn btn-info' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
-                                 <a class='eliminar btn btn-danger' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                                  <a class='editar btn btn-success' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                                 <a class='eliminar btn btn-danger' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                              </td>\n\
                          </tr>";
                 $("#cuerpoTablaHorario").append(html);
             }else{
                 var fila = $("#cuerpoTablaHorario").find("a[data-id_horario='"+id+"']").parent().parent();
-                var html= "<td data-id_profesor='" + $("#selectProfesor").val() + "'>" + $("#selectProfesor").find(":selected").html() + "</td>\n\
-                             <td data-id_plan='" + $("#selectPlan").val() + "'>" + $("#selectPlan").find(":selected").html() + "</td>\n\
-                             <td data-id_materia='" + $("#selectMateria").val() + "'>" + $("#selectMateria").find(":selected").html() + "</td>\n\
-                             <td data-id_sede='" + $("#selectSede").val() + "'>" + $("#selectSede").find(":selected").html() + ")</td>\n\
-                             <td data-id_curso='" + $("#selectCurso").val() + "'>" + $("#selectCurso").find(":selected").html() + "</td>\n\
-                             <td data-anio_materia'"+ $("#anioMateria") +"'>" + $("#inicioHorario").val() + "</td>\n\
-                             <td>" + $("#finHorario").val() + "</td>\n\
-                             <td>" + $("#selectDia").val() + "</td>\n\
-                             <td>" + $("#selectCicloLectivo").val() + "</td>\n\
+                var html= "<td data-id_profesor='" + horario.fk_profesor + "'>" + horario.nombre_profesor + " " + horario.apellido_profesor + "</td>\n\
+                             <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
+                             <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
+                             <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
+                             <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
+                             <td data-id_inicio='"+horario.fk_modulo_inicio+"'>" + horario.hora_inicio + "</td>\n\
+                             <td data-id_fin='"+horario.fk_modulo_fin+"'>" + horario.hora_fin + "</td>\n\
+                             <td>" + horario.dia_horario + "</td>\n\
+                             <td>" + horario.ciclo_lectivo_horario + "</td>\n\
                              <td>\n\
-                                 <a class='ver btn btn-info' data-id_horario='" + id + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
-                                 <a class='eliminar btn btn-danger' data-id_horario='" + id + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
-                                 <a class='editar btn btn-success' data-id_horario='" + id + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                                 <a class='editar btn btn-success' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                                 <a class='eliminar btn btn-danger' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                              </td>";
                 
                 fila.html(html);
@@ -286,14 +257,13 @@ $(function () {
                              <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
                              <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
                              <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
-                             <td data-anio_materia'"+horario.anio+"'>" + horario.inicio_horario + "</td>\n\
-                             <td>" + horario.fin_horario + "</td>\n\
+                             <td data-id_inicio='"+horario.fk_modulo_inicio+"'>" + horario.hora_inicio + "</td>\n\
+                             <td data-id_fin='"+horario.fk_modulo_fin+"'>" + horario.hora_fin + "</td>\n\
                              <td>" + horario.dia_horario + "</td>\n\
                              <td>" + horario.ciclo_lectivo_horario + "</td>\n\
                              <td>\n\
-                                 <a class='ver btn btn-info' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-info-sign'></span>Ver</a>\n\
-                                 <a class='eliminar btn btn-danger' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                                  <a class='editar btn btn-success' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                                 <a class='eliminar btn btn-danger' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                              </td>\n\
                          </tr>";
             });
