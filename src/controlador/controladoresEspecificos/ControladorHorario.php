@@ -112,6 +112,26 @@ class ControladorHorario extends ControladorGeneral {
         }
     }
     
+    public function verificarHorario($datos){
+        try{
+            $parametros= array(
+                "fk_materia" => $datos["fk_materia"],
+                "inicio_horario" => $datos["inicio_horario"],
+                "fin_horario" => $datos["fin_horario"],
+                "fk_curso" => $datos["fk_curso"],
+                "dia_horario" => $datos["dia_horario"],
+                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
+            );
+            $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERFICAR_HORARIO_TOMADO,$parametros);
+            $existe=$resultado->fetch();
+            if($existe["existe"]==1){
+                return 1;
+            }
+        } catch (Exception $e) {
+            
+        }
+    }
+    
     public function modificar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();

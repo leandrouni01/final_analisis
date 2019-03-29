@@ -24,12 +24,7 @@ $(function () {
             
             $("#form").on('success.form.bv',function(event){
                 event.preventDefault();
-                
-                if($("#id").val()==0){
-                    app.guardarHorario();
-                }else{
-                    app.editarHorario();
-                }
+                app.verificarHorario();
             });
             
             $("#selectPlan").on('change',function(){
@@ -41,7 +36,7 @@ $(function () {
                 $("#profesor").show();
                 $("#selectSede").prop('disabled', true);
                 //alert($("#selectMateria").val());
-                if($("#selectMateria").val() != 0){
+                if($("#selectMateria").find(":selected").val() != 0){
                    app.listarCombos('Curso');   
                }
             });
@@ -131,6 +126,23 @@ $(function () {
             $("#modalHorario").on('hide.bs.modal', function () {
                 app.limpiarModal();
             });
+        };
+        
+        app.verificarHorario= function(){
+            var url= "../../controlador/ruteador/Ruteador.php?accion=verificarHorario&Formulario=Horario";
+            var datosEnviar= $("#form").serialize();
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datosEnviar,
+                success: function (datosRecibidos) {
+                    alert(datosRecibidos.existe);
+                },
+                error: function (datosRecibidos) {
+                    alert("error");
+                }
+            })
         };
         
         app.guardarHorario= function(){
@@ -262,8 +274,8 @@ $(function () {
                              <td>" + horario.dia_horario + "</td>\n\
                              <td>" + horario.ciclo_lectivo_horario + "</td>\n\
                              <td>\n\
-                                 <a class='editar btn btn-success' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
-                                 <a class='eliminar btn btn-danger' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
+                                 <a class='editar btn btn-success' title='Editar registro' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
+                                 <a class='eliminar btn btn-danger'title='Eliminar registro'  data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
                              </td>\n\
                          </tr>";
             });
@@ -370,36 +382,35 @@ $(function () {
             });
             
             $('#' + itemRecibido).html(html);
-            $('#' + itemRecibido).prepend("<option value='0'>Seleccione</option>");
-            $('#' + itemRecibido).val(0);
+            $('#' + itemRecibido).prepend("<option selected disabled value=''>Seleccione</option>");
         };
 
         app.rellenarCiclo = () => {
           var año = new Date();
           var html = "";
           //alert(año.getFullYear());
-          html += '<option value="0">Selecione el ciclo lectivo</option>';
+          html += '<option selected disabled value="">Selecione el ciclo lectivo</option>';
           for(var i = 2000; i <= año.getFullYear(); i++){
               html += `<option value='${i}'>` + i + "</option>";
           }  
           $("#selectCicloLectivo").html(html);
-          $("#selectCicloLectivo").val(0);
         };
         
         app.limpiarModal= function(){
             $("#id_horario").val("");
             $("#anioMateria").val("");
-            $("#selectPlan").val(0);
+            $("#selectPlan").val("");
             $("#selectPlan").prop('disabled', false);
-            $("#selectSede").val(0);
+            $("#selectSede").val("");
             $("#selectSede").prop('disabled', false);
-            $("#selectProfesor").val(0);
-            $("#selectInicioHorario").val(0);
-            $("#selectFinHorario").val(0);
-            $("#selectDia").val(0);
-            $("#selectCicloLectivo").val(0);
+            $("#selectProfesor").val("");
+            $("#selectInicioHorario").val("");
+            $("#selectFinHorario").val("");
+            $("#selectDia").val("");
+            $("#selectCicloLectivo").val("");
             $("#fieldsetHorario").removeAttr("disabled");
             $("#accion").show();
+            $("#form").bootstrapValidator("resetForm",true);
         };
         
         app.ocultarCampos = () => {
