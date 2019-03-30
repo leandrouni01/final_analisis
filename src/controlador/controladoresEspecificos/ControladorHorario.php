@@ -135,10 +135,23 @@ class ControladorHorario extends ControladorGeneral {
                 "dia_horario" => $datos["dia_horario"],
                 "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
             );
-            $resultado2= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO,$parametros2);
+            $resultado2= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO_PROFESOR,$parametros2);
             $existe2=$resultado2->fetch();
             if($existe2["existe"]==1){
                 return 2;
+            }
+            
+            $parametros3= array(
+                "fk_curso" => $datos["fk_curso"],
+                "fin_horario" => $datos["fin_horario"],
+                "inicio_horario" => $datos["inicio_horario"],
+                "dia_horario" => $datos["dia_horario"],
+                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
+            );
+            $resultado3= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO_CURSO,$parametros3);
+            $existe3=$resultado3->fetch();
+            if($existe3["existe"]==1){
+                return 3;
             }
             
             return 0;
