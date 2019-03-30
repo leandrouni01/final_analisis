@@ -124,6 +124,7 @@ class ControladorHorario extends ControladorGeneral {
             );
             $resultado1= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_TOMADO,$parametros1);
             $existe1=$resultado1->fetch();
+            //revisa si el horario ya esta tomado por otro profesor
             if($existe1["existe"]==1){
                 return 1;
             }
@@ -137,6 +138,7 @@ class ControladorHorario extends ControladorGeneral {
             );
             $resultado2= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO_PROFESOR,$parametros2);
             $existe2=$resultado2->fetch();
+            //revisa si el profesor ya tiene un horario que no le permita estar en el nuevo horario  a guardar
             if($existe2["existe"]==1){
                 return 2;
             }
@@ -150,13 +152,14 @@ class ControladorHorario extends ControladorGeneral {
             );
             $resultado3= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO_CURSO,$parametros3);
             $existe3=$resultado3->fetch();
+            //revisa si el curso ya tiene un horario que se interponga con el horario a guardar
             if($existe3["existe"]==1){
                 return 3;
             }
             
             return 0;
         } catch (Exception $e) {
-            
+            echo "Error :" . $e->getMessage();
         }
     }
     
