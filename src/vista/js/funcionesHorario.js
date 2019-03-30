@@ -134,10 +134,10 @@ $(function () {
             $.ajax({
                 url: url,
                 method: 'POST',
-                dataType: 'json',
+                //dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    alert(datosRecibidos.existe);
+                    alert(datosRecibidos);
                 },
                 error: function (datosRecibidos) {
                     alert("error");

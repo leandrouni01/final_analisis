@@ -114,7 +114,7 @@ class ControladorHorario extends ControladorGeneral {
     
     public function verificarHorario($datos){
         try{
-            $parametros= array(
+            $parametros1= array(
                 "fk_materia" => $datos["fk_materia"],
                 "inicio_horario" => $datos["inicio_horario"],
                 "fin_horario" => $datos["fin_horario"],
@@ -122,11 +122,26 @@ class ControladorHorario extends ControladorGeneral {
                 "dia_horario" => $datos["dia_horario"],
                 "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
             );
-            $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERFICAR_HORARIO_TOMADO,$parametros);
-            $existe=$resultado->fetch();
-            if($existe["existe"]==1){
+            $resultado1= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_TOMADO,$parametros1);
+            $existe1=$resultado1->fetch();
+            if($existe1["existe"]==1){
                 return 1;
             }
+            
+            $parametros2= array(
+                "fk_profesor" => $datos["fk_profesor"],
+                "fin_horario" => $datos["fin_horario"],
+                "inicio_horario" => $datos["inicio_horario"],
+                "dia_horario" => $datos["dia_horario"],
+                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
+            );
+            $resultado2= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO,$parametros2);
+            $existe2=$resultado2->fetch();
+            if($existe2["existe"]==1){
+                return 2;
+            }
+            
+            return 0;
         } catch (Exception $e) {
             
         }
