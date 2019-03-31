@@ -206,7 +206,7 @@ $(function () {
                             break;
 
                         case 1:
-                            app.alertInfo();
+                            app.alertInfo1();
 
                             break;
 
