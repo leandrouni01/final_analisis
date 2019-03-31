@@ -60,7 +60,7 @@ and open the template in the editor.
                                             <li><a href="PlanEstudio.html">Plan de Estudio</a></li>
                                             <li><a href="Materias.html">Materias</a></li>
                                             <li><a href="Correlatividades.html">Correlatividades</a></li>
-                                            <li role="separator" class="divider"></li>                                            
+                                            <li role="separator" class="divider"></li>
                                             <li><a href="Curso.html">Cursos</a></li>
                                             <li class="active"><a href="Horario.html">Horarios</a></li>
                                         </ul>
@@ -88,252 +88,273 @@ and open the template in the editor.
         <div class="container">
             <div class="row">
 
-            <div class="col-lg-12">
-                <div class="well well-sm" style="background-color: #9acfea" >
-                    <h1>Instituto Manuel Belgrano</h1>
-                    <h4> Sistema de Carga de Horarios.</h4>
+                <div class="col-lg-12">
+                    <div class="well well-sm" style="background-color: #9acfea" >
+                        <h1>Instituto Manuel Belgrano</h1>
+                        <h4> Sistema de Carga de Horarios.</h4>
 
-                    <img align="right" style="width:100px; height:100px; position: absolute; top: 9px;left:849px" src="../css/iesmb.jpg" class="img-circle" alt=""/>                 
-                </div>
-
-                <table class="table">
-                    <tr>
-                        <td align="">
-                            <button class="btn btn-primary btn-lg pull-left" id="agregarHorario" data-toggle="tooltip" data-placement="left" title="Cargar registro">
-                                <span class="glyphicon glyphicon-pencil"></span> Agregar
-                            </button>
-                        </td>
-                        <td>
-                            <div class="pull-right">
-                                <div class="input-group">
-                                    <input id="textBusca" type="text" class="form-control" placeholder="Buscar horario.." aria-describedby="basic-addon2">
-                                    <span class="input-group-addon" id="basic-addon2">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </td>
-
-                    </tr>
-                </table>
-                <div class='container-fluid'>
-
-                    <div id='alerta'>
+                        <img align="right" style="width:100px; height:100px; position: absolute; top: 9px;left:1043px" src="../css/iesmb.jpg" class="img-circle" alt=""/>
                     </div>
 
+                    <table class="table">
+                        <tr>
+                            <td align="">
+                                <button class="btn btn-primary btn-lg pull-left" id="agregarHorario" data-toggle="tooltip" data-placement="left" title="Cargar registro">
+                                    <span class="glyphicon glyphicon-pencil"></span> Agregar
+                                </button>
+                            </td>
+                            <td>
+                                <div class="pull-right">
+                                    <div class="input-group">
+                                        <input id="textBusca" type="text" class="form-control" placeholder="Buscar horario.." aria-describedby="basic-addon2">
+                                        <span class="input-group-addon" id="basic-addon2">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <div class='container-fluid'>
+                        <div id="alert2"></div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-12 thumbnail">
+
+                    <table class="table table-bordered table-hover table-condensed" id="tabla">
+                        <thead>
+                            <tr>
+                                <th>Profesor</th>
+                                <th>Carrera</th>
+                                <th>Materia</th>
+                                <th>Sede</th>
+                                <th>Curso</th>
+                                <th>Inicio</th>
+                                <th>Fin</th>
+                                <th>Dia</th>
+                                <th>Ciclo Lectivo</th>
+                                <th class="col-lg-2"><span class="glyphicon glyphicon-cog"></span> Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="cuerpoTablaHorario" >
+                        </tbody>
+
+                    </table>
+                    <div id="alert"></div>
                 </div>
 
             </div>
         </div>
 
-    </div>
+        <!--MODAL-->
+        <div class="modal fade" id="modalHorario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form id="form" class="form-horizontal"
+                          data-bv-message="Este valor No es válido"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                          data-bv-submitbuttons='button[type="submit"]'
+                          data-bv-trigger="focus blur"
+                          data-bv-live="enabled">
+                        <div class="modal-header">
+                            <div class="well well-sm">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 align="left" class="modal-title" id="tituloModal">Nuevo Horario</h3>
+                            </div>
+
+                            <div class="container-fluid" id="alerta"></div>
+
+                            <input class="form-control" type="hidden" id="id" name="id">
+                            <input class="form-control" type="hidden" id="id_domicilio" name="id_domicilio">
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="container-fluid">
+
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+
+                                        <div class="container-fluid">
+
+                                            <div class="form-group">
+                                                <label class="control-label" for="selectPlan">Carrera</label>
+                                                <div>
+                                                    <div class="input-group">
+
+                                                        <select id="selectPlan" name="fk_plan" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar una Carrera">
+                                                        </select>
+
+                                                        <span class="input-group-btn">
+                                                            <button type="button" id="cambiarPlan" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Carrera</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="profesor">
+                                                <label class="control-label" for="selectProfesor">Profesor</label>
+                                                <div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                        <select id="selectProfesor" name="fk_profesor" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar un Profesor">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="curso">
+                                                <label class="control-label" for="selectCurso">Curso</label>
+                                                <div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></span>
+                                                        <select id="selectCurso" name="fk_curso" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar un Curso">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="hora_inicio">
+                                                <label class="control-label" for="selectInicioHorario">Hora Inicio</label>
+                                                <div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                        <select class="form-control" id="selectInicioHorario" name="inicio_horario"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar Horario de inicio">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="ciclo_lectivo">
+                                                <label class="control-label" for="selectCicoLectivo">Ciclo Lectivo</label>
+                                                <div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        <select class="form-control" id="selectCicloLectivo" name="ciclo_lectivo_horario"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar un Año">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-6">
+
+                                        <div class="container-fluid">
+
+                                            <div class="form-group" id="sede">
+                                                <label class="control-label" for="selectSede">Sede</label>
+                                                <div>
+                                                    <div class="input-group">
+
+                                                        <select id="selectSede" name="fk_sede" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar una Sede">
+                                                        </select>
+                                                        <span class="input-group-btn">
+                                                            <button type="button" id="cambiarSede" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Sede</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="materia">
+                                                <label class="control-label" for="selectMateria">Materia</label>
+                                                <div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                                                        <select id="selectMateria" name="fk_materia" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar una Materia">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="dia">
+                                                <label class="control-label" for="selectDia" >Dia</label>
+                                                <div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                        <select id="selectDia" name="dia_horario" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar un Día">
+                                                            <option selected disabled value="">Selecione un dia</option>
+                                                            <option value="Lunes">Lunes</option>
+                                                            <option value="Martes">Martes</option>
+                                                            <option value="Miercoles">Miercoles</option>
+                                                            <option value="Jueves">Jueves</option>
+                                                            <option value="Viernes">Viernes</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="hora_fin">
+                                                <label class="control-label" for="selectFinHorario">Hora Fin</label>
+                                                <div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                        <select class="form-control" id="selectFinHorario" name="fin_horario"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar Horario de finalización">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
 
 
-    <div class="container">
+                            <button type="button" id="borrar" class="btn btn-danger hidden"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+                            <button type="submit" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
+                        </div>
 
-        <div class="row">
-
-        <div class="col-lg-12 thumbnail">
-
-            <table class="table table-bordered table-hover table-condensed" id="tabla">
-                <thead>
-                    <tr>
-                        <th>Profesor</th>
-                        <th>Carrera</th>
-                        <th>Materia</th>
-                        <th>Sede</th>
-                        <th>Curso</th>
-                        <th>Inicio</th>
-                        <th>Fin</th>
-                        <th>Dia</th>
-                        <th>Ciclo Lectivo</th>
-                        <th class="col-lg-2"><span class="glyphicon glyphicon-cog"></span> Acciones</th>
-                    </tr>  
-                </thead>
-
-                <tbody id="cuerpoTablaHorario" >
-                </tbody>
-
-            </table>
-            <div id="alert"></div>
+                    </form>
+                </div>
+            </div>
         </div>
 
-    </div>
-</div>
-
-<!--MODAL-->
-<div class="modal fade" id="modalHorario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <form id="form" class="form-horizontal"
-                  data-bv-message="Este valor No es válido"
-                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
-                  data-bv-submitbuttons='button[type="submit"]'
-                  data-bv-trigger="focus blur"
-                  data-bv-live="enabled">
-                <div class="modal-header">
-                    <div class="well well-sm">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 align="left" class="modal-title" id="tituloModal">Nuevo Horario</h3>
-                    </div>
-
-                    <input class="form-control" type="hidden" id="id" name="id">
-                    <input class="form-control" type="hidden" id="id_domicilio" name="id_domicilio">
-
-                </div>
-
-                <div class="modal-body">
-
-                    <div class="row">
-
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Carrera</label>
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                                    <select id="selectPlan" name="fk_plan" class="form-control"
-                                            data-bv-notempty="true"
-                                            data-bv-notempty-message="Debes seleccionar una Carrera">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <button type="button" id="cambiarPlan" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Carrera</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="sede">
-                            <label class="col-lg-3 control-label">Sede</label>
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                    <select id="selectSede" name="fk_sede" class="form-control"
-                                            data-bv-notempty="true"
-                                            data-bv-notempty-message="Debes seleccionar una Sede">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <button type="button" id="cambiarSede" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Sede</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="profesor">
-                            <label class="col-lg-3 control-label">Profesor</label>
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> 
-                                    <select id="selectProfesor" name="fk_profesor" class="form-control"
-                                            data-bv-notempty="true"
-                                            data-bv-notempty-message="Debes seleccionar un Profesor">
-                                    </select>
-                                </div> 
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="materia">
-                            <label class="col-lg-3 control-label">Materia</label>
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span> 
-                                    <select id="selectMateria" name="fk_materia" class="form-control"
-                                            data-bv-notempty="true"
-                                            data-bv-notempty-message="Debes seleccionar una Materia">
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="curso">
-                            <label class="col-lg-3 control-label">Curso</label>
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></span> 
-                                    <select id="selectCurso" name="fk_curso" class="form-control"
-                                            data-bv-notempty="true"
-                                            data-bv-notempty-message="Debes seleccionar un Curso">
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="hora_inicio">
-                            <label class="col-lg-3 control-label">Hora Inicio</label>
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span> 
-                                    <select class="form-control" id="selectInicioHorario" name="inicio_horario"
-                                            data-bv-notempty="true"
-                                            data-bv-notempty-message="Debes seleccionar Horario de inicio">
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="hora_fin">
-                            <label class="col-lg-3 control-label">Hora Fin</label>
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span> 
-                                    <select class="form-control" id="selectFinHorario" name="fin_horario"
-                                            data-bv-notempty="true"
-                                            data-bv-notempty-message="Debes seleccionar Horario de finalización">
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="dia">
-                            <label class="col-lg-3 control-label">Dia</label>
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span> 
-                                    <select id="selectDia" name="dia_horario" class="form-control"
-                                            data-bv-notempty="true"
-                                            data-bv-notempty-message="Debes seleccionar un Día">
-                                        <option selected disabled value="">Selecione un dia</option>
-                                        <option value="Lunes">Lunes</option>
-                                        <option value="Martes">Martes</option>
-                                        <option value="Miercoles">Miercoles</option>
-                                        <option value="Jueves">Jueves</option>
-                                        <option value="Viernes">Viernes</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="ciclo_lectivo">
-                            <label class="col-lg-3 control-label">Ciclo Lectivo</label>
-                            <div class="col-lg-5">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span> 
-                                    <select class="form-control" id="selectCicloLectivo" name="ciclo_lectivo_horario"
-                                            data-bv-notempty="true"
-                                            data-bv-notempty-message="Debes seleccionar un Año">
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
-                    <button type="button" id="borrar" class="btn btn-danger hidden"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
-                    <button type="submit" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-</div>
-
-<script src="../js/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>
-<script src="../js/funcionesHorario.js" type="text/javascript"></script>
-</body>
+        <script src="../js/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="../js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../js/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>
+        <script src="../js/funcionesHorario.js" type="text/javascript"></script>
+    </body>
 </html>

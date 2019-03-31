@@ -157,6 +157,7 @@ class ControladorHorario extends ControladorGeneral {
                 return 3;
             }
             
+            //si el valor que retorna es "0" puede guardar en la BD el nuevo Horario cargado.
             return 0;
         } catch (Exception $e) {
             echo "Error :" . $e->getMessage();
