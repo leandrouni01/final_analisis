@@ -15,7 +15,8 @@ $(function () {
         app.bindings = function () {
 
             $("#agregarHorario").on('click', function () {
-                app.ocultarCampos();
+                //app.ocultarCampos();
+                app.limpiarModal();
                 $("#tituloModal").html("Agregar horario");
                 $("#id").val(0);
                 $("#modalHorario").modal({show: true});
@@ -241,6 +242,7 @@ $(function () {
                     app.actualizarTabla(datosRecibidos, $("#id").val());
                     app.alertSave();
                     app.limpiarModal();
+                    $("#selectSede").change();
                 },
                 error: function (datosRecibidos) {
                     alert("Error al guardar horario");
@@ -483,17 +485,18 @@ $(function () {
 
         app.limpiarModal = function () {
             $("#id_horario").val("");
-            $("#anioMateria").val("");
             $("#selectPlan").val("");
             $("#selectPlan").prop('disabled', false);
             $("#selectSede").val("");
             $("#selectSede").prop('disabled', false);
             $("#selectProfesor").val("");
+            $("#selectMateria").val("");
             $("#selectInicioHorario").val("");
             $("#selectFinHorario").val("");
             $("#selectDia").val("");
             $("#selectCicloLectivo").val("");
             $("#fieldsetHorario").removeAttr("disabled");
+            app.ocultarCampos();
             $("#accion").show();
             $("#form").bootstrapValidator("resetForm", true);
         };
