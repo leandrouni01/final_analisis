@@ -241,7 +241,12 @@ $(function () {
                 success: function (datosRecibidos) {
                     app.actualizarTabla(datosRecibidos, $("#id").val());
                     app.alertSave();
+                    var plan = $("#selectPlan").find(':selected').val();
+                    var sede = $("#selectSede").find(':selected').val();
                     app.limpiarModal();
+                    $("#selectPlan").val(plan);
+                    $("#selectPlan").prop('disabled', true);
+                    $("#selectSede").val(sede);
                     $("#selectSede").change();
                 },
                 error: function (datosRecibidos) {
