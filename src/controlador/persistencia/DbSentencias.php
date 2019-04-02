@@ -83,8 +83,8 @@ interface DbSentencias {
     const ACTUALIZAR_HORARIO= "UPDATE horarios SET fk_profesor=?,fk_materia=?,inicio_horario=?,fin_horario=?,fk_curso=?,dia_horario=?,ciclo_lectivo_horario=? WHERE id_horario=?;";
     const ELIMINAR_HORARIO= "UPDATE horarios SET estado=0 WHERE id_horario=?;";
     const VERIFICAR_HORARIO_TOMADO= "SELECT EXISTS(SELECT horarios.* FROM horarios WHERE fk_materia=? AND fk_modulo_inicio=? AND fk_modulo_fin=? AND fk_curso=? AND dia_horario=? AND ciclo_lectivo_horario=? AND estado=1) AS existe;";
-    const VERIFICAR_HORARIO_SOLAPADO_PROFESOR= "SELECT EXISTS(SELECT horarios.* FROM horarios WHERE fk_profesor=? AND (fk_modulo_inicio<? OR fk_modulo_fin>?) AND dia_horario=? AND ciclo_lectivo_horario=? AND estado=1) AS existe;";
-    const VERIFICAR_HORARIO_SOLAPADO_CURSO= "SELECT EXISTS(SELECT horarios.* FROM horarios WHERE fk_curso=? AND (fk_modulo_inicio<? OR fk_modulo_fin>?) AND dia_horario=? AND ciclo_lectivo_horario=? AND estado=1) AS existe;";
+    const VERIFICAR_HORARIO_SOLAPADO_PROFESOR= "SELECT EXISTS(SELECT horarios.* FROM horarios WHERE fk_profesor=? AND ((fk_modulo_inicio<? AND fk_modulo_fin>?) OR (fk_modulo_fin>? AND fk_modulo_inicio<?)) AND dia_horario=? AND ciclo_lectivo_horario=? AND estado=1) AS existe;";
+    const VERIFICAR_HORARIO_SOLAPADO_CURSO= "SELECT EXISTS(SELECT horarios.* FROM horarios WHERE fk_curso=? AND ((fk_modulo_inicio<? AND fk_modulo_fin>?) OR (fk_modulo_fin>? AND fk_modulo_inicio<?)) AND dia_horario=? AND ciclo_lectivo_horario=? AND estado=1) AS existe;";
     //Plan de Estudios
     const LISTAR_PLAN_DE_ESTUDIOS= "SELECT plan_de_estudios.*,carrera.`nombre_carrera` FROM plan_de_estudios INNER JOIN carrera ON (fk_carrera=id_carrera) WHERE estado_plan=1;";
     const INSERTAR_PLAN_DE_ESTUDIOS= "INSERT INTO plan_de_estudios(fk_carrera,resolucion,fecha,horas_catedra,horas_reloj,duracion) VALUES (?,?,?,?,?,?);";

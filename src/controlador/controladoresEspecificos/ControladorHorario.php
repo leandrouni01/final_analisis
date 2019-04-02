@@ -132,7 +132,9 @@ class ControladorHorario extends ControladorGeneral {
             $parametros2= array(
                 "fk_profesor" => $datos["fk_profesor"],
                 "fin_horario" => $datos["fin_horario"],
+                "fin_horario2" => $datos["fin_horario"],
                 "inicio_horario" => $datos["inicio_horario"],
+                "inicio_horario2" => $datos["inicio_horario"],
                 "dia_horario" => $datos["dia_horario"],
                 "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
             );
@@ -146,7 +148,9 @@ class ControladorHorario extends ControladorGeneral {
             $parametros3= array(
                 "fk_curso" => $datos["fk_curso"],
                 "fin_horario" => $datos["fin_horario"],
+                "fin_horario2" => $datos["fin_horario"],
                 "inicio_horario" => $datos["inicio_horario"],
+                "inicio_horario2" => $datos["inicio_horario"],
                 "dia_horario" => $datos["dia_horario"],
                 "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
             );
