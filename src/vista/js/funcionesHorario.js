@@ -75,7 +75,7 @@ $(function () {
                 $("#tituloModal").html("Editar horario");
                 app.modificarCampos(this);
             });
-            
+
             $("#cuerpoTablaHorario").on('click', '.eliminar', function () {
                 $("#accion").html("Eliminar");
                 $("#tituloModal").html("¿Está seguro de que desea eliminar este horario?");
@@ -112,23 +112,25 @@ $(function () {
 
         app.alertInfo1 = function () {
             var alerta = '<div class="alert alert-danger" role="alert">' +
-                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' El horario ingresado ya pertenece a un Profesor. ' +
+                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' El horario ingresado ya pertenece a un Profesor.' +
                     '</div>';
             $("#alerta").html(alerta);
             app.showAlert();
         };
 
         app.alertInfo2 = function () {
+            var profesor = $("#selectProfesor").find(':selected').text();
             var alerta = '<div class="alert alert-danger" role="alert">' +
-                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + 'Este horario no se encuentra disponible para el Profesor ingresado. ' +
+                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' El Prof: ' + profesor + ' ya dicta una Materia en el horario ingresado. ' +
                     '</div>';
             $("#alerta").html(alerta);
             app.showAlert();
         };
 
         app.alertInfo3 = function () {
+            var curso = $("#selectCurso").find(':selected').text();
             var alerta = '<div class="alert alert-danger" role="alert">' +
-                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + 'En este Curso ya se dicta una Materia con el mismo horario. ' +
+                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + 'En el curso: ' + curso + ' ya se dicta una Materia con el mismo horario. ' +
                     '</div>';
             $("#alerta").html(alerta);
             app.showAlert();
@@ -173,16 +175,91 @@ $(function () {
                             break;
 
                         case 1:
+                            //muestro mensaje con el tipo de error.
                             app.alertInfo1();
+
+                            //guardo el valor de los campos en variables.
+                            var carrera = $("#selectPlan").find(':selected').val();
+                            var sede = $("#selectSede").find(':selected').val();
+                            var profesor = $("#selectProfesor").find(':selected').val();
+                            var materia = $("#selectMateria").find(':selected').val();
+                            var curso = $("#selectCurso").find(':selected').val();
+                            var dia = $("#selectDia").find(':selected').val();
+                            var año_lectivo = $("#selectCicloLectivo").find(':selected').val();
+
+                            //reseteo el formulario y su validación.
+                            $("#form").bootstrapValidator('resetForm', true);
+
+                            //cargo valores guardados en las variables.
+                            $("#selectPlan").val(carrera);
+                            $("#selectSede").val(sede);
+                            $("#selectProfesor").val(profesor);
+                            $("#selectMateria").val(materia);
+                            $("#selectCurso").val(curso);
+                            $("#selectDia").val(dia);
+                            $("#selectCicloLectivo").val(año_lectivo);
+
+                            //genero el click con JS para validar el form nuevamente (Es cochino pero eficaz). 
+                            $("#guardar").click();
 
                             break;
 
                         case 2:
+                            //muestro mensaje con el tipo de error
                             app.alertInfo2();
+
+                            //guardo el valor de los campos en variables.
+                            var carrera = $("#selectPlan").find(':selected').val();
+                            var sede = $("#selectSede").find(':selected').val();
+                            var profesor = $("#selectProfesor").find(':selected').val();
+                            var materia = $("#selectMateria").find(':selected').val();
+                            var dia = $("#selectDia").find(':selected').val();
+                            var año_lectivo = $("#selectCicloLectivo").find(':selected').val();
+
+                            //reseteo el formulario y su validación.
+                            $("#form").bootstrapValidator('resetForm', true);
+
+                            //cargo valores guardados en las variables.
+                            $("#selectPlan").val(carrera);
+                            $("#selectSede").val(sede);
+                            $("#selectProfesor").val(profesor);
+                            $("#selectMateria").val(materia);
+                            $("#selectDia").val(dia);
+                            $("#selectCicloLectivo").val(año_lectivo);
+
+                            //genero el click con JS para validar el form nuevamente (Es cochino pero eficaz). 
+                            $("#guardar").click();
+
                             break;
 
                         case 3:
+                            //muestro mensaje con el tipo de error
                             app.alertInfo3();
+
+                            //guardo el valor de los campos en variables.
+                            var carrera = $("#selectPlan").find(':selected').val();
+                            var sede = $("#selectSede").find(':selected').val();
+                            var profesor = $("#selectProfesor").find(':selected').val();
+                            var materia = $("#selectMateria").find(':selected').val();
+                            var curso = $("#selectCurso").find(':selected').val();
+                            var dia = $("#selectDia").find(':selected').val();
+                            var año_lectivo = $("#selectCicloLectivo").find(':selected').val();
+
+                            //reseteo el formulario y su validación.
+                            $("#form").bootstrapValidator('resetForm', true);
+
+                            //cargo valores guardados en las variables.
+                            $("#selectPlan").val(carrera);
+                            $("#selectSede").val(sede);
+                            $("#selectProfesor").val(profesor);
+                            $("#selectMateria").val(materia);
+                            $("#selectCurso").val(curso);
+                            $("#selectDia").val(dia);
+                            $("#selectCicloLectivo").val(año_lectivo);
+
+                            //genero el click con JS para validar el form nuevamente (Es cochino pero eficaz). 
+                            $("#guardar").click();
+
                             break;
 
                         default:
@@ -522,7 +599,7 @@ $(function () {
             $("#selectSede").prop('disabled', condicion);
             $("#selectProfesor").prop('disabled', condicion);
             $("#selectMateria").prop('disabled', condicion);
-             $("#selectCurso").prop('disabled', condicion);
+            $("#selectCurso").prop('disabled', condicion);
             $("#selectInicioHorario").prop('disabled', condicion);
             $("#selectFinHorario").prop('disabled', condicion);
             $("#selectDia").prop('disabled', condicion);
