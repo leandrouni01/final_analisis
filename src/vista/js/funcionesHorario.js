@@ -332,8 +332,8 @@ $(function () {
                              <td>" + horario.dia_horario + "</td>\n\
                              <td>" + horario.ciclo_lectivo_horario + "</td>\n\
                              <td>\n\
-                                 <a class='editar btn btn-success' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
-                                 <a class='eliminar btn btn-danger' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
+                                 <a class='editar btn btn-warning btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
+                                 <a class='eliminar btn btn-danger btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
                              </td>\n\
                          </tr>";
                 $("#cuerpoTablaHorario").append(html);
@@ -349,8 +349,8 @@ $(function () {
                              <td>" + horario.dia_horario + "</td>\n\
                              <td>" + horario.ciclo_lectivo_horario + "</td>\n\
                              <td>\n\
-                                 <a class='editar btn btn-success' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
-                                 <a class='eliminar btn btn-danger' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
+                                 <a class='editar btn btn-warning btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
+                                 <a class='eliminar btn btn-danger btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
                              </td>";
 
                 fila.html(html);
@@ -409,8 +409,8 @@ $(function () {
                              <td>" + horario.dia_horario + "</td>\n\
                              <td>" + horario.ciclo_lectivo_horario + "</td>\n\
                              <td>\n\
-                                 <a class='editar btn btn-success' title='Editar registro' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span>Editar</a>\n\
-                                 <a class='eliminar btn btn-danger'title='Eliminar registro'  data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-remove'></span>Eliminar</a>\n\
+                                 <a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
+                                 <a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
                              </td>\n\
                          </tr>";
             });
