@@ -130,7 +130,7 @@ $(function () {
         app.alertInfo3 = function () {
             var curso = $("#selectCurso").find(':selected').text();
             var alerta = '<div class="alert alert-danger" role="alert">' +
-                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + 'En el curso: ' + curso + ' ya se dicta una Materia con el mismo horario. ' +
+                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' En el curso: ' + curso + ' ya se dicta una Materia con el mismo horario. ' +
                     '</div>';
             $("#alerta").html(alerta);
             app.showAlert();
