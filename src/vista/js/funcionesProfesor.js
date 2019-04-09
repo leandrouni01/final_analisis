@@ -226,6 +226,7 @@ $(function () {
                 var linea = "";
                 $.each(data, function (clave, object) {
                     linea += '<tr>' +
+                            '<td>' + object.cargo_profesor + '</td>' +
                             '<td>' + object.nombre_profesor + '</td>' +
                             '<td>' + object.apellido_profesor + '</td>' +
                             '<td>' + object.dni_profesor + '</td>' +
@@ -290,6 +291,7 @@ $(function () {
         app.actualizarTabla = function (object, id) {
             if (id == 0) {
                 var html = '<tr>' +
+                            '<td>' + object.cargo_profesor + '</td>' +
                             '<td>' + object.nombre_profesor + '</td>' +
                             '<td>' + object.apellido_profesor + '</td>' +
                             '<td>' + object.dni_profesor + '</td>' +
@@ -310,7 +312,9 @@ $(function () {
             } else {
                 //Modifico un Pais existente, busco la fila.
                 var fila = $("#cuerpoTabla").find("[data-id='" + id + "']").parent().parent();
-                var html = '<td>' + $("#nombre_profesor").val() + '</td>' +
+                var html = 
+                        '<td value="'+ $("#comboCargo").find(':selected').val() +'">' + $("#comboCargo").find(':selected').text() + '</td>' +
+                        '<td>' + $("#nombre_profesor").val() + '</td>' +
                         '<td>' + $("#apellido_profesor").val() + '</td>' +
                         '<td>' + $("#dni_profesor").val() + '</td>' +
                         '<td data-fk_titulo="'+ $("#comboTitulo").find(':selected').val() +'">' + $("#comboTitulo").find(':selected').text() + '</td>' +
