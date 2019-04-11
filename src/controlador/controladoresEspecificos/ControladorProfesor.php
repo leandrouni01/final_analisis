@@ -21,7 +21,7 @@ class ControladorProfesor extends ControladorGeneral {
             $controlador->agregar($parametros);
 
             $parametros = array(
-                "cargo" => $datos["cargo"],
+                "cargo_profesor" => $datos["cargo_profesor"],
                 "nombre_profesor" => $datos["nombre_profesor"],
                 "apellido_profesor" => $datos["apellido_profesor"],
                 "fk_titulo" => $datos["fk_titulo"],
@@ -130,7 +130,7 @@ class ControladorProfesor extends ControladorGeneral {
             $controlador->modificar($parametros);
 
             $parametros = array(
-                "cargo" => $datos["cargo"],
+                "cargo_profesor" => $datos["cargo_profesor"],
                 "nombre_profesor" => $datos["nombre_profesor"],
                 "apellido_profesor" => $datos["apellido_profesor"],
                 "fk_titulo" => $datos["fk_titulo"],
