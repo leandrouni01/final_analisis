@@ -113,6 +113,26 @@ CREATE TABLE `domicilio` (
 
 insert  into `domicilio`(`id_domicilio`,`calle_domicilio`,`numero_domicilio`,`fk_localidad`,`estado`) values (9,'Vecindad',1,1,1),(10,'Silent Street',23,2,0),(11,'Roca',214,4,1),(12,'Dr. Moreno',325,2,1),(13,'Rodriguez',248,1,1),(14,'Godoy Cruz',521,1,0),(15,'San Martin',4526,5,1);
 
+/*Table structure for table `horario_suplente` */
+
+DROP TABLE IF EXISTS `horario_suplente`;
+
+CREATE TABLE `horario_suplente` (
+  `id_horario_suplente` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_horario` int(11) DEFAULT NULL,
+  `fk_profesor` int(11) DEFAULT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
+  `estado_horario_suplente` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id_horario_suplente`),
+  KEY `fk_horario` (`fk_horario`),
+  KEY `fk_profesor` (`fk_profesor`),
+  CONSTRAINT `horario_suplente_ibfk_1` FOREIGN KEY (`fk_horario`) REFERENCES `horarios` (`id_horario`),
+  CONSTRAINT `horario_suplente_ibfk_2` FOREIGN KEY (`fk_profesor`) REFERENCES `profesor` (`id_profesor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `horario_suplente` */
+
 /*Table structure for table `horarios` */
 
 DROP TABLE IF EXISTS `horarios`;
@@ -262,6 +282,7 @@ DROP TABLE IF EXISTS `profesor`;
 
 CREATE TABLE `profesor` (
   `id_profesor` int(11) NOT NULL AUTO_INCREMENT,
+  `cargo` enum('P','S') NOT NULL,
   `nombre_profesor` varchar(70) NOT NULL,
   `apellido_profesor` varchar(70) NOT NULL,
   `fk_titulo` int(11) DEFAULT NULL,
@@ -319,7 +340,7 @@ CREATE TABLE `sede` (
 
 /*Data for the table `sede` */
 
-insert  into `sede`(`id_sede`,`nombre_sede`,`numero_sede`,`telefono_sede`,`fk_domicilio`,`estado`) values (7,'Godoy Cruz',1236,4246237,11,1),(8,'Las Heras',5296,153478155,12,1),(9,'Ciudad',6598,4286173,13,1),(10,'Malargúe',41258,4256314,15,1);
+insert  into `sede`(`id_sede`,`nombre_sede`,`numero_sede`,`telefono_sede`,`fk_domicilio`,`estado`) values (7,'Godoy Cruz',1236,4246237,11,1),(8,'Las Heras',5296,153478155,12,1),(9,'Ciudad',6598,4286173,13,1),(10,'Malargüe',41258,4256314,15,1);
 
 /*Table structure for table `titulo` */
 
