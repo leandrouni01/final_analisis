@@ -121,14 +121,29 @@ CREATE TABLE `horario_suplente` (
   `id_horario_suplente` int(11) NOT NULL AUTO_INCREMENT,
   `fk_horario` int(11) DEFAULT NULL,
   `fk_profesor` int(11) DEFAULT NULL,
+  `fk_suplente` int(11) DEFAULT NULL,
+  `fk_sede` int(11) DEFAULT NULL,
+  `fk_materia` int(11) DEFAULT NULL,
+  `fk_ciclo_lectivo` int(5) DEFAULT NULL,
+  `fk_curso` int(11) DEFAULT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `estado_horario_suplente` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_horario_suplente`),
   KEY `fk_horario` (`fk_horario`),
   KEY `fk_profesor` (`fk_profesor`),
+  KEY `fk_suplente` (`fk_suplente`),
+  KEY `fk_sede` (`fk_sede`),
+  KEY `fk_materia` (`fk_materia`),
+  KEY `fk_curso` (`fk_curso`),
+  KEY `fk_ciclo_lectivo` (`fk_ciclo_lectivo`),
   CONSTRAINT `horario_suplente_ibfk_1` FOREIGN KEY (`fk_horario`) REFERENCES `horarios` (`id_horario`),
-  CONSTRAINT `horario_suplente_ibfk_2` FOREIGN KEY (`fk_profesor`) REFERENCES `profesor` (`id_profesor`)
+  CONSTRAINT `horario_suplente_ibfk_2` FOREIGN KEY (`fk_profesor`) REFERENCES `profesor` (`id_profesor`),
+  CONSTRAINT `horario_suplente_ibfk_3` FOREIGN KEY (`fk_suplente`) REFERENCES `profesor` (`id_profesor`),
+  CONSTRAINT `horario_suplente_ibfk_4` FOREIGN KEY (`fk_sede`) REFERENCES `sede` (`id_sede`),
+  CONSTRAINT `horario_suplente_ibfk_5` FOREIGN KEY (`fk_materia`) REFERENCES `materia` (`id_materia`),
+  CONSTRAINT `horario_suplente_ibfk_6` FOREIGN KEY (`fk_curso`) REFERENCES `curso` (`id_curso`),
+  CONSTRAINT `horario_suplente_ibfk_7` FOREIGN KEY (`fk_ciclo_lectivo`) REFERENCES `horarios` (`ciclo_lectivo_horario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `horario_suplente` */
@@ -154,12 +169,13 @@ CREATE TABLE `horarios` (
   KEY `fk_curso` (`fk_curso`),
   KEY `fk_modulo_inicio` (`fk_modulo_inicio`),
   KEY `fk_modulo_fin` (`fk_modulo_fin`),
+  KEY `ciclo_lectivo_horario` (`ciclo_lectivo_horario`),
   CONSTRAINT `horarios_ibfk_1` FOREIGN KEY (`fk_profesor`) REFERENCES `profesor` (`id_profesor`),
   CONSTRAINT `horarios_ibfk_2` FOREIGN KEY (`fk_materia`) REFERENCES `materia` (`id_materia`),
   CONSTRAINT `horarios_ibfk_3` FOREIGN KEY (`fk_curso`) REFERENCES `curso` (`id_curso`),
   CONSTRAINT `horarios_ibfk_4` FOREIGN KEY (`fk_modulo_inicio`) REFERENCES `modulos` (`id_modulo`),
   CONSTRAINT `horarios_ibfk_5` FOREIGN KEY (`fk_modulo_fin`) REFERENCES `modulos` (`id_modulo`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `horarios` */
 
@@ -282,7 +298,7 @@ DROP TABLE IF EXISTS `profesor`;
 
 CREATE TABLE `profesor` (
   `id_profesor` int(11) NOT NULL AUTO_INCREMENT,
-  `cargo` enum('P','S') NOT NULL,
+  `cargo_profesor` enum('Profesor','Suplente') NOT NULL,
   `nombre_profesor` varchar(70) NOT NULL,
   `apellido_profesor` varchar(70) NOT NULL,
   `fk_titulo` int(11) DEFAULT NULL,
@@ -298,7 +314,7 @@ CREATE TABLE `profesor` (
   CONSTRAINT `profesor_ibfk_2` FOREIGN KEY (`fk_titulo`) REFERENCES `titulo` (`id_titulo`),
   CONSTRAINT `profesor_ibfk_3` FOREIGN KEY (`fk_postgrado`) REFERENCES `postgrado` (`id_postgrado`),
   CONSTRAINT `profesor_ibfk_4` FOREIGN KEY (`fk_domicilio`) REFERENCES `domicilio` (`id_domicilio`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `profesor` */
 
