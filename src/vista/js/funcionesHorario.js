@@ -18,7 +18,7 @@ $(function () {
                 //app.ocultarCampos();
                 app.limpiarModal();
                 $("#tituloModal").html("Agregar horario");
-                $("#id").val(0);
+                $("#id_horario").val(0);
                 $("#modalHorario").modal({show: true});
                 $("#accion").html("Guardar");
             });
@@ -82,12 +82,28 @@ $(function () {
                 $("#fieldsetHorario").attr("disabled", "true");
                 app.modificarCampos(this);
                 app.habilitadorCampos(true);
+                $("#cambiarPlan").hide();
+                $("#cambiarSede").hide();
                 $("#borrar").show();
                 $("#guardar").hide();
             });
 
+            $("#textBusca").keyup(function (e) {
+                var parametros = $(this).val();
+                if (parametros == "") {
+                    app.buscarHorarios();
+                } else {
+                    app.busqueda(parametros);
+                }
+            });
+
             $("#form").bootstrapValidator({
                 excluded: []
+            });
+
+            $("#borrar").on('click', function () {
+                app.eliminarHorario($("#id_horario").val());
+                $("#modalHorario").modal('hide');
             });
 
             $("#modalHorario").on('hide.bs.modal', function () {
@@ -95,11 +111,34 @@ $(function () {
             });
         };
 
+        app.busqueda = function (parametros) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=Horario";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: {textBusca: parametros},
+                success: function (data) {
+                    app.rellenarTabla(data);
+                },
+                error: function () {
+                    alert('error busqueda');
+                }
+            });
+        };
+
         app.showAlert = function () {
             $("#alerta").fadeIn();
             setTimeout(function () {
                 $("#alerta").fadeOut();
-            }, 2500);
+            }, 8000);
+        };
+
+        app.showAlert2 = function () {
+            $("#alert2").fadeIn();
+            setTimeout(function () {
+                $("#alert2").fadeOut();
+            }, 3000);
         };
 
         app.alertSave = function () {
@@ -137,19 +176,19 @@ $(function () {
         };
 
         app.alertModif = function () {
-            var alert2 = '<div class="alert alert-warning" role="alert">' +
+            var alerta = '<div class="alert alert-warning" role="alert">' +
                     '<strong>' + '<span class="glyphicon glyphicon-floppy-saved"></span>' + ' ¡Actualizado con exito!' + '</strong>' + ' Se modificó un registro en la Base de Datos. ' +
                     '</div>';
-            $("#alerta").html(alert2);
-            app.showAlert();
+            $("#alert2").html(alerta);
+            app.showAlert2();
         };
 
         app.alertDelete = function () {
-            var alert2 = '<div class="alert alert-danger" role="alert">' +
+            var alerta = '<div class="alert alert-danger" role="alert">' +
                     '<strong>' + '<span class="glyphicon glyphicon-floppy-remove"></span>' + ' ¡Eliminado con exito!' + '</strong>' + ' Se elimino un registro en la Base de Datos. ' +
                     '</div>';
-            $("#alerta").html(alert2);
-            app.showAlert();
+            $("#alert2").html(alerta);
+            app.showAlert2();
         };
 
         app.verificarHorario = function () {
@@ -167,7 +206,7 @@ $(function () {
 
                     switch (data) {
                         case 0:
-                            if ($("#id").val() == 0) {
+                            if ($("#id_horario").val() == 0) {
                                 app.guardarHorario();
                             } else {
                                 app.editarHorario();
@@ -282,7 +321,7 @@ $(function () {
                 dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    app.actualizarTabla(datosRecibidos, $("#id").val());
+                    app.actualizarTabla(datosRecibidos, $("#id_horario").val());
                     app.alertSave();
                     var plan = $("#selectPlan").find(':selected').val();
                     var sede = $("#selectSede").find(':selected').val();
@@ -301,15 +340,15 @@ $(function () {
 
         app.editarHorario = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Horario";
-            var datosEnviar = $("#formHorario").serialize();
+            var datosEnviar = $("#form").serialize();
             $.ajax({
                 url: url,
                 method: 'POST',
-                dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    app.actualizarTabla(datosRecibidos, $("#id").val());
+                    app.actualizarTabla(datosRecibidos, $("#id_horario").val());
                     $("#modalHorario").modal('hide');
+                    app.alertModif();
                 },
                 error: function (datosRecibidos) {
                     alert("Error al editar horario");
@@ -339,35 +378,34 @@ $(function () {
                 $("#cuerpoTablaHorario").append(html);
             } else {
                 var fila = $("#cuerpoTablaHorario").find("a[data-id_horario='" + id + "']").parent().parent();
-                var html = "<td data-id_profesor='" + horario.fk_profesor + "'>" + horario.nombre_profesor + " " + horario.apellido_profesor + "</td>\n\
-                             <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
-                             <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
-                             <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
-                             <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
-                             <td data-id_inicio='" + horario.fk_modulo_inicio + "'>" + horario.hora_inicio + "</td>\n\
-                             <td data-id_fin='" + horario.fk_modulo_fin + "'>" + horario.hora_fin + "</td>\n\
-                             <td>" + horario.dia_horario + "</td>\n\
-                             <td>" + horario.ciclo_lectivo_horario + "</td>\n\
+                var html = "<td data-id_profesor='" + $("#selectProfesor").find(':selected').val() + "'>" + $("#selectProfesor").find(':selected').text() + "</td>\n\
+                             <td data-id_plan='" + $("#selectPlan").find(':selected').val() + "'>" + $("#selectPlan").find(':selected').text() + "</td>\n\
+                             <td data-id_materia='" + $("#selectMateria").find(':selected').val() + "'>" + $("#selectMateria").find(':selected').text() + "</td>\n\
+                             <td data-id_sede='" + $("#selectSede").find(':selected').val() + "'>" + $("#selectSede").find(':selected').text() + "</td>\n\
+                             <td data-id_curso='" + $("#selectCurso").find(':selected').val() + "'>" + $("#selectCurso").find(':selected').text() + "</td>\n\
+                             <td data-id_inicio='" + $("#selectInicioHorario").find(':selected').val() + "'>" + $("#selectInicioHorario").find(':selected').text() + "</td>\n\
+                             <td data-id_fin='" + $("#selectFinHorario").find(':selected').val() + "'>" + $("#selectFinHorario").find(':selected').text() + "</td>\n\
+                             <td>" + $("#selectDia").find(':selected').val() + "</td>\n\
+                             <td>" + $("#selectCicloLectivo").find(':selected').val() + "</td>\n\
                              <td>\n\
-                                 <a class='editar btn btn-warning btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
-                                 <a class='eliminar btn btn-danger btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
+                                 <a class='editar btn btn-warning btn-sm' data-id_horario='" + id + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
+                                 <a class='eliminar btn btn-danger btn-sm' data-id_horario='" + id + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
                              </td>";
 
                 fila.html(html);
             }
         };
 
-        app.eliminarHorario = function () {
+        app.eliminarHorario = function (id) {
             var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Horario";
-            var datosEnviar = $("#formHorario").serialize();
+            var datosEnviar = {id_horario: id};
             $.ajax({
                 url: url,
                 method: 'POST',
-                dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    app.eliminarFila($("#id_horario").val());
-                    $("#modalHorario").modal('hide');
+                    app.eliminarFila(id);
+                    app.alertDelete();
                 },
                 error: function (datosRecibidos) {
                     alert("Error al eliminar horario");
