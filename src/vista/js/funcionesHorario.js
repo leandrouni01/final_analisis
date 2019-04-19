@@ -470,7 +470,7 @@ $(function () {
             //alert(item); 
             switch (item) {
                 case 'Profesor':
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Profesor";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=listarProfesores&Formulario=Horario";
                     break;
 
                 case 'Plan':
