@@ -98,6 +98,16 @@ class ControladorHorario extends ControladorGeneral {
             echo "Error :" . $e->getMessage();
         }
     }
+    
+    public function listarProfesores($datos) {
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_HORARIOS_PROFESORES);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
 
     public function listarModulosInicio($datos) {
         try {
