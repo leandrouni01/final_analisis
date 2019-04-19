@@ -298,7 +298,7 @@ DROP TABLE IF EXISTS `profesor`;
 
 CREATE TABLE `profesor` (
   `id_profesor` int(11) NOT NULL AUTO_INCREMENT,
-  `cargo_profesor` enum('Profesor','Suplente') NOT NULL,
+  `cargo_profesor` enum('Titular','Suplente') NOT NULL,
   `nombre_profesor` varchar(70) NOT NULL,
   `apellido_profesor` varchar(70) NOT NULL,
   `fk_titulo` int(11) DEFAULT NULL,
