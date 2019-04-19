@@ -119,7 +119,6 @@ DROP TABLE IF EXISTS `horario_suplente`;
 
 CREATE TABLE `horario_suplente` (
   `id_horario_suplente` int(11) NOT NULL AUTO_INCREMENT,
-  `fk_horario` int(11) DEFAULT NULL,
   `fk_profesor` int(11) DEFAULT NULL,
   `fk_suplente` int(11) DEFAULT NULL,
   `fk_sede` int(11) DEFAULT NULL,
@@ -130,14 +129,12 @@ CREATE TABLE `horario_suplente` (
   `fecha_fin` date NOT NULL,
   `estado_horario_suplente` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_horario_suplente`),
-  KEY `fk_horario` (`fk_horario`),
   KEY `fk_profesor` (`fk_profesor`),
   KEY `fk_suplente` (`fk_suplente`),
   KEY `fk_sede` (`fk_sede`),
   KEY `fk_materia` (`fk_materia`),
   KEY `fk_curso` (`fk_curso`),
   KEY `fk_ciclo_lectivo` (`fk_ciclo_lectivo`),
-  CONSTRAINT `horario_suplente_ibfk_1` FOREIGN KEY (`fk_horario`) REFERENCES `horarios` (`id_horario`),
   CONSTRAINT `horario_suplente_ibfk_2` FOREIGN KEY (`fk_profesor`) REFERENCES `profesor` (`id_profesor`),
   CONSTRAINT `horario_suplente_ibfk_3` FOREIGN KEY (`fk_suplente`) REFERENCES `profesor` (`id_profesor`),
   CONSTRAINT `horario_suplente_ibfk_4` FOREIGN KEY (`fk_sede`) REFERENCES `sede` (`id_sede`),
