@@ -128,6 +128,7 @@ CREATE TABLE `horario_suplente` (
   `fecha_fin` date NOT NULL,
   `estado_horario_suplente` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_horario_suplente`),
+  UNIQUE KEY `fk_titular_2` (`fk_titular`,`fk_suplente`,`fk_sede`,`fk_materia`,`fk_ciclo_lectivo`,`fk_curso`),
   KEY `fk_suplente` (`fk_suplente`),
   KEY `fk_sede` (`fk_sede`),
   KEY `fk_materia` (`fk_materia`),
