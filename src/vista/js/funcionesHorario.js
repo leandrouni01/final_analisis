@@ -434,9 +434,17 @@ $(function () {
         };
 
         app.rellenarTabla = function (datosHorario) {
-            var html = "";
-            $.each(datosHorario, function (clave, horario) {
-                html += "<tr>\n\
+            if (datosHorario == '') {
+                var alerta = '<div class="alert alert-danger" role="alert">' +
+                        '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error de búsqueda!' + '</strong>' + ' No existen registros con los valores ingresados.' +
+                        '</div>';
+                $("#cuerpoTablaHorario").html('');
+                $("#alert").html(alerta);
+            } else {
+                $("#alert").html('');
+                var html = "";
+                $.each(datosHorario, function (clave, horario) {
+                    html += "<tr>\n\
                              <td data-id_profesor='" + horario.fk_profesor + "'>" + horario.nombre_profesor + " " + horario.apellido_profesor + "</td>\n\
                              <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
                              <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
@@ -451,8 +459,9 @@ $(function () {
                                  <a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
                              </td>\n\
                          </tr>";
-            });
-            $("#cuerpoTablaHorario").html(html);
+                });
+                $("#cuerpoTablaHorario").html(html);
+            }
         };
 
         app.listarCombos = (item) => {
