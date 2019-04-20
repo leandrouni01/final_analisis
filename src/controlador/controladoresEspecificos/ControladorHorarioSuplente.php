@@ -62,6 +62,29 @@ class ControladorHorarioSuplente extends ControladorGeneral {
         }
     }
 
+    public function buscarCurso($datos) {
+        try {
+            $parametros = array("fk_sede" => $datos["fk_sede"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_CURSOS, $parametros);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo 'Error :' . $e->getMessage();
+        }
+    }
+    
+    public function buscarPlan($datos){
+        try{
+            $parametros= array("fk_titular"=>$datos["fk_titular"]);
+            $resultado = $this->refControladorPersistencia->ejecuutarSentencia(DbSentencias::BUSCAR_SEDES,$parametros);
+            $array= $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+            
+        } catch (Exception $e) {
+            echo 'Error :' . $e->getMessage();
+        }
+    }
+
     public function modificar($datos) {
         
     }
