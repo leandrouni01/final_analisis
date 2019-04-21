@@ -40,9 +40,33 @@ class ControladorHorarioSuplente extends ControladorGeneral {
     public function buscar($datos) {
         
     }
+    
+    public function verificarHorarioSuplente($datos){
+        try{
+            $parametros= array(
+                "fk_suplente"=>$datos["fk_suplente"],
+                "fecha_inicio"=>$datos["fecha_inicio"],
+                "fecha_inicio"=>$datos["fecha_inicio"],
+                "fecha_fin"=>$datos["fecha_fin"],
+                "fecha_fin"=>$datos["fecha_fin"]
+            );
+            $resultado=$this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIOS_SUPLENTES_SOLAPADOS,$parametros);
+            return $resultado["existe"];
+        } catch (Exception $e) {
+            echo 'Error :' . $e->getMessage();
+        }
+    }
 
     public function eliminar($datos) {
-        
+        try{
+            $this->refControladorPersistencia->iniciarTransaccion();
+            $parametros= array("id_horario_suplente"=>"id_horario_suplente");
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_HORARIOS_SUPLENTES,$parametros);
+            $this->refControladorPersistencia->confirmarTransaccion();
+        } catch (Exception $e) {
+            $this->refControladorPersistencia->rollBackTransaccion();
+            echo 'Error :' . $e->getMessage();
+        }
     }
 
     public function listar($datos) {
