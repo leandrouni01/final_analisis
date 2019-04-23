@@ -152,7 +152,7 @@
                                             <th><span class="glyphicon glyphicon-cog"></span> Acciones</th>                                          
                                         </tr>
                                     </thead>
-                                    <tbody id="cuerpoTabla">                                        
+                                    <tbody id="cuerpoTablaHorario">                                        
                                     </tbody>
                                 </table>
                                 <div id="alert"></div>
@@ -163,7 +163,7 @@
             </section>
 
             <section>
-                <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal fade" id="modalHorario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog ">
                         <div class="modal-content">
                             <form id="form" class="form-horizontal"
@@ -196,6 +196,7 @@
                                                         <label for="selectTitular" class="control-label">Titular</label>
                                                         <div>
                                                             <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                                                 <select name="fk_titular" id="selectTitular" class="form-control"
                                                                         data-bv-notempty="true"
                                                                         data-bv-notempty-message="Debes seleccionar un Profesor Titular">
@@ -279,10 +280,9 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                                                <select class="form-control" id="selectFechaInicio" name="fecha_inicio"
+                                                                <input type="date" class="form-control" id="selectFechaInicio" name="fecha_inicio"
                                                                         data-bv-notempty="true"
-                                                                        data-bv-notempty-message="Debes seleccionar una Fecha de Inicio">
-                                                                </select>
+                                                                        data-bv-notempty-message="Debes seleccionar una Fecha de Inicio"/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -292,10 +292,9 @@
                                                         <div>
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                                                <select class="form-control" id="selectFechaFin" name="fecha_fin"
+                                                                <input type="date" class="form-control" id="selectFechaFin" name="fecha_fin"
                                                                         data-bv-notempty="true"
-                                                                        data-bv-notempty-message="Debes seleccionar una Fecha de Finalización">
-                                                                </select>
+                                                                        data-bv-notempty-message="Debes seleccionar una Fecha de Finalización"/>
                                                             </div>
                                                         </div>
                                                     </div>

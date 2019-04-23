@@ -5,6 +5,7 @@ $(function () {
         app.init = function () {
             app.buscarHorarios();
             app.listarCombos('Suplente');
+            app.listarCombos('Titular');
             app.bindings();
             app.rellenarCiclo();
         };
@@ -17,46 +18,45 @@ $(function () {
                 $("#tituloModal").html("Agregar Horario Suplente");
                 $("#id_horario").val(0);
                 $("#modalHorario").modal({show: true});
-                $("#accion").html("Guardar");
             });
             
-            $("#fk_suplente").on('change', () => {
-                app.listarCombos('Titular');
-            });
             
-            $("#fk_titular").on('change', function () {
+            $("#selectTitular").on('change', function () {
                 app.listarCombos('Sede');
-                $("#fk_sede").show();
+                $("#sede").show();
             });
             
-            $("#fk_sede").on('change', function () {
+            $("#selectSede").on('change', function () {
                 app.listarCombos('Curso');
-                $("#fk_curso").show();
+                $("#curso").show();
             });
 
-            $("#fk_curso").on('change', function () {
+            $("#selectTitular").on('change', function () {
                 app.listarCombos('Plan');
-                $("#fk_plan").show();
+                $("#plan_estudio").show();
             });
 
-            $("#fk_plan").on('change', function () {
+            $("#selectPlan").on('change', function () {
                 app.listarCombos('Materia');
-                $("#fk_materia").show();
+                $("#materia").show();
             });
 
-            $("#fk_materia").on('change', function () {
+            $("#selectMateria").on('change', function () {
                 $("#fecha_inicio").show();
             });
 
-            $("#fecha_inicio").on('change', function () {
-                var fechaFin = $("#fecha_inicio").val();
-                fechaFin.setMonth(fechaFin.getMonth() + 1);
-                $("#fecha_fin").show();
-                $("#fecha_fin").attr('min', fechaFin);
+            $("#selectFechaInicio").on('change', function () { 
+                var fecha= new Date($(this).val());
+                fecha.setMonth(fecha.getMonth() + 2);
+                fecha.setDate(fecha.getDate()+1);
+                let fechaFin= `${fecha.getFullYear()}-${("0"+ fecha.getMonth()).slice(-2)}-${("0"+ fecha.getDate()).slice(-2)}`;
+                $("#selectFechaFin").show();
+                $("#selectFechaFin").attr('min', fechaFin);
             });
 
             $("#form").on('success.form.bv', function (event) {
                 event.preventDefault();
+                
             });
 
             $("#cuerpoTablaHorarioSuplente").on('click', '.editar', function () {
@@ -353,25 +353,25 @@ $(function () {
                     break;
 
                 case 'Sede':
-                    var datosEnviar = {fk_titular: $("#fk_titular").find(":selected").val()};
+                    var datosEnviar = {fk_titular: $("#selectTitular").find(":selected").val()};
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarSede&Formulario=HorarioSuplente";
                     ajaxObj.data = datosEnviar;
                     break;
 
                 case 'Curso':
-                    var datosEnviar = {fk_sede: $("#fk_sede").find(":selected").val()};
+                    var datosEnviar = {fk_sede: $("#selectSede").find(":selected").val()};
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarCurso&Formulario=HorarioSuplente";
                     ajaxObj.data = datosEnviar;
                     break;
 
                 case 'Plan':
-                    var datosEnviar = {fk_titular: $("#fk_titular").find(":selected").val()};
+                    var datosEnviar = {fk_titular: $("#selectTitular").find(":selected").val()};
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarPlan&Formulario=HorarioSuplente";
                     ajaxObj.data = datosEnviar;
                     break;
 
                 case 'Materia':
-                    var datosEnviar = {fk_plan: $("#fk_plan").find(":selected").val()};
+                    var datosEnviar = {fk_plan: $("#selectPlan").find(":selected").val()};
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarMateria&Formulario=HorarioSuplente";
                     ajaxObj.data = datosEnviar;
                     break;
@@ -398,7 +398,7 @@ $(function () {
                         break;
                     
                     case 'Titular':
-                        html += "<option value='" + value.id_profesor + "'>" + value.nombre_profesor + " " + value.apellido_profesor + "</option>";
+                        html += "<option value='" + value.fk_profesor + "'>" + value.nombre_profesor + " " + value.apellido_profesor + "</option>";
                         break;
 
                     case 'Sede':
@@ -491,13 +491,13 @@ $(function () {
             app.habilitadorCampos(false);
             $("#borrar").hide();
             $("#guardar").show();
-            $("#accion").show();
             $("#form").bootstrapValidator("resetForm", true);
         };
 
         app.ocultarCampos = () => {
             $("#materia").hide();
-            $("#profesor").hide();
+            $("#sede").hide();
+            $("#plan_estudio").hide();
             $("#curso").hide();
             $("#hora_inicio").hide();
             $("#hora_fin").hide();

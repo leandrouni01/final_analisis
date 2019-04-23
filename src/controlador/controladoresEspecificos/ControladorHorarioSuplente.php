@@ -30,7 +30,7 @@ class ControladorHorarioSuplente extends ControladorGeneral {
         }
     }
     
-    public function buscarUltimoHorarioSuplente() {
+    public function buscarUltimoHorarioSuplente(){
         $parametros = null;
         $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_ULTIMO_HORARIO_SUPLENTE, $parametros);
         $fila = $resultado->fetch();
@@ -81,7 +81,7 @@ class ControladorHorarioSuplente extends ControladorGeneral {
 
     public function buscarTitular() {
         try {
-            $parametros = date('Y');
+            $parametros = array("anio"=>date('Y'));
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_TITULARES, $parametros);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
@@ -102,7 +102,7 @@ class ControladorHorarioSuplente extends ControladorGeneral {
 
     public function buscarSede($datos) {
         try {
-            $parametros = array("fk_titular" => $datos["fk_titular"]);
+            $parametros = array("fk_profesor" => $datos["fk_titular"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_SEDES, $parametros);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
@@ -125,7 +125,7 @@ class ControladorHorarioSuplente extends ControladorGeneral {
     public function buscarPlan($datos){
         try{
             $parametros= array("fk_titular"=>$datos["fk_titular"]);
-            $resultado = $this->refControladorPersistencia->ejecuutarSentencia(DbSentencias::BUSCAR_SEDES,$parametros);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_PLANES,$parametros);
             $array= $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
         } catch (Exception $e) {
