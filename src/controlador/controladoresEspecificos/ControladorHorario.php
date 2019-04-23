@@ -101,7 +101,7 @@ class ControladorHorario extends ControladorGeneral {
     
     public function listarProfesores($datos) {
         try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_HORARIOS_PROFESORES);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TITULARES);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
         } catch (Exception $e) {
