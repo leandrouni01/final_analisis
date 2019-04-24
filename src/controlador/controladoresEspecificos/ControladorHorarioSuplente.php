@@ -16,12 +16,12 @@ class ControladorHorarioSuplente extends ControladorGeneral {
                 "fk_suplente"=>$datos["fk_suplente"],
                 "fk_sede"=>$datos["fk_sede"],
                 "fk_materia"=>$datos["fk_materia"],
-                "fk_ciclo_lectivo"=>$datos["fk_ciclo_lectivo"],
+                "fk_ciclo_lectivo"=>date('Y'),
                 "fk_curso"=>$datos["fk_ciclo_lectivo"],
                 "fecha_inicio"=>$datos["fecha_fin"],
                 "fecha_fin"=>$datos["fecha_fin"]
             );
-            $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_HORARIOS_SUPLENTES,$parametros);
+            $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_HORARIO_SUPLENTE,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimoHorarioSuplente();
         } catch (Exception $e) {
@@ -41,17 +41,19 @@ class ControladorHorarioSuplente extends ControladorGeneral {
         
     }
     
-    public function verificarHorarioSuplente($datos){
+    public function verificar($datos){
         try{
             $parametros= array(
                 "fk_suplente"=>$datos["fk_suplente"],
                 "fecha_inicio"=>$datos["fecha_inicio"],
-                "fecha_inicio"=>$datos["fecha_inicio"],
+                "fecha_inicio2"=>$datos["fecha_inicio"],
                 "fecha_fin"=>$datos["fecha_fin"],
-                "fecha_fin"=>$datos["fecha_fin"]
+                "fecha_fin2"=>$datos["fecha_fin"],
+                "ciclo_lectivo"=>date("Y")
             );
-            $resultado=$this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIOS_SUPLENTES_SOLAPADOS,$parametros);
-            return $resultado["existe"];
+            $resultado=$this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SUPLENTE,$parametros);
+            $valor= $resultado->fetch();
+            return $valor["existe"];
         } catch (Exception $e) {
             echo 'Error :' . $e->getMessage();
         }
@@ -61,7 +63,7 @@ class ControladorHorarioSuplente extends ControladorGeneral {
         try{
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros= array("id_horario_suplente"=>"id_horario_suplente");
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_HORARIOS_SUPLENTES,$parametros);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_HORARIO_SUPLENTE,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();
@@ -159,7 +161,7 @@ class ControladorHorarioSuplente extends ControladorGeneral {
                 "fecha_fin"=>$datos["fecha_fin"],
                 "id_horario_suplente"=>$datos["id_horario_suplente"]
             );
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_HORARIOS_SUPLENTES,$parametros);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_HORARIO_SUPLENTE,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();

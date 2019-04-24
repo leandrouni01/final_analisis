@@ -17,6 +17,7 @@ $(function () {
                 app.limpiarModal();
                 $("#tituloModal").html("Agregar Horario Suplente");
                 $("#id_horario").val(0);
+                $("#fk_ciclo_lectivo").val(0);
                 $("#modalHorario").modal({show: true});
             });
             
@@ -56,17 +57,15 @@ $(function () {
 
             $("#form").on('success.form.bv', function (event) {
                 event.preventDefault();
-                
+                app.verificarHorarioSuplente();
             });
 
-            $("#cuerpoTablaHorarioSuplente").on('click', '.editar', function () {
-                $("#accion").html("Guardar");
+            $("#cuerpoTablaHorario").on('click', '.editar', function () {
                 $("#tituloModal").html("Editar horario Suplente");
                 app.modificarCampos(this);
             });
 
-            $("#cuerpoTablaHorarioSuplente").on('click', '.eliminar', function () {
-                $("#accion").html("Eliminar");
+            $("#cuerpoTablaHorario").on('click', '.eliminar', function () {
                 $("#tituloModal").html("¿Está seguro de que desea eliminar este horario?");
                 $("#fieldsetHorario").attr("disabled", "true");
                 app.modificarCampos(this);
@@ -95,6 +94,33 @@ $(function () {
             $("#modalHorario").on('hide.bs.modal', function () {
                 app.limpiarModal();
             });
+        };
+        
+        app.verificarHorarioSuplente= function(){
+          var url= "../../controlador/ruteador/Ruteador.php?accion=verificar&Formulario=HorarioSuplente"
+          var datosEnviar= $("#form").serialize();
+          $.ajax({
+              url:url,
+              method: 'POST',
+              dataType: 'json',
+              data: datosEnviar,
+              success: function(datosRecibidos){
+                  switch(parseInt(datosRecibidos)){
+                      case 0: 
+                          if($("#id_horario_suplente").val()==0){
+                              app.guardarHorario();
+                          }else{
+                              app.editarHorario();
+                          }
+                          break;
+                      case 1: app.alertInfo1();
+                          break;
+                  }
+              },
+              error: function(){
+                  alert("Error al verificar horario");
+              }
+          })
         };
 
         app.busqueda = function (parametros) {
@@ -137,7 +163,7 @@ $(function () {
 
         app.alertInfo1 = function () {
             var alerta = '<div class="alert alert-danger" role="alert">' +
-                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' El horario ingresado ya pertenece a un Profesor.' +
+                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' El suplente ya tiene un horario en el rango de fechas establecidos' +
                     '</div>';
             $("#alerta").html(alerta);
             app.showAlert();
@@ -285,7 +311,7 @@ $(function () {
         }
 
         app.buscarHorarios = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Horario";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=HorarioSuplente";
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -311,15 +337,15 @@ $(function () {
                 var html = "";
                 $.each(datosHorario, function (clave, horario) {
                     html += "<tr>\n\
-                             <td data-id_profesor='" + horario.fk_profesor + "'>" + horario.nombre_profesor + " " + horario.apellido_profesor + "</td>\n\
-                             <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
-                             <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
+                             <td data-id_profesor='" + horario.fk_profesor + "'>" + horario.nombre_titular + " " + horario.apellido_titular + "</td>\n\
+                             <td data-id_suplente='" + horario.fk_suplente + "'>" + horario.nombre_suplente + " " + horario.apellido_titular +"</td>\n\
                              <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
                              <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
-                             <td data-id_inicio='" + horario.fk_modulo_inicio + "'>" + horario.hora_inicio + "</td>\n\
-                             <td data-id_fin='" + horario.fk_modulo_fin + "'>" + horario.hora_fin + "</td>\n\
-                             <td>" + horario.dia_horario + "</td>\n\
-                             <td>" + horario.ciclo_lectivo_horario + "</td>\n\
+                             <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
+                             <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
+                             <td >" + horario.fecha_inicio + "</td>\n\
+                             <td >" + horario.fecha_fin + "</td>\n\
+                             <td>" + horario.fk_ciclo_lectivo + "</td>\n\
                              <td>\n\
                                  <a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
                                  <a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
@@ -445,14 +471,15 @@ $(function () {
         app.modificarCampos = (boton) => {
             app.limpiarModal();
             $("#id_horario").val($(boton).attr("data-id_horario"));
-            $("#selectPlan").val($(boton).parent().parent().children().first().next().attr("data-id_plan"));
-            $("#selectPlan").change();
+            $("#fk_ciclo_lectivo").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next());
+            $("#selectTitular").val($(boton).parent().parent().children().first().attr("data-id_profesor"));
+            $("#selectTitular").change();
             setTimeout(() => {
                 $("#selectSede").val($(boton).parent().parent().children().first().next().next().next().attr("data-id_sede"));
                 $("#selectSede").change();
                 setTimeout(() => {
-                    $("#selectProfesor").val($(boton).parent().parent().children().first().attr("data-id_profesor"));
-                    $("#selectProfesor").change();
+                    $("#selectPlan").val($(boton).parent().parent().children().first().next().attr("data-id_plan"));
+                    $("#selectPlan").change();
                     setTimeout(() => {
                         $("#selectMateria").val($(boton).parent().parent().children().first().next().next().attr("data-id_materia"));
                         $("#selectMateria").change();
@@ -502,7 +529,6 @@ $(function () {
             $("#hora_inicio").hide();
             $("#hora_fin").hide();
             $("#dia").hide();
-            $("#ciclo_lectivo").hide();
         };
 
         app.habilitadorCampos = (condicion) => {
