@@ -48,7 +48,9 @@ $(function () {
 
             $("#selectFechaInicio").on('change', function () { 
                 var fecha;
+                alert($(this).val());
                 fecha= app.transformarFecha($(this).val());
+                alert(fecha);
                 $("#selectFechaFin").show();
                 $("#selectFechaFin").attr('min', fecha);
             });
@@ -95,7 +97,7 @@ $(function () {
         };
         
         app.verificarHorarioSuplente= function(){
-          var url= "../../controlador/ruteador/Ruteador.php?accion=verificar&Formulario=HorarioSuplente"
+          var url= "../../controlador/ruteador/Ruteador.php?accion=verificar&Formulario=HorarioSuplente";
           var datosEnviar= $("#form").serialize();
           $.ajax({
               url:url,
@@ -212,13 +214,7 @@ $(function () {
                 success: function (datosRecibidos) {
                     app.actualizarTabla(datosRecibidos, $("#id_horario").val());
                     app.alertSave();
-                    var plan = $("#selectPlan").find(':selected').val();
-                    var sede = $("#selectSede").find(':selected').val();
-                    app.limpiarModal();
-                    $("#selectPlan").val(plan);
-                    $("#selectPlan").prop('disabled', true);
-                    $("#selectSede").val(sede);
-                    $("#selectSede").change();
+                    $("#modalHorario").modal('hide');
                 },
                 error: function (datosRecibidos) {
                     alert("Error al guardar horario");
@@ -250,36 +246,35 @@ $(function () {
             var html = "";
             if (id == 0) {
                 html = "<tr>\n\
-                             <td data-id_suplente='" + horario.fk_suplente + "'>" + horario.nombre_suplente + " " + horario.apellido_suplente + "</td>\n\
-                             <td data-id_titular='" + horario.fk_titular + "'>" + horario.nombre_profesor + " " + horario.apellido_profesor + "</td>\n\
-                             <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
-                             <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
-                             <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
+                             <td data-id_profesor='" + horario.fk_titular + "'>" + horario.nombre_titular + " " + horario.apellido_titular + "</td>\n\
+                             <td data-id_suplente='" + horario.fk_suplente + "'>" + horario.nombre_suplente + " " + horario.apellido_titular +"</td>\n\
+                             <td data-id_sede='" + horario.fk_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
                              <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
-                             <td data-id_inicio='" + horario.fk_modulo_inicio + "'>" + horario.hora_inicio + "</td>\n\
-                             <td data-id_fin='" + horario.fk_modulo_fin + "'>" + horario.hora_fin + "</td>\n\
-                             <td>" + horario.dia_horario + "</td>\n\
-                             <td>" + horario.ciclo_lectivo_horario + "</td>\n\
+                             <td data-id_plan='" + horario.fk_plan_de_estudio + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
+                             <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
+                             <td >" + horario.fecha_inicio + "</td>\n\
+                             <td >" + horario.fecha_fin + "</td>\n\
+                             <td>" + horario.fk_ciclo_lectivo + "</td>\n\
                              <td>\n\
-                                 <a class='editar btn btn-warning btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
-                                 <a class='eliminar btn btn-danger btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
+                                 <a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario='" + horario.id_horario_suplente + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
+                                 <a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario='" + horario.id_horario_suplente + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
                              </td>\n\
                          </tr>";
                 $("#cuerpoTablaHorario").append(html);
             } else {
                 var fila = $("#cuerpoTablaHorario").find("a[data-id_horario='" + id + "']").parent().parent();
-                var html = "<td data-id_profesor='" + $("#selectProfesor").find(':selected').val() + "'>" + $("#selectProfesor").find(':selected').text() + "</td>\n\
-                             <td data-id_plan='" + $("#selectPlan").find(':selected').val() + "'>" + $("#selectPlan").find(':selected').text() + "</td>\n\
-                             <td data-id_materia='" + $("#selectMateria").find(':selected').val() + "'>" + $("#selectMateria").find(':selected').text() + "</td>\n\
-                             <td data-id_sede='" + $("#selectSede").find(':selected').val() + "'>" + $("#selectSede").find(':selected').text() + "</td>\n\
-                             <td data-id_curso='" + $("#selectCurso").find(':selected').val() + "'>" + $("#selectCurso").find(':selected').text() + "</td>\n\
-                             <td data-id_inicio='" + $("#selectInicioHorario").find(':selected').val() + "'>" + $("#selectInicioHorario").find(':selected').text() + "</td>\n\
-                             <td data-id_fin='" + $("#selectFinHorario").find(':selected').val() + "'>" + $("#selectFinHorario").find(':selected').text() + "</td>\n\
-                             <td>" + $("#selectDia").find(':selected').val() + "</td>\n\
-                             <td>" + $("#selectCicloLectivo").find(':selected').val() + "</td>\n\
+                var html = "<td data-id_profesor='" + $("#selectTitular").val() + "'>" + $("#selectTitular").find(":selected").text() +"</td>\n\
+                             <td data-id_suplente='" + $("#selectSuplente").val() + "'>" + $("#selectSuplente").text() + "</td>\n\
+                             <td data-id_sede='" + $("#selectSede").val() + "'>" + $("#selectSede").find(":selected").text() + "</td>\n\
+                             <td data-id_curso='" + $("#selectCurso") + "'>" + $("#selectCurso").find(":selected").text() + "</td>\n\
+                             <td data-id_plan='" + $("#selectPlan").val() + "'>" + $("#selectPlan").find(":selected").text() + "</td>\n\
+                             <td data-id_materia='" + $("#selectMateria").val() + "'>" + $("#selectMateria").find(":selected").text() + "</td>\n\
+                             <td >" + $("#selectFechaInicio").val() + "</td>\n\
+                             <td >" + $("#selectFechaFin").val() + "</td>\n\
+                             <td>" + $("#fk_ciclo_lectivo").val() + "</td>\n\
                              <td>\n\
-                                 <a class='editar btn btn-warning btn-sm' data-id_horario='" + id + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
-                                 <a class='eliminar btn btn-danger btn-sm' data-id_horario='" + id + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
+                                 <a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario='" + id + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
+                                 <a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario='" + id + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
                              </td>";
 
                 fila.html(html);
@@ -335,18 +330,18 @@ $(function () {
                 var html = "";
                 $.each(datosHorario, function (clave, horario) {
                     html += "<tr>\n\
-                             <td data-id_profesor='" + horario.fk_profesor + "'>" + horario.nombre_titular + " " + horario.apellido_titular + "</td>\n\
+                             <td data-id_profesor='" + horario.fk_titular + "'>" + horario.nombre_titular + " " + horario.apellido_titular + "</td>\n\
                              <td data-id_suplente='" + horario.fk_suplente + "'>" + horario.nombre_suplente + " " + horario.apellido_titular +"</td>\n\
-                             <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
+                             <td data-id_sede='" + horario.fk_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
                              <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
-                             <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
+                             <td data-id_plan='" + horario.fk_plan_de_estudio + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
                              <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
                              <td >" + horario.fecha_inicio + "</td>\n\
                              <td >" + horario.fecha_fin + "</td>\n\
                              <td>" + horario.fk_ciclo_lectivo + "</td>\n\
                              <td>\n\
-                                 <a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
-                                 <a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
+                                 <a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario='" + horario.id_horario_suplente + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
+                                 <a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario='" + horario.id_horario_suplente + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
                              </td>\n\
                          </tr>";
                 });
@@ -542,10 +537,11 @@ $(function () {
         };
 
         app.transformarFecha = function (fecha) {
-            var fechaNueva= new Date(fecha);
-            var año= fechaNueva.getFullYear();
+            var fechaVieja= new Date(fecha);
+            var año= fechaVieja.getFullYear();
+            alert(fechaVieja.getFullYear().toString()+fechaVieja.getMonth().toString()+fechaVieja.getDate().toString());
             let dias,tiempo;
-            switch (fechaNueva.getMonth()) {
+            switch (fechaVieja.getMonth()) {
                 case 0 :
                     dias = 31;
                     break;
@@ -589,9 +585,10 @@ $(function () {
                 default: 
                     break;
             }
-            tiempo= fechaNueva.getTime()+dias*24*60*60*1000;
-            fechaNueva= new Date(tiempo);
-            let fechaFin = `${fechaNueva.getFullYear()}-${("0" + fechaNueva.getMonth()).slice(-2)}-${("0" + fechaNueva.getDate()).slice(-2)}`;
+            tiempo= fechaVieja.getTime()+dias*86400000;
+            let fechaNueva= new Date(tiempo);
+            alert(fechaNueva.getFullYear().toString()+fechaNueva.getMonth().toString()+fechaNueva.getDate().toString());
+            let fechaFin = `${fechaNueva.getFullYear()}-${("0" + (fechaNueva.getMonth()+1)).slice(-2)}-${("0" + (fechaNueva.getDate()+1)).slice(-2)}`;
             return fechaFin;
         };
         app.init();
