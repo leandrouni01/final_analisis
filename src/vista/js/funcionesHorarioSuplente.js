@@ -47,12 +47,10 @@ $(function () {
             });
 
             $("#selectFechaInicio").on('change', function () { 
-                var fecha= new Date($(this).val());
-                fecha.setMonth(fecha.getMonth() + 2);
-                fecha.setDate(fecha.getDate()+1);
-                let fechaFin= `${fecha.getFullYear()}-${("0"+ fecha.getMonth()).slice(-2)}-${("0"+ fecha.getDate()).slice(-2)}`;
+                var fecha;
+                fecha= app.transformarFecha($(this).val());
                 $("#selectFechaFin").show();
-                $("#selectFechaFin").attr('min', fechaFin);
+                $("#selectFechaFin").attr('min', fecha);
             });
 
             $("#form").on('success.form.bv', function (event) {
@@ -543,6 +541,59 @@ $(function () {
             $("#selectCicloLectivo").prop('disabled', condicion);
         };
 
+        app.transformarFecha = function (fecha) {
+            var fechaNueva= new Date(fecha);
+            var año= fechaNueva.getFullYear();
+            let dias,tiempo;
+            switch (fechaNueva.getMonth()) {
+                case 0 :
+                    dias = 31;
+                    break;
+                case 1 :
+                    if (año % 4 == 0 && (año % 100 !=0 || año % 400 == 0)){
+                        dias=29;
+                    }else{
+                        dias=28;
+                    }
+                    break;
+                case 2 :
+                    dias = 31;
+                    break;
+                case 3 :
+                    dias = 30;
+                    break;
+                case 4 :
+                    dias = 31;
+                    break;
+                case 5 :
+                    dias = 30;
+                    break;
+                case 6 :
+                    dias = 31;
+                    break;
+                case 7 :
+                    dias = 31;
+                    break;
+                case 8 :
+                    dias = 30;
+                    break;
+                case 9 :
+                    dias = 31;
+                    break;
+                case 10 :
+                    dias = 30;
+                    break;
+                case 11 :
+                    dias = 31;
+                    break;
+                default: 
+                    break;
+            }
+            tiempo= fechaNueva.getTime()+dias*24*60*60*1000;
+            fechaNueva= new Date(tiempo);
+            let fechaFin = `${fechaNueva.getFullYear()}-${("0" + fechaNueva.getMonth()).slice(-2)}-${("0" + fechaNueva.getDate()).slice(-2)}`;
+            return fechaFin;
+        };
         app.init();
     })(TallerAvanzada);
 });
