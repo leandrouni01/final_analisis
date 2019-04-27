@@ -7,7 +7,7 @@ class ControladorHorarioSuplente extends ControladorGeneral {
     function __construct() {
         parent::__construct();
     }
-
+    
     public function agregar($datos) {
         try{
             $this->refControladorPersistencia->iniciarTransaccion();
@@ -17,11 +17,11 @@ class ControladorHorarioSuplente extends ControladorGeneral {
                 "fk_sede"=>$datos["fk_sede"],
                 "fk_materia"=>$datos["fk_materia"],
                 "fk_ciclo_lectivo"=>date('Y'),
-                "fk_curso"=>$datos["fk_ciclo_lectivo"],
-                "fecha_inicio"=>$datos["fecha_fin"],
+                "fk_curso"=>$datos["fk_curso"],
+                "fecha_inicio"=>$datos["fecha_inicio"],
                 "fecha_fin"=>$datos["fecha_fin"]
             );
-            $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_HORARIO_SUPLENTE,$parametros);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_HORARIO_SUPLENTE,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimoHorarioSuplente();
         } catch (Exception $e) {
@@ -49,7 +49,8 @@ class ControladorHorarioSuplente extends ControladorGeneral {
                 "fecha_inicio2"=>$datos["fecha_inicio"],
                 "fecha_fin"=>$datos["fecha_fin"],
                 "fecha_fin2"=>$datos["fecha_fin"],
-                "ciclo_lectivo"=>date("Y")
+                "ciclo_lectivo"=>date("Y"),
+                "id_horario_suplente"=>$datos["id_horario_suplente"]
             );
             $resultado=$this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SUPLENTE,$parametros);
             $valor= $resultado->fetch();
@@ -62,7 +63,8 @@ class ControladorHorarioSuplente extends ControladorGeneral {
     public function eliminar($datos) {
         try{
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros= array("id_horario_suplente"=>"id_horario_suplente");
+            $parametros= array("id_horario_suplente"=>$datos["id_horario_suplente"]);
+            echo $parametros["id_horario_suplente"];
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_HORARIO_SUPLENTE,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
@@ -156,8 +158,8 @@ class ControladorHorarioSuplente extends ControladorGeneral {
                 "fk_sede"=>$datos["fk_sede"],
                 "fk_materia"=>$datos["fk_materia"],
                 "fk_ciclo_lectivo"=>$datos["fk_ciclo_lectivo"],
-                "fk_curso"=>$datos["fk_ciclo_lectivo"],
-                "fecha_inicio"=>$datos["fecha_fin"],
+                "fk_curso"=>$datos["fk_curso"],
+                "fecha_inicio"=>$datos["fecha_inicio"],
                 "fecha_fin"=>$datos["fecha_fin"],
                 "id_horario_suplente"=>$datos["id_horario_suplente"]
             );

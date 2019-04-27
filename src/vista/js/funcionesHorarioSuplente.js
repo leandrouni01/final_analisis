@@ -16,7 +16,7 @@ $(function () {
                 //app.ocultarCampos();
                 app.limpiarModal();
                 $("#tituloModal").html("Agregar Horario Suplente");
-                $("#id_horario").val(0);
+                $("#id_horario_suplente").val(0);
                 $("#fk_ciclo_lectivo").val(0);
                 $("#modalHorario").modal({show: true});
             });
@@ -48,9 +48,7 @@ $(function () {
 
             $("#selectFechaInicio").on('change', function () { 
                 var fecha;
-                alert($(this).val());
                 fecha= app.transformarFecha($(this).val());
-                alert(fecha);
                 $("#selectFechaFin").show();
                 $("#selectFechaFin").attr('min', fecha);
             });
@@ -212,7 +210,7 @@ $(function () {
                 dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    app.actualizarTabla(datosRecibidos, $("#id_horario").val());
+                    app.actualizarTabla(datosRecibidos, $("#id_horario_suplente").val());
                     app.alertSave();
                     $("#modalHorario").modal('hide');
                 },
@@ -231,7 +229,7 @@ $(function () {
                 method: 'POST',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    app.actualizarTabla(datosRecibidos, $("#id_horario").val());
+                    app.actualizarTabla(datosRecibidos, $("#id_horario_suplente").val());
                     $("#modalHorario").modal('hide');
                     app.alertModif();
                 },
@@ -266,7 +264,7 @@ $(function () {
                 var html = "<td data-id_profesor='" + $("#selectTitular").val() + "'>" + $("#selectTitular").find(":selected").text() +"</td>\n\
                              <td data-id_suplente='" + $("#selectSuplente").val() + "'>" + $("#selectSuplente").text() + "</td>\n\
                              <td data-id_sede='" + $("#selectSede").val() + "'>" + $("#selectSede").find(":selected").text() + "</td>\n\
-                             <td data-id_curso='" + $("#selectCurso") + "'>" + $("#selectCurso").find(":selected").text() + "</td>\n\
+                             <td data-id_curso='" + $("#selectCurso").val() + "'>" + $("#selectCurso").find(":selected").text() + "</td>\n\
                              <td data-id_plan='" + $("#selectPlan").val() + "'>" + $("#selectPlan").find(":selected").text() + "</td>\n\
                              <td data-id_materia='" + $("#selectMateria").val() + "'>" + $("#selectMateria").find(":selected").text() + "</td>\n\
                              <td >" + $("#selectFechaInicio").val() + "</td>\n\
@@ -276,14 +274,13 @@ $(function () {
                                  <a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario='" + id + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
                                  <a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario='" + id + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
                              </td>";
-
                 fila.html(html);
             }
         };
 
         app.eliminarHorario = function (id) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Horario";
-            var datosEnviar = {id_horario: id};
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=HorarioSuplente";
+            var datosEnviar = {id_horario_suplente: id};
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -463,36 +460,34 @@ $(function () {
 
         app.modificarCampos = (boton) => {
             app.limpiarModal();
-            $("#id_horario").val($(boton).attr("data-id_horario"));
-            $("#fk_ciclo_lectivo").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next());
+            $("#id_horario_suplente").val($(boton).attr("data-id_horario"));
+            $("#fk_ciclo_lectivo").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
             $("#selectTitular").val($(boton).parent().parent().children().first().attr("data-id_profesor"));
             $("#selectTitular").change();
+            $("#selectSuplente").val($(boton).parent().parent().find("td[data-id_suplente]").attr("data-id_suplente"));
             setTimeout(() => {
-                $("#selectSede").val($(boton).parent().parent().children().first().next().next().next().attr("data-id_sede"));
+                $("#selectSede").val($(boton).parent().parent().find("td[data-id_sede]").attr("data-id_sede"));
                 $("#selectSede").change();
                 setTimeout(() => {
-                    $("#selectPlan").val($(boton).parent().parent().children().first().next().attr("data-id_plan"));
+                    $("#selectPlan").val($(boton).parent().parent().find("td[data-id_plan]").attr("data-id_plan"));
                     $("#selectPlan").change();
                     setTimeout(() => {
-                        $("#selectMateria").val($(boton).parent().parent().children().first().next().next().attr("data-id_materia"));
+                        $("#selectMateria").val($(boton).parent().parent().find("td[data-id_materia]").attr("data-id_materia"));
                         $("#selectMateria").change();
                         setTimeout(() => {
-                            $("#selectCurso").val($(boton).parent().parent().children().first().next().next().next().next().attr("data-id_curso"));
+                            $("#selectCurso").val($(boton).parent().parent().find("td[data-id_curso]").attr("data-id_curso"));
                             $("#selectCurso").change();
                             $("#modalHorario").modal({show: true});
-                        }, 120);
-                    }, 90);
-                }, 60);
-            }, 30);
+                        }, 150);
+                    }, 120);
+                }, 90);
+            }, 60);
 
-            $("#selectInicioHorario").val($(boton).parent().parent().children().first().next().next().next().next().next().attr("data-id_inicio"));
-            $("#selectInicioHorario").change();
+            $("#selectFechaInicio").val($(boton).parent().parent().children().first().next().next().next().next().next().next().text());
+            $("#selectFechaFin").change();
             setTimeout(() => {
-                $("#selectFinHorario").val($(boton).parent().parent().children().first().next().next().next().next().next().next().attr("data-id_fin"));
+                $("#selectFechaFin").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().text());
             }, 50);
-
-            $("#selectDia").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().html());
-            $("#selectCicloLectivo").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
         };
 
         app.limpiarModal = function () {
@@ -538,8 +533,10 @@ $(function () {
 
         app.transformarFecha = function (fecha) {
             var fechaVieja= new Date(fecha);
+            fechaVieja= new Date(fechaVieja.getTime()+86400000);
+            //se agrega un dia mas porque al parecer Date crea la fecha un dia atrasada a la que se le manda.(tres commits para darme cuenta de esto ¬¬)
+            //86400000 == un dia en milisegundos
             var año= fechaVieja.getFullYear();
-            alert(fechaVieja.getFullYear().toString()+fechaVieja.getMonth().toString()+fechaVieja.getDate().toString());
             let dias,tiempo;
             switch (fechaVieja.getMonth()) {
                 case 0 :
@@ -586,9 +583,9 @@ $(function () {
                     break;
             }
             tiempo= fechaVieja.getTime()+dias*86400000;
+            //se le suma la cantidad de dias que tiene el mes en milisegundos para aumentar un mes
             let fechaNueva= new Date(tiempo);
-            alert(fechaNueva.getFullYear().toString()+fechaNueva.getMonth().toString()+fechaNueva.getDate().toString());
-            let fechaFin = `${fechaNueva.getFullYear()}-${("0" + (fechaNueva.getMonth()+1)).slice(-2)}-${("0" + (fechaNueva.getDate()+1)).slice(-2)}`;
+            let fechaFin = `${fechaNueva.getFullYear()}-${("0" + (fechaNueva.getMonth()+1)).slice(-2)}-${("0" + (fechaNueva.getDate())).slice(-2)}`;
             return fechaFin;
         };
         app.init();
