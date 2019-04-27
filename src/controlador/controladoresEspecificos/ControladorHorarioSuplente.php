@@ -64,7 +64,6 @@ class ControladorHorarioSuplente extends ControladorGeneral {
         try{
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros= array("id_horario_suplente"=>$datos["id_horario_suplente"]);
-            echo $parametros["id_horario_suplente"];
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_HORARIO_SUPLENTE,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
