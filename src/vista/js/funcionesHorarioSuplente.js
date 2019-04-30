@@ -328,7 +328,7 @@ $(function () {
                 $.each(datosHorario, function (clave, horario) {
                     html += "<tr>\n\
                              <td data-id_profesor='" + horario.fk_titular + "'>" + horario.nombre_titular + " " + horario.apellido_titular + "</td>\n\
-                             <td data-id_suplente='" + horario.fk_suplente + "'>" + horario.nombre_suplente + " " + horario.apellido_titular +"</td>\n\
+                             <td data-id_suplente='" + horario.fk_suplente + "'>" + horario.nombre_suplente + " " + horario.apellido_suplente +"</td>\n\
                              <td data-id_sede='" + horario.fk_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
                              <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
                              <td data-id_plan='" + horario.fk_plan_de_estudio + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
