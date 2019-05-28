@@ -16,6 +16,26 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`sistema_sedes` /*!40100 DEFAULT CHARACT
 
 USE `sistema_sedes`;
 
+/*Table structure for table `asignacion` */
+
+DROP TABLE IF EXISTS `asignacion`;
+
+CREATE TABLE `asignacion` (
+  `id_asignacion` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_espacio_curricular` int(11) DEFAULT NULL,
+  `fk_profesor` int(11) DEFAULT NULL,
+  `fecha_inicio` varchar(10) DEFAULT NULL,
+  `fecha_fin` varchar(10) NOT NULL,
+  `estado` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id_asignacion`),
+  KEY `fk_profesor` (`fk_profesor`),
+  KEY `asignacion_ibfk_1` (`fk_espacio_curricular`),
+  CONSTRAINT `asignacion_ibfk_1` FOREIGN KEY (`fk_espacio_curricular`) REFERENCES `espacio_curricular` (`id_espacio_curricular`),
+  CONSTRAINT `asignacion_ibfk_2` FOREIGN KEY (`fk_profesor`) REFERENCES `profesor` (`id_profesor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `asignacion` */
+
 /*Table structure for table `año` */
 
 DROP TABLE IF EXISTS `año`;
@@ -112,38 +132,23 @@ CREATE TABLE `domicilio` (
 
 insert  into `domicilio`(`id_domicilio`,`calle_domicilio`,`numero_domicilio`,`fk_localidad`,`estado`) values (9,'Vecindad',1,1,1),(10,'Silent Street',23,2,0),(11,'Roca',214,4,1),(12,'Dr. Moreno',325,2,1),(13,'Rodriguez',248,1,1),(14,'Godoy Cruz',521,1,0),(15,'San Martin',4526,5,1);
 
-/*Table structure for table `horario_suplente` */
+/*Table structure for table `espacio_curricular` */
 
-DROP TABLE IF EXISTS `horario_suplente`;
+DROP TABLE IF EXISTS `espacio_curricular`;
 
-CREATE TABLE `horario_suplente` (
-  `id_horario_suplente` int(11) NOT NULL AUTO_INCREMENT,
-  `fk_titular` int(11) DEFAULT NULL,
-  `fk_suplente` int(11) DEFAULT NULL,
-  `fk_sede` int(11) DEFAULT NULL,
+CREATE TABLE `espacio_curricular` (
+  `id_espacio_curricular` int(11) NOT NULL AUTO_INCREMENT,
   `fk_materia` int(11) DEFAULT NULL,
-  `fk_ciclo_lectivo` int(5) DEFAULT NULL,
   `fk_curso` int(11) DEFAULT NULL,
-  `fecha_inicio` date NOT NULL,
-  `fecha_fin` date NOT NULL,
-  `estado_horario_suplente` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`id_horario_suplente`),
-  UNIQUE KEY `fk_titular_2` (`fk_titular`,`fk_suplente`,`fk_sede`,`fk_materia`,`fk_ciclo_lectivo`,`fk_curso`),
-  KEY `fk_suplente` (`fk_suplente`),
-  KEY `fk_sede` (`fk_sede`),
+  `estado` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id_espacio_curricular`),
   KEY `fk_materia` (`fk_materia`),
   KEY `fk_curso` (`fk_curso`),
-  KEY `fk_ciclo_lectivo` (`fk_ciclo_lectivo`),
-  KEY `fk_titular` (`fk_titular`),
-  CONSTRAINT `horario_suplente_ibfk_2` FOREIGN KEY (`fk_titular`) REFERENCES `profesor` (`id_profesor`),
-  CONSTRAINT `horario_suplente_ibfk_3` FOREIGN KEY (`fk_suplente`) REFERENCES `profesor` (`id_profesor`),
-  CONSTRAINT `horario_suplente_ibfk_4` FOREIGN KEY (`fk_sede`) REFERENCES `sede` (`id_sede`),
-  CONSTRAINT `horario_suplente_ibfk_5` FOREIGN KEY (`fk_materia`) REFERENCES `materia` (`id_materia`),
-  CONSTRAINT `horario_suplente_ibfk_6` FOREIGN KEY (`fk_curso`) REFERENCES `curso` (`id_curso`),
-  CONSTRAINT `horario_suplente_ibfk_7` FOREIGN KEY (`fk_ciclo_lectivo`) REFERENCES `horarios` (`ciclo_lectivo_horario`)
+  CONSTRAINT `espacio_curricular_ibfk_1` FOREIGN KEY (`fk_materia`) REFERENCES `materia` (`id_materia`),
+  CONSTRAINT `espacio_curricular_ibfk_2` FOREIGN KEY (`fk_curso`) REFERENCES `curso` (`id_curso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `horario_suplente` */
+/*Data for the table `espacio_curricular` */
 
 /*Table structure for table `horarios` */
 
@@ -151,27 +156,20 @@ DROP TABLE IF EXISTS `horarios`;
 
 CREATE TABLE `horarios` (
   `id_horario` int(11) NOT NULL AUTO_INCREMENT,
-  `fk_profesor` int(11) DEFAULT NULL,
-  `fk_materia` int(11) DEFAULT NULL,
+  `fk_espacio_curricular` int(11) DEFAULT NULL,
   `fk_modulo_inicio` int(11) DEFAULT NULL,
   `fk_modulo_fin` int(11) NOT NULL,
-  `fk_curso` int(11) DEFAULT NULL,
-  `dia_horario` enum('Lunes','Martes','Miercoles','Jueves','Viernes','Sabado') NOT NULL,
   `ciclo_lectivo_horario` int(5) NOT NULL,
+  `dia_horario` enum('Lunes','Martes','Miercoles','Jueves','Viernes','Sabado') NOT NULL,
   `estado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_horario`),
-  UNIQUE KEY `fk_profesor_2` (`fk_profesor`,`fk_modulo_inicio`,`fk_modulo_fin`,`dia_horario`,`ciclo_lectivo_horario`),
-  KEY `fk_profesor` (`fk_profesor`),
-  KEY `fk_materia` (`fk_materia`),
-  KEY `fk_curso` (`fk_curso`),
-  KEY `fk_modulo_inicio` (`fk_modulo_inicio`),
+  UNIQUE KEY `fk_profesor_2` (`fk_modulo_inicio`,`fk_modulo_fin`,`dia_horario`,`ciclo_lectivo_horario`),
   KEY `fk_modulo_fin` (`fk_modulo_fin`),
   KEY `ciclo_lectivo_horario` (`ciclo_lectivo_horario`),
-  CONSTRAINT `horarios_ibfk_1` FOREIGN KEY (`fk_profesor`) REFERENCES `profesor` (`id_profesor`),
-  CONSTRAINT `horarios_ibfk_2` FOREIGN KEY (`fk_materia`) REFERENCES `materia` (`id_materia`),
-  CONSTRAINT `horarios_ibfk_3` FOREIGN KEY (`fk_curso`) REFERENCES `curso` (`id_curso`),
+  KEY `fk_espacio_curricular` (`fk_espacio_curricular`),
   CONSTRAINT `horarios_ibfk_4` FOREIGN KEY (`fk_modulo_inicio`) REFERENCES `modulos` (`id_modulo`),
-  CONSTRAINT `horarios_ibfk_5` FOREIGN KEY (`fk_modulo_fin`) REFERENCES `modulos` (`id_modulo`)
+  CONSTRAINT `horarios_ibfk_5` FOREIGN KEY (`fk_modulo_fin`) REFERENCES `modulos` (`id_modulo`),
+  CONSTRAINT `horarios_ibfk_6` FOREIGN KEY (`fk_espacio_curricular`) REFERENCES `espacio_curricular` (`id_espacio_curricular`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `horarios` */
@@ -295,7 +293,7 @@ DROP TABLE IF EXISTS `profesor`;
 
 CREATE TABLE `profesor` (
   `id_profesor` int(11) NOT NULL AUTO_INCREMENT,
-  `cargo_profesor` enum('Titular','Suplente') NOT NULL,
+  `cuil` int(11) DEFAULT NULL,
   `nombre_profesor` varchar(70) NOT NULL,
   `apellido_profesor` varchar(70) NOT NULL,
   `fk_titulo` int(11) DEFAULT NULL,
