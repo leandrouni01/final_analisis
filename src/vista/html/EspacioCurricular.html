@@ -60,8 +60,8 @@ and open the template in the editor.
                                             <li><a href="Correlatividades.html">Correlatividades</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li><a href="Curso.html">Cursos</a></li>
-                                            <li class="active"><a href="Horario.html">Horarios</a></li>
-                                            <li><a href="Horario_suplente.html">Reemplazos</a></li>
+                                            <li class="active"><a href="espacio_curricular.html">espacio_curriculars</a></li>
+                                            <li><a href="espacio_curricular_suplente.html">Reemplazos</a></li>
                                             <li><a href="EspacioCurricular.html">Espacio Curricullar</a></li>
                                         </ul>
                                     </li>
@@ -99,14 +99,14 @@ and open the template in the editor.
                     <table class="table">
                         <tr>
                             <td align="">
-                                <button class="btn btn-primary btn-lg pull-left" id="agregarHorario" data-toggle="tooltip" data-placement="left" title="Cargar registro">
+                                <button class="btn btn-primary btn-lg pull-left" id="agregarespacio_curricular" data-toggle="tooltip" data-placement="left" title="Cargar registro">
                                     <span class="glyphicon glyphicon-pencil"></span> Agregar
                                 </button>
                             </td>
                             <td>
                                 <div class="pull-right">
                                     <div class="input-group">
-                                        <input id="textBusca" type="text" class="form-control" placeholder="Buscar horario.." aria-describedby="basic-addon2">
+                                        <input id="textBusca" type="text" class="form-control" placeholder="Buscar espacio_curricular.." aria-describedby="basic-addon2">
                                         <span class="input-group-addon" id="basic-addon2">
                                             <span class="glyphicon glyphicon-search"></span>
                                         </span>
@@ -144,7 +144,7 @@ and open the template in the editor.
                             </tr>
                         </thead>
 
-                        <tbody id="cuerpoTablaHorario" >
+                        <tbody id="cuerpoTablaEspacioCurricular" >
                         </tbody>
 
                     </table>
@@ -155,7 +155,7 @@ and open the template in the editor.
         </div>
 
         <!--MODAL-->
-        <div class="modal fade" id="modalHorario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalEspacioCurricular" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form id="form" class="form-horizontal"
@@ -174,7 +174,7 @@ and open the template in the editor.
 
                             <div class="container-fluid" id="alerta"></div>
 
-                            <input class="form-control" type="hidden" id="id_horario" name="id_horario">
+                            <input class="form-control" type="hidden" id="id_espacio_curricular" name="id_espacio_curricular">
 
                         </div>
 
