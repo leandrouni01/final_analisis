@@ -126,7 +126,7 @@ CREATE TABLE `domicilio` (
   PRIMARY KEY (`id_domicilio`),
   KEY `fk_localidad` (`fk_localidad`),
   CONSTRAINT `domicilio_ibfk_1` FOREIGN KEY (`fk_localidad`) REFERENCES `localidad` (`id_localidad`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 /*Data for the table `domicilio` */
 
@@ -309,7 +309,7 @@ CREATE TABLE `profesor` (
   CONSTRAINT `profesor_ibfk_2` FOREIGN KEY (`fk_titulo`) REFERENCES `titulo` (`id_titulo`),
   CONSTRAINT `profesor_ibfk_3` FOREIGN KEY (`fk_postgrado`) REFERENCES `postgrado` (`id_postgrado`),
   CONSTRAINT `profesor_ibfk_4` FOREIGN KEY (`fk_domicilio`) REFERENCES `domicilio` (`id_domicilio`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `profesor` */
 
