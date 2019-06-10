@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Administrar Espacio Curricular</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="../css/iesmb.jpg">
+        <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../css/bootstrapValidator.min.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body style="background-color: aliceblue">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-inverse" role="navigation" style="margin-top: 8px">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="../../index.html"><span class="glyphicon glyphicon-th-list"></span> Menu Principal</a>
+                            </div>
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Alumnado <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="Alumno.html">Alumnos</a></li>
+                                            <li><a href="Inscripciines.html">Inscripciones</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Profesorado <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="Titulo.html">Titulos</a></li>
+                                            <li><a href="Postgrado.html">Postgrados</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="Profesor.html">Profesores</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-book"></span> Académica <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="Carrera.html">Carrera</a></li>
+                                            <li><a href="PlanEstudio.html">Plan de Estudio</a></li>
+                                            <li><a href="Materias.html">Materias</a></li>
+                                            <li><a href="Correlatividades.html">Correlatividades</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="Curso.html">Cursos</a></li>
+                                            <li class="active"><a href="Horario.html">Horarios</a></li>
+                                            <li><a href="Horario_suplente.html">Reemplazos</a></li>
+                                            <li><a href="EspacioCurricular.html">Espacio Curricullar</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-globe"></span> Ubicación <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="Pais.html">Paises</a></li>
+                                            <li><a href="Provincia.html">Provincias</a></li>
+                                            <li><a href="Localidad.html">Localidades</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="Sede.html">Sedes</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div><!-- /.navbar-collapse -->
+                        </div><!-- /.container-fluid -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="well well-sm" style="background-color: #9acfea" >
+                        <h1>Instituto Manuel Belgrano</h1>
+                        <h4> Sistema de Carga de Espacios Curriculares.</h4>
+
+                        <img align="right" style="width:100px; height:100px; position: absolute; top: 9px;left:1043px" src="../css/iesmb.jpg" class="img-circle" alt=""/>
+                    </div>
+
+                    <table class="table">
+                        <tr>
+                            <td align="">
+                                <button class="btn btn-primary btn-lg pull-left" id="agregarHorario" data-toggle="tooltip" data-placement="left" title="Cargar registro">
+                                    <span class="glyphicon glyphicon-pencil"></span> Agregar
+                                </button>
+                            </td>
+                            <td>
+                                <div class="pull-right">
+                                    <div class="input-group">
+                                        <input id="textBusca" type="text" class="form-control" placeholder="Buscar horario.." aria-describedby="basic-addon2">
+                                        <span class="input-group-addon" id="basic-addon2">
+                                            <span class="glyphicon glyphicon-search"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <div class='container-fluid'>
+                        <div id="alert2"></div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-12 thumbnail">
+
+                    <table class="table table-bordered table-hover table-condensed" id="tabla">
+                        <thead>
+                            <tr>
+                                <th>Sede</th>
+                                <th>Carrera</th>
+                                <th>Materia</th>
+                                <th>Curso</th>
+                                <th>Año</th>
+                                <th class="col-lg-2"><span class="glyphicon glyphicon-cog"></span> Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="cuerpoTablaHorario" >
+                        </tbody>
+
+                    </table>
+                    <div id="alert"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!--MODAL-->
+        <div class="modal fade" id="modalHorario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form id="form" class="form-horizontal"
+                          data-bv-message="Este valor No es válido"
+                          data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                          data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                          data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
+                          data-bv-submitbuttons='button[type="submit"]'
+                          data-bv-trigger="focus blur"
+                          data-bv-live="enabled">
+                        <div class="modal-header">
+                            <div class="well well-sm">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 align="left" class="modal-title" id="tituloModal">Nuevo Espacio Curricular</h3>
+                            </div>
+
+                            <div class="container-fluid" id="alerta"></div>
+
+                            <input class="form-control" type="hidden" id="id_horario" name="id_horario">
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="container-fluid">
+
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+
+                                        <div class="container-fluid">
+
+                                            <div class="form-group">
+                                                <label class="control-label" for="selectPlan">Carrera</label>
+                                                <div>
+                                                    <div class="input-group">
+
+                                                        <select id="selectPlan" name="fk_plan" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar una Carrera">
+                                                        </select>
+
+                                                        <span class="input-group-btn">
+                                                            <button type="button" id="cambiarPlan" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Carrera</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="curso">
+                                                <label class="control-label" for="selectCurso">Curso</label>
+                                                <div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></span>
+                                                        <select id="selectCurso" name="fk_curso" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar un Curso">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-6">
+
+                                        <div class="container-fluid">
+
+                                            <div class="form-group" id="sede">
+                                                <label class="control-label" for="selectSede">Sede</label>
+                                                <div>
+                                                    <div class="input-group">
+
+                                                        <select id="selectSede" name="fk_sede" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar una Sede">
+                                                        </select>
+                                                        <span class="input-group-btn">
+                                                            <button type="button" id="cambiarSede" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Sede</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" id="materia">
+                                                <label class="control-label" for="selectMateria">Materia</label>
+                                                <div>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                                                        <select id="selectMateria" name="fk_materia" class="form-control"
+                                                                data-bv-notempty="true"
+                                                                data-bv-notempty-message="Debes seleccionar una Materia">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                            <button type="button" id="borrar" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+                            <button type="submit" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <script src="../js/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap/bootstrapValidator.min.js" type="text/javascript"></script>
+    <script src="../js/funcionesEspacioCurricular.js" type="text/javascript"></script>
+</body>
+</html>
