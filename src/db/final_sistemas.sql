@@ -32,9 +32,11 @@ CREATE TABLE `asignacion` (
   KEY `asignacion_ibfk_1` (`fk_espacio_curricular`),
   CONSTRAINT `asignacion_ibfk_1` FOREIGN KEY (`fk_espacio_curricular`) REFERENCES `espacio_curricular` (`id_espacio_curricular`),
   CONSTRAINT `asignacion_ibfk_2` FOREIGN KEY (`fk_profesor`) REFERENCES `profesor` (`id_profesor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `asignacion` */
+
+insert  into `asignacion`(`id_asignacion`,`fk_espacio_curricular`,`fk_profesor`,`fecha_inicio`,`fecha_fin`,`estado`) values (1,1,1,'01-01-2007','31-12-2019',1);
 
 /*Table structure for table `año` */
 
@@ -111,7 +113,7 @@ CREATE TABLE `curso` (
 
 /*Data for the table `curso` */
 
-insert  into `curso`(`id_curso`,`fk_sede`,`fk_plan_de_estudios`,`nombre_curso`,`anio_curso`,`estado`) values (1,9,1,'1A',1,1),(2,9,1,'1B',1,1),(3,9,1,'1C',1,1),(4,9,1,'2°A',2,1);
+insert  into `curso`(`id_curso`,`fk_sede`,`fk_plan_de_estudios`,`nombre_curso`,`anio_curso`,`estado`) values (1,9,1,'1°A',1,1),(2,9,1,'1°B',1,1),(3,9,1,'1°C',1,1),(4,9,1,'2°A',2,1);
 
 /*Table structure for table `domicilio` */
 
@@ -146,9 +148,11 @@ CREATE TABLE `espacio_curricular` (
   KEY `fk_curso` (`fk_curso`),
   CONSTRAINT `espacio_curricular_ibfk_1` FOREIGN KEY (`fk_materia`) REFERENCES `materia` (`id_materia`),
   CONSTRAINT `espacio_curricular_ibfk_2` FOREIGN KEY (`fk_curso`) REFERENCES `curso` (`id_curso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `espacio_curricular` */
+
+insert  into `espacio_curricular`(`id_espacio_curricular`,`fk_materia`,`fk_curso`,`estado`) values (1,4,1,1),(2,19,2,1);
 
 /*Table structure for table `horarios` */
 
@@ -293,25 +297,25 @@ DROP TABLE IF EXISTS `profesor`;
 
 CREATE TABLE `profesor` (
   `id_profesor` int(11) NOT NULL AUTO_INCREMENT,
-  `cuil` int(11) DEFAULT NULL,
+  `cuil` varchar(13) DEFAULT NULL,
   `nombre_profesor` varchar(70) NOT NULL,
   `apellido_profesor` varchar(70) NOT NULL,
   `fk_titulo` int(11) DEFAULT NULL,
   `fk_postgrado` int(11) DEFAULT NULL,
   `fk_domicilio` int(11) DEFAULT NULL,
-  `dni_profesor` int(11) NOT NULL,
   `estado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_profesor`),
-  UNIQUE KEY `dni_profesor` (`dni_profesor`),
   KEY `fk_titulo` (`fk_titulo`),
   KEY `fk_postgrado` (`fk_postgrado`),
   KEY `fk_domicilio` (`fk_domicilio`),
   CONSTRAINT `profesor_ibfk_2` FOREIGN KEY (`fk_titulo`) REFERENCES `titulo` (`id_titulo`),
   CONSTRAINT `profesor_ibfk_3` FOREIGN KEY (`fk_postgrado`) REFERENCES `postgrado` (`id_postgrado`),
   CONSTRAINT `profesor_ibfk_4` FOREIGN KEY (`fk_domicilio`) REFERENCES `domicilio` (`id_domicilio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `profesor` */
+
+insert  into `profesor`(`id_profesor`,`cuil`,`nombre_profesor`,`apellido_profesor`,`fk_titulo`,`fk_postgrado`,`fk_domicilio`,`estado`) values (1,'23-20123321-6','Alberto','Cortez',3,NULL,11,1);
 
 /*Table structure for table `provincia` */
 
