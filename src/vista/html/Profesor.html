@@ -133,10 +133,9 @@
                     <table class="table table-bordered table-hover table-condensed" id="tabla">
                         <thead>
                             <tr>
-                                <th>Cargo</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
-                                <th>DNI</th>
+                                <th>CUIL</th>
                                 <th>Título</th>
                                 <th>Posgrado</th>
                                 <th>País</th>
@@ -187,22 +186,6 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-
-                                        <div class="form-group">
-                                            <label class='col-lg-1 control-label'>Cargo</label>
-                                            <div class='col-lg-11'>
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-                                                    <select class="form-control" id="comboCargo" name="cargo_profesor"
-                                                            data-bv-notempty="true"
-                                                            data-bv-notempty-message="Debes seleccionar el cargo del profesor">
-                                                        <option value=''>Seleccione el cargo...</option>
-                                                        <option value='Titular'>Titular</option>
-                                                        <option value='Suplente'>Suplente</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
                                         
                                         <div class="form-group">
                                             <label class='col-lg-1 control-label'>Nombre</label>
@@ -229,13 +212,14 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class='col-lg-1 control-label'>DNI</label>
+                                            <label class='col-lg-1 control-label'>CUIL</label>
                                             <div class='col-lg-11'>
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                    <input class="form-control" type="text" maxlength="11" pattern="[0-9]" id="dni_profesor" name="dni_profesor" 
+                                                    <input class="form-control" type="text" maxlength="13" pattern="[20,23,24,27]+\-[0-9]+\-[0-9]" id="cuil_profesor" name="cuil_profesor" placeholder="Ingresar el CUIL con guiones (-)" 
                                                            data-bv-notempty="true"
-                                                           data-bv-notempty-message="Debes completar el DNI">
+                                                           data-bv-notempty-message="Debes completar el CUIL"
+                                                           data-bv-regexp-message="Los primeros dos digitos deben ir del 20 al 27 (menos 25 y 26) y se debe agregar las -">
                                                 </div>
                                             </div>
                                         </div>
