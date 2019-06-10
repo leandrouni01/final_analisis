@@ -537,50 +537,16 @@ $(function () {
             //se agrega un dia mas porque al parecer Date crea la fecha un dia atrasada a la que se le manda.(tres commits para darme cuenta de esto ¬¬)
             //86400000 == un dia en milisegundos
             var año= fechaVieja.getFullYear();
+            var mes= fechaVieja.getMonth();
             let dias,tiempo;
-            switch (fechaVieja.getMonth()) {
-                case 0 :
-                    dias = 31;
-                    break;
-                case 1 :
-                    if (año % 4 == 0 && (año % 100 !=0 || año % 400 == 0)){
-                        dias=29;
-                    }else{
-                        dias=28;
-                    }
-                    break;
-                case 2 :
-                    dias = 31;
-                    break;
-                case 3 :
-                    dias = 30;
-                    break;
-                case 4 :
-                    dias = 31;
-                    break;
-                case 5 :
-                    dias = 30;
-                    break;
-                case 6 :
-                    dias = 31;
-                    break;
-                case 7 :
-                    dias = 31;
-                    break;
-                case 8 :
-                    dias = 30;
-                    break;
-                case 9 :
-                    dias = 31;
-                    break;
-                case 10 :
-                    dias = 30;
-                    break;
-                case 11 :
-                    dias = 31;
-                    break;
-                default: 
-                    break;
+            if((mes%2==0&&mes<7)||(mes%2!=0&&mes>=7)){
+                dias=31;
+            }else if(mes!=1){
+                dias=30;
+            }else if(año % 4 == 0 && (año % 100 !=0 || año % 400 == 0)){
+                dias= 29;
+            }else{
+                dias=28;
             }
             tiempo= fechaVieja.getTime()+dias*86400000;
             //se le suma la cantidad de dias que tiene el mes en milisegundos para aumentar un mes
