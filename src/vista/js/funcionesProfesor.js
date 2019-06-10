@@ -226,10 +226,9 @@ $(function () {
                 var linea = "";
                 $.each(data, function (clave, object) {
                     linea += '<tr>' +
-                            '<td>' + object.cargo_profesor + '</td>' +
                             '<td>' + object.nombre_profesor + '</td>' +
                             '<td>' + object.apellido_profesor + '</td>' +
-                            '<td>' + object.dni_profesor + '</td>' +
+                            '<td>' + object.cuil + '</td>' +
                             '<td data-fk_titulo="'+ object.fk_titulo +'">' + object.nombre_titulo + '</td>' +
                             '<td data-fk_postgrado="' + object.fk_postgrado +'">' + object.nombre_postgrado + '</td>' + 
                             '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
@@ -291,10 +290,9 @@ $(function () {
         app.actualizarTabla = function (object, id) {
             if (id == 0) {
                 var html = '<tr>' +
-                            '<td>' + object.cargo_profesor + '</td>' +
                             '<td>' + object.nombre_profesor + '</td>' +
                             '<td>' + object.apellido_profesor + '</td>' +
-                            '<td>' + object.dni_profesor + '</td>' +
+                            '<td>' + object.cuil + '</td>' +
                             '<td data-fk_titulo="'+ object.fk_titulo +'">' + object.nombre_titulo + '</td>' +
                             '<td data-fk_postgrado="' + object.fk_postgrado +'">' + object.nombre_postgrado + '</td>' + 
                             '<td data-fk_pais="' + object.id_pais + '">' + object.nombre_pais + '</td>' +
@@ -313,10 +311,9 @@ $(function () {
                 //Modifico un Pais existente, busco la fila.
                 var fila = $("#cuerpoTabla").find("[data-id='" + id + "']").parent().parent();
                 var html = 
-                        '<td>' + $("#comboCargo").find(':selected').val() + '</td>' +
                         '<td>' + $("#nombre_profesor").val() + '</td>' +
                         '<td>' + $("#apellido_profesor").val() + '</td>' +
-                        '<td>' + $("#dni_profesor").val() + '</td>' +
+                        '<td>' + $("#cuil_profesor").val() + '</td>' +
                         '<td data-fk_titulo="'+ $("#comboTitulo").find(':selected').val() +'">' + $("#comboTitulo").find(':selected').text() + '</td>' +
                         '<td data-fk_postgrado="'+ $("#comboPostgrado").find(':selected').val() +'">' + $("#comboPostgrado").find(':selected').text() + '</td>' +
                         '<td data-fk_pais="'+ $("#comboPais").find(':selected').val() +'">' + $("#comboPais").find(':selected').text() + '</td>' +
@@ -363,7 +360,7 @@ $(function () {
             $("#id_domicilio").val();
             $("#nombre_profesor").val('');
             $("#apellido_profesor").val('');
-            $("#dni_profesor").val('');
+            $("#cuil_profesor").val('');
             $("#comboTitulo").html('');
             $("#comboPostgrado").html('');
             $("#comboPais").html('');
@@ -379,45 +376,43 @@ $(function () {
             app.limpiarModal();
             $("#id").val($(boton).attr("data-id"));
             $("#id_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().next().attr('data-fk_domicilio'));
-            $("#comboCargo").val($(boton).parent().parent().children().first().html());
-            $("#nombre_profesor").val($(boton).parent().parent().children().first().next().html());
-            $("#apellido_profesor").val($(boton).parent().parent().children().first().next().next().html());
-            $("#dni_profesor").val($(boton).parent().parent().children().first().next().next().next().html());
+            $("#nombre_profesor").val($(boton).parent().parent().children().first().html());
+            $("#apellido_profesor").val($(boton).parent().parent().children().first().next().html());
+            $("#cuil_profesor").val($(boton).parent().parent().children().first().next().next().html());
 
             app.listarCombos('Titulo');
             setTimeout(() => {
-                $("#comboTitulo").val($(boton).parent().parent().children().first().next().next().next().next().attr('data-fk_titulo'));
+                $("#comboTitulo").val($(boton).parent().parent().children().first().next().next().next().attr('data-fk_titulo'));
                 $("#comboTitulo").change();
             }, 100);
 
             setTimeout(() => {
-                $("#comboPostgrado").val($(boton).parent().parent().children().first().next().next().next().next().next().attr('data-fk_postgrado'));
+                $("#comboPostgrado").val($(boton).parent().parent().children().first().next().next().next().next().attr('data-fk_postgrado'));
             }, 150);
 
             app.listarCombos('Pais');
             setTimeout(() => {
-                $("#comboPais").val($(boton).parent().parent().children().first().next().next().next().next().next().next().attr('data-fk_pais'));
+                $("#comboPais").val($(boton).parent().parent().children().first().next().next().next().next().next().attr('data-fk_pais'));
                 $("#comboPais").change();
             }, 100);
 
             setTimeout(() => {
-                $("#comboProvincia").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().attr('data-fk_provincia'));
+                $("#comboProvincia").val($(boton).parent().parent().children().first().next().next().next().next().next().next().attr('data-fk_provincia'));
                 $("#comboProvincia").change();
             }, 200);
 
             setTimeout(() => {
-                $("#comboLocalidad").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().attr('data-fk_localidad'));
+                $("#comboLocalidad").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().attr('data-fk_localidad'));
             }, 300);
 
-            $("#calle_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().next().html());
-            $("#numero_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().next().next().html());
+            $("#calle_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
+            $("#numero_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().next().html());
         };
 
         app.habilitadorCampos = (condicion) => {
-            $("#comboCargo").prop('disabled', condicion);
             $("#nombre_profesor").prop('disabled', condicion);
             $("#apellido_profesor").prop('disabled', condicion);
-            $("#dni_profesor").prop('disabled', condicion);
+            $("#cuil_profesor").prop('disabled', condicion);
             $("#comboTitulo").prop('disabled', condicion);
             $("#comboPostgrado").prop('disabled', condicion);
             $("#comboPais").prop('disabled', condicion);
