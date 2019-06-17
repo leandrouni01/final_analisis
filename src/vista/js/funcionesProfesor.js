@@ -199,7 +199,7 @@ $(function () {
             });
         };
 
-        app.buscar = function () { //esta funcion lista todas las carreras
+        app.buscar = function () { 
             var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Profesor";
             $.ajax({
                 url: url,
@@ -270,7 +270,7 @@ $(function () {
         app.modificar = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Profesor";
             var datosEnviar = $("#form").serialize();
-            //alert(datosEnviar);
+            alert(datosEnviar);
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -375,7 +375,7 @@ $(function () {
         app.modificarCampos = (boton) => {
             app.limpiarModal();
             $("#id").val($(boton).attr("data-id"));
-            $("#id_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().next().attr('data-fk_domicilio'));
+            $("#id_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().attr('data-fk_domicilio'));
             $("#nombre_profesor").val($(boton).parent().parent().children().first().html());
             $("#apellido_profesor").val($(boton).parent().parent().children().first().next().html());
             $("#cuil_profesor").val($(boton).parent().parent().children().first().next().next().html());
