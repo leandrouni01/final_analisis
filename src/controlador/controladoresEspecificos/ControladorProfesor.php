@@ -21,12 +21,11 @@ class ControladorProfesor extends ControladorGeneral {
             $controlador->agregar($parametros);
 
             $parametros = array(
-                "cargo_profesor" => $datos["cargo_profesor"],
                 "nombre_profesor" => $datos["nombre_profesor"],
                 "apellido_profesor" => $datos["apellido_profesor"],
+                "cuil" => $datos["cuil_profesor"],
                 "fk_titulo" => $datos["fk_titulo"],
-                "fk_postgrado" => $datos["fk_postgrado"],
-                "dni_profesor" => $datos["dni_profesor"]);
+                "fk_postgrado" => $datos["fk_postgrado"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_PROFESOR, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimoProfesor();
@@ -130,13 +129,12 @@ class ControladorProfesor extends ControladorGeneral {
             $controlador->modificar($parametros);
 
             $parametros = array(
-                "cargo_profesor" => $datos["cargo_profesor"],
                 "nombre_profesor" => $datos["nombre_profesor"],
                 "apellido_profesor" => $datos["apellido_profesor"],
+                "cuil" => $datos["cuil_profesor"],
                 "fk_titulo" => $datos["fk_titulo"],
                 "fk_postgrado" => $datos["fk_postgrado"],
                 "fk_domicilio" => $datos["id_domicilio"],
-                "dni_profesor" => $datos["dni_profesor"],
                 "id_profesor" => $datos["id"]
             );
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_PROFESOR, $parametros);
