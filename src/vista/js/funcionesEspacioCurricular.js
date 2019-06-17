@@ -74,7 +74,7 @@ $(function () {
                                    <td data-id_plan="${espacio.id_plan}">${espacio.nombre_carrera}(Resolucion: ${espacio.resolucion})</td>
                                    <td data-id_materia="${espacio.fk_materia}">${espacio.nombre_materia}</td>
                                    <td data-id_curso="${espacio.fk_curso}">${espacio.nombre_curso}</td>
-                                   <td>${espacio.anio}</td>
+                                   <td data-anio="${espacio.anio}">${espacio.anio}°</td>
                                    <td>
                                        <a class='btn btn-warning pull-left editar' data-id_espacio="${espacio.id_espacio_curricular}"><span class='glyphicon glyphicon-pencil'></span>Editar</a>
                                        <a class='btn btn-danger pull-right eliminar' data-id_espacio="${espacio.id_espacio_curricular}"><span class='glyphicon glyphicon-remove'></span>Eliminar </a>
