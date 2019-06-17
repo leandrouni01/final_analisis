@@ -74,7 +74,7 @@ class ControladorEspacioCurricular extends ControladorGeneral
         //recibe id
         try {
             $parametros = array("id_plan" => $datos["id_plan"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_MATERIAS_EC ,$parametros);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_AÑOS_EC ,$parametros);
             $fila = $resultado->fetch();
 
             return $fila;
@@ -86,7 +86,7 @@ class ControladorEspacioCurricular extends ControladorGeneral
     public function buscarMaterias($datos){
         //recibe idplan , anio
         try {
-            $parametros = array("id_materia" => $datos["id_materia"] , 
+            $parametros = array("id_plan" => $datos["id_plan"] , 
             "anio" => $datos["anio"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_MATERIAS_EC, $parametros);
             $fila = $resultado->fetchAll(PDO::FETCH_ASSOC);

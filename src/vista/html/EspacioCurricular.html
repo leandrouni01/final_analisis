@@ -95,11 +95,10 @@ and open the template in the editor.
 
                         <img align="right" style="width:100px; height:100px; position: absolute; top: 9px;left:1043px" src="../css/iesmb.jpg" class="img-circle" alt=""/>
                     </div>
-
                     <table class="table">
                         <tr>
                             <td align="">
-                                <button class="btn btn-primary btn-lg pull-left" id="agregarespacio_curricular" data-toggle="tooltip" data-placement="left" title="Cargar registro">
+                                <button class="btn btn-primary btn-lg pull-left" id="agregar_espacio_curricular" data-toggle="tooltip" data-placement="left" title="Cargar registro">
                                     <span class="glyphicon glyphicon-pencil"></span> Agregar
                                 </button>
                             </td>
@@ -179,81 +178,73 @@ and open the template in the editor.
                         </div>
 
                         <div class="modal-body">
-
-                            <div class="container-fluid">
-
-                                <div class="row">
-
-                                    <div class="col-lg-6">
-
-                                        <div class="container-fluid">
-
-                                            <div class="form-group">
-                                                <label class="control-label" for="selectPlan">Carrera</label>
-                                                <div>
-                                                    <div class="input-group">
-
-                                                        <select id="selectPlan" name="fk_plan" class="form-control"
-                                                                data-bv-notempty="true"
-                                                                data-bv-notempty-message="Debes seleccionar una Carrera">
-                                                        </select>
-
-                                                        <span class="input-group-btn">
-                                                            <button type="button" id="cambiarPlan" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Carrera</button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group" id="curso">
-                                                <label class="control-label" for="selectCurso">Curso</label>
-                                                <div>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></span>
-                                                        <select id="selectCurso" name="fk_curso" class="form-control"
-                                                                data-bv-notempty="true"
-                                                                data-bv-notempty-message="Debes seleccionar un Curso">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                            
+                            <div class="form-group" id="sede">
+                                <label class="control-label" for="selectSede">Sede</label>
+                                <div>
+                                    <div class="input-group">
+                                        <select id="selectSede" name="fk_sede" class="form-control"
+                                                data-bv-notempty="true"
+                                                data-bv-notempty-message="Debes seleccionar una Sede">
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button type="button" id="cambiarSede" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Sede</button>
+                                        </span>
                                     </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label" for="selectPlan">Carrera</label>
+                                <div>
+                                    <div class="input-group">
+                                        <select id="selectPlan" name="fk_plan" class="form-control"
+                                                data-bv-notempty="true"
+                                                data-bv-notempty-message="Debes seleccionar una Carrera">
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button type="button" id="cambiarPlan" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Carrera</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
-                                    <div class="col-lg-6">
+                            
+                            <div class="form-group" id="anio">
+                                <label class="control-label" for="selectAnio">Año</label>
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                                        <select id="selectAnio" name="anio" class="form-control"
+                                                data-bv-notempty="true"
+                                                data-bv-notempty-message="Debes seleccionar un Año">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
-                                        <div class="container-fluid">
+                            <div class="form-group" id="materia">
+                                <label class="control-label" for="selectMateria">Materia</label>
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                                        <select id="selectMateria" name="fk_materia" class="form-control"
+                                                data-bv-notempty="true"
+                                                data-bv-notempty-message="Debes seleccionar una Materia">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
-                                            <div class="form-group" id="sede">
-                                                <label class="control-label" for="selectSede">Sede</label>
-                                                <div>
-                                                    <div class="input-group">
-
-                                                        <select id="selectSede" name="fk_sede" class="form-control"
-                                                                data-bv-notempty="true"
-                                                                data-bv-notempty-message="Debes seleccionar una Sede">
-                                                        </select>
-                                                        <span class="input-group-btn">
-                                                            <button type="button" id="cambiarSede" class="btn btn-warning"><span class="glyphicon glyphicon-retweet"></span> Cambiar Sede</button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group" id="materia">
-                                                <label class="control-label" for="selectMateria">Materia</label>
-                                                <div>
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
-                                                        <select id="selectMateria" name="fk_materia" class="form-control"
-                                                                data-bv-notempty="true"
-                                                                data-bv-notempty-message="Debes seleccionar una Materia">
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                            <div class="form-group" id="curso">
+                                <label class="control-label" for="selectCurso">Curso</label>
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-bookmark"></i></span>
+                                        <select id="selectCurso" name="fk_curso" class="form-control"
+                                                data-bv-notempty="true"
+                                                data-bv-notempty-message="Debes seleccionar un Curso">
+                                        </select>
                                     </div>
                                 </div>
                             </div>
