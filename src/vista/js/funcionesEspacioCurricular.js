@@ -76,6 +76,15 @@ $(function () {
 
         };
         
+        $("#textBusca").keyup(function (e) {
+            var parametros = $(this).val();
+            if (parametros == "") {
+                app.buscarEspacioCurricular();
+            } else {
+                app.busqueda(parametros);
+            }
+        });
+        
         app.showAlert = function () {
             $("#alerta").fadeIn();
             setTimeout(function () {
@@ -105,6 +114,22 @@ $(function () {
                     '</div>';
             $("#alerta").html(alerta);
             app.showAlert();
+        };
+        
+        app.busqueda = function (parametros) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=EspacioCurricular";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: {textBusca: parametros},
+                success: function (data) {
+                    app.rellenarTabla(data);
+                },
+                error: function () {
+                    alert('error busqueda');
+                }
+            });
         };
         
         app.buscarEspacioCurricular= function(){
