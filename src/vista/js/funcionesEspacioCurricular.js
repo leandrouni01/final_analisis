@@ -329,17 +329,15 @@ $(function () {
             } else {
                 var fila = $("#cuerpoTablaEspacioCurricular").find("[data-id_espacio='" + id + "']").parent().parent();
                 var html = 
-                        `<tr>
-                            <td data-id_sede="${$("#selectSede").find(':selected').val()}">${$("#selectSede").find(':selected').text()}</td>
-                            <td data-id_plan="${$("#selectPlan").find(':selected').val()}">${$("#selectPlan").find(':selected').text()}</td>
-                            <td data-id_materia="${$("#selectMateria").find(':selected').val()}">${$("#selectMateria").find(':selected').text()}</td>
-                            <td data-id_curso="${$("#selectCurso").find(':selected').val()}">${$("#selectCurso").find(':selected').text()}</td>
-                            <td data-anio="${$("#selectAnio").find(':selected').val()}">${$("#selectAnio").find(':selected').text()}</td>
-                            <td>
-                                <button type="button" class='btn btn-warning pull-left editar' data-id_espacio="${id}"><span class='glyphicon glyphicon-pencil'></span>Editar</button>
-                                <button type="button" class='btn btn-danger pull-right eliminar' data-id_espacio="${id}"><span class='glyphicon glyphicon-remove'></span>Eliminar </button>
-                            </td>
-                        </tr>`;
+                        '<td data-id_sede="'+ $("#selectSede").find(':selected').val() +'">' + $("#selectSede").find(':selected').text() + '</td>' +
+                        '<td data-id_plan="'+ $("#selectPlan").find(':selected').val() +'">' + $("#selectPlan").find(':selected').text() + '</td>' +
+                        '<td data-id_materia="'+ $("#selectMateria").find(':selected').val() +'">' + $("#selectMateria").find(':selected').text() + '</td>' +
+                        '<td data-id_curso="'+ $("#selectCurso").find(':selected').val() +'">' + $("#selectCurso").find(':selected').text() + '</td>' +
+                        '<td data-anio="'+ $("#selectAnio").find(':selected').val() +'">' + $("#selectAnio").find(':selected').text() + '</td>' +
+                        '<td>' +
+                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id_espacio="' + id + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' +
+                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id_espacio="' + id + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' +
+                        '</td>';
                 fila.html(html);
             }
         };
@@ -380,20 +378,20 @@ $(function () {
             setTimeout( () => {
                 $("#selectPlan").val($(button).parent().parent().children().first().next().attr('data-id_plan'));
                 $("#selectPlan").change();
-            }, 150);
+            }, 100);
             
             setTimeout( () => {
                 $("#selectAnio").val($(button).parent().parent().children().first().next().next().next().next().attr('data-anio'));
                 $("#selectAnio").change();
-            }, 200);
+            }, 150);
             
             setTimeout( () => {
                 $("#selectMateria").val($(button).parent().parent().children().first().next().next().attr('data-id_materia'));
-            }, 250);
+            }, 200);
             
             setTimeout( () => {
                $("#selectCurso").val($(button).parent().parent().children().first().next().next().next().attr('data-id_curso')); 
-            }, 300);
+            }, 250);
         };
         
         app.limpiarModal = () => {
