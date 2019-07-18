@@ -12,11 +12,9 @@ class ControladorHorario extends ControladorGeneral {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = array(
-                "fk_profesor" => $datos["fk_profesor"],
-                "fk_materia" => $datos["fk_materia"],
+                "fk_espacio_curricular" => $datos["fk_espacio_curricular"],
                 "inicio_horario" => $datos["inicio_horario"],
                 "fin_horario" => $datos["fin_horario"],
-                "fk_curso" => $datos["fk_curso"],
                 "dia_horario" => $datos["dia_horario"],
                 "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
             );
@@ -39,32 +37,7 @@ class ControladorHorario extends ControladorGeneral {
             echo "Error :" . $e->getMessage();
         }
     }
-
-    public function buscarMaterias($datos) {
-        try {
-            $parametros = array("fk_plan_de_estudio" => $datos["fk_plan"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_MATERIAS, $parametros);
-            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $array;
-        } catch (Exception $e) {
-            echo "Error :" . $e->getMessage();
-        }
-    }
-
-    public function buscarCursos($datos) {
-        try {
-            $parametros = array(
-                "fk_sede" => $datos["fk_sede"],
-                "fk_plan" => $datos["fk_plan"],
-                "anio" => $datos["anio"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_CURSO, $parametros);
-            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $array;
-        } catch (Exception $e) {
-            echo "Error :" . $e->getMessage();
-        }
-    }
-
+    
     public function buscar($datos) {
         try {
             $parametros = array('valor' => $datos['textBusca']);
@@ -92,37 +65,6 @@ class ControladorHorario extends ControladorGeneral {
     public function listar($datos) {
         try {
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_HORARIOS);
-            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $array;
-        } catch (Exception $e) {
-            echo "Error :" . $e->getMessage();
-        }
-    }
-    
-    public function listarProfesores($datos) {
-        try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_TITULARES);
-            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $array;
-        } catch (Exception $e) {
-            echo "Error :" . $e->getMessage();
-        }
-    }
-
-    public function listarModulosInicio($datos) {
-        try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_MODULOS_INICIO);
-            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $array;
-        } catch (Exception $e) {
-            echo "Error :" . $e->getMessage();
-        }
-    }
-
-    public function buscarModulosFin($datos) {
-        try {
-            $parametros = array("id_modulo" => $datos["id_modulo"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_MODULOS_FIN, $parametros);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
         } catch (Exception $e) {
@@ -190,7 +132,6 @@ class ControladorHorario extends ControladorGeneral {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = array(
-                "fk_profesor" => $datos["fk_profesor"],
                 "fk_materia" => $datos["fk_materia"],
                 "fk_modulo_inicio" => $datos["inicio_horario"],
                 "fk_modulo_fin" => $datos["fin_horario"],
@@ -205,5 +146,73 @@ class ControladorHorario extends ControladorGeneral {
             echo "Error :" . $e->getMessage();
         }
     }
+      
+    public function buscarPlanes($datos) {
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_PLAN_DE_ESTUDIOS);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
+    public function buscarSedes($datos) {
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_SEDES);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
+    public function buscarMaterias($datos){
+        //recibe idplan , anio
+        try {
+            $parametros = array("id_plan" => $datos["id_plan"] , 
+            "anio" => $datos["anio"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_MATERIAS_EC, $parametros);
+            $fila = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
+            return $fila;
+        } catch(Exception $e){
+            echo "Error :" . $e->getMessage(); 
+        }
+    }
+
+    public function buscarCursos($datos){
+        //id_sede , anios
+        try {
+            $parametros = array("fk_sede" => $datos["id_sede"],
+            "anio_curso" => $datos["anio"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_CURSOS_EC, $parametros);
+            $fila = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $fila;
+        } catch(Execption $e){
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
+    public function buscarModulosInicio($datos) {
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_MODULOS_INICIO);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+
+    public function buscarModulosFin($datos) {
+        try {
+            $parametros = array("id_modulo" => $datos["id_modulo"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_MODULOS_FIN, $parametros);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
 }

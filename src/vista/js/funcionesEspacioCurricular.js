@@ -18,7 +18,6 @@ $(function () {
           
             $("#selectSede").on('change', function () {
                 if ($("#selectPlan").find(":selected").val() !== 0) {
-                    $("#anio").show();
                     app.buscarAnio();
                 }
             });
@@ -319,7 +318,7 @@ $(function () {
         app.modificar = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=EspacioCurricular";
             var datosEnviar = $("#form").serialize();
-            alert(datosEnviar);
+            //alert(datosEnviar);
             $.ajax({
                 url: url,
                 method: 'POST',

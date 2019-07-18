@@ -105,7 +105,6 @@ class ControladorEspacioCurricular extends ControladorGeneral
             "anio_curso" => $datos["anio"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_CURSOS_EC, $parametros);
             $fila = $resultado->fetchAll(PDO::FETCH_ASSOC);
-
             return $fila;
         } catch(Execption $e){
             echo "Error :" . $e->getMessage();
