@@ -59,7 +59,8 @@ class ControladorEspacioCurricular extends ControladorGeneral
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = array(
                 "fk_materia" => $datos["fk_materia"],
-                "fk_curso" => $datos["fk_curso"]
+                "fk_curso" => $datos["fk_curso"],
+                "id_espacio_curricular" => $datos["id_espacio_curricular"]
             );
 
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_ESPACIO_CURRICULAR, $parametros);
