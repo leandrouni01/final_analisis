@@ -24,7 +24,13 @@ $(function () {
 
             $("#form").on('success.form.bv', function (event) {
                 event.preventDefault();
-                app.verificarHorario();
+                //app.verificarHorario();
+                
+                if ($("#id_horario").val() == 0) {
+                    app.guardarHorario();
+                } else {
+                    app.editarHorario();
+                }
             });
 
             $("#selectPlan").on('change', function () {
