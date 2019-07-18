@@ -621,7 +621,7 @@ $(function () {
         };
 
         app.ocultarCampos = () => {
-            $("#materia").hide();
+            $("#Materia").hide();
             $("#profesor").hide();
             $("#curso").hide();
             $("#hora_inicio").hide();
