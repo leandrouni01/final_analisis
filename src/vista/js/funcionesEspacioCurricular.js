@@ -3,31 +3,28 @@ $(function () {
     
     (function (app) {
         app.init= function(){
-            $("#anio").hide();
-            $("#materia").hide();
-            $("#curso").hide();
             app.buscarEspacioCurricular();
-            app.buscarCarrera();
-            app.buscarSede();
             app.bindigs();
         };
         
         app.bindigs= function(){
           $("#agregar_espacio_curricular").on('click',function(){
               $("#modalEspacioCurricular").modal({show:true});
-              $("#id_espacio_curricular").val(0);
+              app.limpiarModal();
+              app.buscarCarrera();
+              app.buscarSede();
               $("#tituloModal").html("Agregar espacio curricular");
           });
           
             $("#selectSede").on('change', function () {
-                if ($("#selectPlan").find(":selected").val() != 0) {
+                if ($("#selectPlan").find(":selected").val() !== 0) {
                     $("#anio").show();
                     app.buscarAnio();
                 }
             });
           
             $("#selectPlan").on('change', function () {
-                if ($("#selectSede").find(":selected").val() != 0) {
+                if ($("#selectSede").find(":selected").val() !== 0) {
                     $("#anio").show();
                     app.buscarAnio();
                 }
@@ -40,7 +37,99 @@ $(function () {
               $("#curso").show();
           });
           
+          $("#cuerpoTablaEspacioCurricular").on('click', '.editar', function (event) {
+                app.modificarCampos(this);
+                
+                $("#tituloModal").html("Editar Espacio Curricular");
+                $("#modalEspacioCurricular").modal({show: true});
+          });
+          
+          $("#cuerpoTablaEspacioCurricular").on('click', '.eliminar', function (event) {
+                app.modificarCampos(this);
+                app.habilitadorCampos(true);
+                $("#guardar").hide();
+                $("#borrar").removeClass('hidden');
+                
+                $("#tituloModal").html("Eliminar Espacio Curricular");
+                $("#modalEspacioCurricular").modal({show: true});
+          });
+          
+          $("#borrar").on('click', function () {
+               app.eliminar($("#id_espacio_curricular").val());
+               $("#modalEspacioCurricular").modal('hide');
+          });
+          
+          $("#form").on('success.form.bv', function (event) {
 
+                event.preventDefault();
+
+                if ($("#id_espacio_curricular").val() == 0) {
+                    app.guardar();
+                } else {
+                    app.modificar();
+                }
+            });
+            
+            $("#form").bootstrapValidator({
+                excluded: []
+            });
+
+        };
+        
+        $("#textBusca").keyup(function (e) {
+            var parametros = $(this).val();
+            if (parametros == "") {
+                app.buscarEspacioCurricular();
+            } else {
+                app.busqueda(parametros);
+            }
+        });
+        
+        app.showAlert = function () {
+            $("#alerta").fadeIn();
+            setTimeout(function () {
+                $("#alerta").fadeOut();
+            }, 1500);
+        };
+
+        app.alertSave = function () {
+            var alerta = '<div class="alert alert-success" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-saved"></span>' + ' ¡Agregado con exito!' + '</strong>' + ' Se cargo un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+
+        app.alertModif = function () {
+            var alerta = '<div class="alert alert-warning" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-saved"></span>' + ' ¡Actualizado con exito!' + '</strong>' + ' Se modificó un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+
+        app.alertDelete = function () {
+            var alerta = '<div class="alert alert-danger" role="alert">' +
+                    '<strong>' + '<span class="glyphicon glyphicon-floppy-remove"></span>' + ' ¡Eliminado con exito!' + '</strong>' + ' Se elimino un registro en la Base de Datos ' +
+                    '</div>';
+            $("#alerta").html(alerta);
+            app.showAlert();
+        };
+        
+        app.busqueda = function (parametros) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=EspacioCurricular";
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: {textBusca: parametros},
+                success: function (data) {
+                    app.rellenarTabla(data);
+                },
+                error: function () {
+                    alert('error busqueda');
+                }
+            });
         };
         
         app.buscarEspacioCurricular= function(){
@@ -76,8 +165,8 @@ $(function () {
                                    <td data-id_curso="${espacio.fk_curso}">${espacio.nombre_curso}</td>
                                    <td data-anio="${espacio.anio}">${espacio.anio}°</td>
                                    <td>
-                                       <a class='btn btn-warning pull-left editar' data-id_espacio="${espacio.id_espacio_curricular}"><span class='glyphicon glyphicon-pencil'></span>Editar</a>
-                                       <a class='btn btn-danger pull-right eliminar' data-id_espacio="${espacio.id_espacio_curricular}"><span class='glyphicon glyphicon-remove'></span>Eliminar </a>
+                                       <button type="button" class='btn btn-warning pull-left editar' data-id_espacio="${espacio.id_espacio_curricular}"><span class='glyphicon glyphicon-pencil'></span>Editar</button>
+                                       <button type="button" class='btn btn-danger pull-right eliminar' data-id_espacio="${espacio.id_espacio_curricular}"><span class='glyphicon glyphicon-remove'></span>Eliminar </button>
                                    </td>
                               </tr>`;
                 });
@@ -204,6 +293,154 @@ $(function () {
                 linea += `<option value="${curso.id_curso}">${curso.nombre_curso}</option>`;
             });
             $("#selectCurso").html(linea);
+        };
+        
+        app.guardar = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=EspacioCurricular";
+            var datosEnviar = $("#form").serialize();
+            //alert(datosEnviar);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: datosEnviar,
+                dataType: 'json',
+                success: function (datosRecibidos) {
+                    $("#modalEspacioCurricular").modal('hide');
+                    app.actualizarTabla(datosRecibidos, $("#id_espacio_curricular").val());
+                    app.limpiarModal();
+                    app.alertSave();
+                },
+                error: function (datosRecibidos) {
+                    alert('Error al guardar profesor');
+                }
+            });
+        };
+        
+        app.modificar = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=EspacioCurricular";
+            var datosEnviar = $("#form").serialize();
+            alert(datosEnviar);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: datosEnviar,
+                success: function (datosRecibidos) {
+                    $("#modalEspacioCurricular").modal('hide');
+                    app.actualizarTabla(datosRecibidos, $("#id_espacio_curricular").val());
+                    app.alertModif();
+                },
+                error: function (datosRecibidos) {
+                    alert("Error en guardar");
+                    alert(datosRecibidos);
+                }
+            });
+        };
+        
+        app.actualizarTabla = function (espacio, id) {
+            if (id == 0) {
+                var html = `<tr>
+                                <td data-id_sede="${espacio.id_sede}">${espacio.nombre_sede}(Numero: ${espacio.numero_sede})</td>
+                                <td data-id_plan="${espacio.id_plan}">${espacio.nombre_carrera}(Resolucion: ${espacio.resolucion})</td>
+                                <td data-id_materia="${espacio.fk_materia}">${espacio.nombre_materia}</td>
+                                <td data-id_curso="${espacio.fk_curso}">${espacio.nombre_curso}</td>
+                                <td data-anio="${espacio.anio}">${espacio.anio}°</td>
+                                <td>
+                                     <button type="button" class='btn btn-warning pull-left editar' data-id_espacio="${espacio.id_espacio_curricular}"><span class='glyphicon glyphicon-pencil'></span>Editar</button>
+                                     <button type="button" class='btn btn-danger pull-right eliminar' data-id_espacio="${espacio.id_espacio_curricular}"><span class='glyphicon glyphicon-remove'></span>Eliminar </button>
+                                </td>
+                            </tr>`;
+                $("#cuerpoTablaEspacioCurricular").append(html);
+
+            } else {
+                var fila = $("#cuerpoTablaEspacioCurricular").find("[data-id_espacio='" + id + "']").parent().parent();
+                var html = 
+                        '<td data-id_sede="'+ $("#selectSede").find(':selected').val() +'">' + $("#selectSede").find(':selected').text() + '</td>' +
+                        '<td data-id_plan="'+ $("#selectPlan").find(':selected').val() +'">' + $("#selectPlan").find(':selected').text() + '</td>' +
+                        '<td data-id_materia="'+ $("#selectMateria").find(':selected').val() +'">' + $("#selectMateria").find(':selected').text() + '</td>' +
+                        '<td data-id_curso="'+ $("#selectCurso").find(':selected').val() +'">' + $("#selectCurso").find(':selected').text() + '</td>' +
+                        '<td data-anio="'+ $("#selectAnio").find(':selected').val() +'">' + $("#selectAnio").find(':selected').text() + '</td>' +
+                        '<td>' +
+                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id_espacio="' + id + '"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' +
+                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id_espacio="' + id + '"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' +
+                        '</td>';
+                fila.html(html);
+            }
+        };
+        
+        app.eliminar = function (id) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=EspacioCurricular";
+            var datosEnviar = {id_espacio_curricular: id};
+            //alert(datosEnviar.id_espacio_curricular);
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: datosEnviar,
+                success: function (datosRecibidos) {
+                    app.alertDelete();
+                    app.borrarFila(id);
+                },
+                error: function (datosRecibidos) {
+                    alert('Error al eliminar');
+                }
+            });
+        };
+        
+        app.borrarFila = function (id) {
+            var fila = $("#cuerpoTablaEspacioCurricular").find("[data-id_espacio='" + id + "']").parent().parent().remove();
+        };
+        
+        app.modificarCampos = (button) => {
+          
+            app.limpiarModal();
+            $("#id_espacio_curricular").val($(button).attr('data-id_espacio'));
+            
+            app.buscarSede();
+            setTimeout( () => {
+                $("#selectSede").val($(button).parent().parent().children().first().attr('data-id_sede'));
+            }, 100);
+            
+            app.buscarCarrera();
+            setTimeout( () => {
+                $("#selectPlan").val($(button).parent().parent().children().first().next().attr('data-id_plan'));
+                $("#selectPlan").change();
+            }, 100);
+            
+            setTimeout( () => {
+                $("#selectAnio").val($(button).parent().parent().children().first().next().next().next().next().attr('data-anio'));
+                $("#selectAnio").change();
+            }, 150);
+            
+            setTimeout( () => {
+                $("#selectMateria").val($(button).parent().parent().children().first().next().next().attr('data-id_materia'));
+            }, 200);
+            
+            setTimeout( () => {
+               $("#selectCurso").val($(button).parent().parent().children().first().next().next().next().attr('data-id_curso')); 
+            }, 250);
+        };
+        
+        app.limpiarModal = () => {
+            app.habilitadorCampos(false);
+            $("#anio").hide();
+            $("#materia").hide();
+            $("#curso").hide();
+            $("#guardar").show();
+            $("#borrar").addClass('hidden');
+            $("#id_espacio_curricular").val(0);
+            $("#selectSede").html('');
+            $("#selectPlan").html('');
+            $("#selectAnio").html('');
+            $("#selectMateria").html('');
+            $("#selectCurso").html('');
+            $("#form").bootstrapValidator('resetForm', true);  
+        };
+        
+        app.habilitadorCampos = (condicion) => {
+            $("#selectSede").prop('disabled', condicion);
+            $("#selectPlan").prop('disabled', condicion);
+            $("#selectAnio").prop('disabled', condicion);
+            $("#selectMateria").prop('disabled', condicion);
+            $("#selectCurso").prop('disabled', condicion);
         };
         
         app.init();
