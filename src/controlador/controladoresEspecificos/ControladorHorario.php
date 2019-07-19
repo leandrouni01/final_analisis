@@ -215,4 +215,17 @@ class ControladorHorario extends ControladorGeneral {
         }
     }
     
+    public function buscarAño($datos){
+        //recibe id
+        try {
+            $parametros = array("id_plan" => $datos["id_plan"]);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_AÑOS_EC ,$parametros);
+            $fila = $resultado->fetch();
+
+            return $fila;
+        } catch (Exception $e){
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
 }
