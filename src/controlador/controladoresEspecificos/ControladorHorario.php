@@ -10,13 +10,15 @@ class ControladorHorario extends ControladorGeneral {
 
     public function agregar($datos) {
         try {
+            $datos["fk_espacio_curricular"] = $this->buscarEspacioCurricular($datos);
+            //print_r($datos);
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = array(
                 "fk_espacio_curricular" => $datos["fk_espacio_curricular"],
                 "inicio_horario" => $datos["inicio_horario"],
                 "fin_horario" => $datos["fin_horario"],
-                "dia_horario" => $datos["dia_horario"],
-                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
+                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"],
+                "dia_horario" => $datos["dia_horario"]
             );
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_HORARIO, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
@@ -224,6 +226,21 @@ class ControladorHorario extends ControladorGeneral {
 
             return $fila;
         } catch (Exception $e){
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
+    public function buscarEspacioCurricular($datos) {
+        try{
+            $parametros = array(
+                "fk_materia" => $datos["fk_materia"] , 
+                "fk_curso" => $datos["fk_curso"]
+                );
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_EC, $parametros);
+            $id = $resultado->fetch(PDO::FETCH_ASSOC);
+
+            return $id["id_espacio_curricular"]; 
+        } catch (Exception $ex) {
             echo "Error :" . $e->getMessage();
         }
     }
