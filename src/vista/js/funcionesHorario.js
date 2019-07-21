@@ -34,26 +34,28 @@ $(function () {
             });
 
             $("#selectPlan").on('change', function () {
-                app.listarCombos('Materia');
-                $("#selectPlan").prop('disabled', true);
+                app.listarCombos("Año");
+               $("#selectPlan").prop('disabled', true);
+               if($("#selectSede").find(":selected").val() != ''){
+                   $("#Año").show();
+               }
             });
 
             $("#selectSede").on('change', function () {
-                $("#profesor").show();
                 $("#selectSede").prop('disabled', true);
-                //alert($("#selectMateria").val());
-                if ($("#selectMateria").find(":selected").val() != 0) {
-                    app.listarCombos('Curso');
-                }
+               if($("#selectPlan").find(":selected").val() != ''){
+                   $("#Año").show();
+               }
             });
-
-            $("#selectProfesor").on('change', () => {
-                $("#materia").show();
+            
+            $("#selectAño").on('change',function(){
+                app.listarCombos('Materia');
+                $("#Materia").show();
             });
-
-            $("#selectMateria").on('change', () => {
-                app.listarCombos('Curso');
-                $("#curso").show();
+            
+            $("#selectMateria").on("change",()=>{
+               app.listarCombos('Curso');
+               $("#curso").show();
             });
 
             $("#selectCurso").on('change', () => {
@@ -480,12 +482,16 @@ $(function () {
 
             //alert(item); 
             switch (item) {
+                case 'Año':
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarAnio&Formulario=Horario";
+                    ajaxObj.data = {"id_plan": $("#selectPlan").val()};
+                    break;
                 case 'Plan':
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarPlanes&Formulario=Horario";
                     break;
 
                 case 'Materia':
-                    var datosEnviar = {"fk_plan": $("#selectPlan").val()};
+                    var datosEnviar = {"id_plan": $("#selectPlan").val(),"anio": $("#selectAño").val()};
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarMaterias&Formulario=Horario";
                     ajaxObj.data = datosEnviar;
                     break;
@@ -496,21 +502,20 @@ $(function () {
 
                 case 'Curso':
                     var datosEnviar = {
-                        "fk_sede": $("#selectSede").val(),
-                        "fk_plan": $("#selectPlan").val(),
-                        "anio": $("#selectMateria").find(":selected").attr("data-anio")
+                        "id_sede": $("#selectSede").val(),
+                        "anio": $("#selectAño").val()
                     };
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Horario";
                     ajaxObj.data = datosEnviar;
                     break;
 
                 case 'InicioHorario':
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarModuloInicio&Formulario=Horario";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarModulosInicio&Formulario=Horario";
                     break;
 
                 case 'FinHorario':
                     var datosEnviar = {id_modulo: $("#selectInicioHorario").find(":selected").val()};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarModuloFin&Formulario=Horario";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarModulosFin&Formulario=Horario";
                     ajaxObj.data = datosEnviar;
                     break;
 
@@ -531,6 +536,11 @@ $(function () {
 
             $.each(data, function (clave, value) {
                 switch (item) {
+                    case 'Año':
+                        for(let i=1;i<=value;i++){
+                            html += "<option value='"+i+"'>"+i+"° año</option>"; 
+                        }
+                        break;
                     case 'Plan':
                         html += "<option value='" + value.id_plan + "'>" + value.nombre_carrera + " (Resolucion:" + value.resolucion + ")</option>";
                         break;
@@ -622,7 +632,7 @@ $(function () {
 
         app.ocultarCampos = () => {
             $("#Materia").hide();
-            $("#profesor").hide();
+            $("#Año").hide();
             $("#curso").hide();
             $("#hora_inicio").hide();
             $("#hora_fin").hide();
