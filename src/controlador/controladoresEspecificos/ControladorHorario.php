@@ -172,7 +172,7 @@ class ControladorHorario extends ControladorGeneral {
         try {
             $parametros = array("id_plan" => $datos["id_plan"] , 
             "anio" => $datos["anio"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_MATERIAS_EC, $parametros);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_MATERIAS_H, $parametros);
             $fila = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
             return $fila;
@@ -186,7 +186,7 @@ class ControladorHorario extends ControladorGeneral {
         try {
             $parametros = array("fk_sede" => $datos["id_sede"],
             "anio_curso" => $datos["anio"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_CURSOS_EC, $parametros);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_CURSOS_H, $parametros);
             $fila = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $fila;
         } catch(Execption $e){
@@ -215,12 +215,12 @@ class ControladorHorario extends ControladorGeneral {
         }
     }
     
-    public function buscarAño($datos){
+    public function buscarAnio($datos){
         //recibe id
         try {
             $parametros = array("id_plan" => $datos["id_plan"]);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_AÑOS_EC ,$parametros);
-            $fila = $resultado->fetch();
+            $fila = $resultado->fetch(PDO::FETCH_ASSOC);
 
             return $fila;
         } catch (Exception $e){
