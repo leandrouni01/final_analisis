@@ -454,7 +454,7 @@ $(function () {
                              <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
                              <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
                              <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
-                             <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
+                             <td data-id_curso='" + horario.fk_curso + "' data-anio_curso= '" + horario.anio_curso + "'>" + horario.nombre_curso + "</td>\n\
                              <td>" + horario.dia_horario + "</td>\n\
                              <td>" + horario.ciclo_lectivo_horario + "</td>\n\
                              <td data-id_inicio='" + horario.fk_modulo_inicio + "'>" + horario.hora_inicio + "</td>\n\
@@ -586,30 +586,35 @@ $(function () {
         app.modificarCampos = (boton) => {
             app.limpiarModal();
             $("#id_horario").val($(boton).attr("data-id_horario"));
-            $("#selectPlan").val($(boton).parent().parent().children().first().next().attr("data-id_plan"));
+            $("#selectPlan").val($(boton).parent().parent().children().first().attr("data-id_plan"));
             $("#selectPlan").change();
             setTimeout(() => {
-                $("#selectSede").val($(boton).parent().parent().children().first().next().next().next().attr("data-id_sede"));
+                $("#selectSede").val($(boton).parent().parent().children().first().next().next().attr("data-id_sede"));
                 $("#selectSede").change();
                     setTimeout(() => {
-                        $("#selectMateria").val($(boton).parent().parent().children().first().next().next().attr("data-id_materia"));
-                        $("#selectMateria").change();
-                        setTimeout(() => {
-                            $("#selectCurso").val($(boton).parent().parent().children().first().next().next().next().next().attr("data-id_curso"));
-                            $("#selectCurso").change();
-                            $("#modalHorario").modal({show: true});
+                        $("#selectAño").val($(boton).parent().parent().children().first().next().next().next().attr("data-anio_curso"));
+                        $("#selectAño").change();
+                        setTimeout( () => {
+                            $("#selectMateria").val($(boton).parent().parent().children().first().next().attr("data-id_materia"));
+                            $("#selectMateria").change();
+                            setTimeout(() => {
+                                $("#selectCurso").val($(boton).parent().parent().children().first().next().next().next().attr("data-id_curso"));
+                                $("#selectCurso").change();
+                                $("#modalHorario").modal({show: true});
+                            }, 120);
                         }, 90);
                     }, 60);
             }, 30);
 
-            $("#selectInicioHorario").val($(boton).parent().parent().children().first().next().next().next().next().next().attr("data-id_inicio"));
+            $("#selectInicioHorario").val($(boton).parent().parent().children().first().next().next().next().next().next().next().attr("data-id_inicio"));
             $("#selectInicioHorario").change();
             setTimeout(() => {
-                $("#selectFinHorario").val($(boton).parent().parent().children().first().next().next().next().next().next().next().attr("data-id_fin"));
-            }, 50);
+                $("#selectFinHorario").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().attr("data-id_fin"));
+                $("#selectFinHorario").change();
+            }, 50);    
 
-            $("#selectDia").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().html());
-            $("#selectCicloLectivo").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
+            $("#selectDia").val($(boton).parent().parent().children().first().next().next().next().next().html());
+            $("#selectCicloLectivo").val($(boton).parent().parent().children().first().next().next().next().next().next().html());
         };
 
         app.limpiarModal = function () {

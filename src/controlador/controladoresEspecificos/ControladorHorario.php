@@ -132,14 +132,15 @@ class ControladorHorario extends ControladorGeneral {
 
     public function modificar($datos) {
         try {
+            $datos["fk_espacio_curricular"] = $this->buscarEspacioCurricular($datos);
+            print_r($datos);
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = array(
-                "fk_materia" => $datos["fk_materia"],
+                "fk_espacio_curricular" => $datos["fk_espacio_curricular"],
                 "fk_modulo_inicio" => $datos["inicio_horario"],
                 "fk_modulo_fin" => $datos["fin_horario"],
-                "fk_curso" => $datos["fk_curso"],
-                "dia_horario" => $datos["dia_horario"],
                 "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"],
+                "dia_horario" => $datos["dia_horario"],
                 "id_horario" => $datos["id_horario"]);
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_HORARIO, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
