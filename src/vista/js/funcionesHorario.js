@@ -502,12 +502,8 @@ $(function () {
                     break;
 
                 case 'Curso':
-                    var datosEnviar = {
-                        "id_sede": $("#selectSede").val(),
-                        "anio": $("#selectAño").val()
-                    };
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Horario";
-                    ajaxObj.data = datosEnviar;
+                    ajaxObj.data = {"fk_materia": $("#selectMateria").val()};
                     break;
 
                 case 'InicioHorario':
@@ -621,6 +617,7 @@ $(function () {
             $("#id_horario").val("");
             $("#selectPlan").val("");
             $("#selectSede").val("");
+            $("#selectAño").val("");
             $("#selectMateria").val("");
             $("#selectCurso").val("");
             $("#selectInicioHorario").val("");
