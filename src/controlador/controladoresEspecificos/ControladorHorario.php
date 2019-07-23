@@ -187,7 +187,10 @@ class ControladorHorario extends ControladorGeneral {
     public function buscarCursos($datos){
         //id_sede , anios
         try {
-            $parametros = array("fk_materia" => $datos["fk_materia"]);
+            $parametros = array(
+                "fk_materia" => $datos["fk_materia"],
+                "fk_sede" => $datos["fk_sede"]
+                );
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_CURSOS_H, $parametros);
             $fila = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $fila;

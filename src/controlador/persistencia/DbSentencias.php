@@ -126,7 +126,7 @@ interface DbSentencias {
     const BUSCAR_CARERRAS_H= "SELECT DISTINCT carrera.`nombre_carrera`,plan_de_estudios.`resolucion` FROM espacio_curricular INNER JOIN materia ON (fk_materia=id_materia) INNER JOIN plan_de_estudios ON (fk_plan_de_estudio=id_plan) INNER JOIN carrera ON (fk_carrera=id_carrera) WHERE espacio_curricular.`estado`=1;";
     const BUSCAR_SEDES_H= "SELECT DISTINCT sede.`nombre_sede`,sede.`numero_sede` FROM espacio_curricular INNER JOIN curso ON (fk_curso=id_curso) INNER JOIN sede ON (fk_sede=id_sede) WHERE espacio_curricular.`estado`=1;";
     //Para buscar los años, usamos la sentencia BUSCAR_AÑOS_EC de Espacio Curricular
-    const BUSCAR_CURSOS_H= "SELECT DISTINCT curso.`id_curso`,curso.`nombre_curso` FROM espacio_curricular INNER JOIN curso ON (fk_curso=id_curso) WHERE fk_materia = ? AND curso.`estado`=1;";
+    const BUSCAR_CURSOS_H= "SELECT DISTINCT curso.`id_curso`,curso.`nombre_curso` FROM espacio_curricular INNER JOIN curso ON (fk_curso=id_curso) WHERE fk_materia = ? AND fk_sede = ? AND curso.`estado`=1;";
     const BUSCAR_MATERIAS_H= "SELECT DISTINCT materia.`id_materia`,materia.`nombre_materia` FROM espacio_curricular INNER JOIN materia ON (fk_materia=id_materia) WHERE fk_plan_de_estudio=? AND anio=? AND materia.`nombre_materia`!='Ninguna' AND materia.`estado_materia`=1;";
     const LISTAR_MODULOS_INICIO = "SELECT id_modulo, hora_modulo FROM sistema_sedes.modulos WHERE estado_modulo = 1 AND hora_modulo != '23:30';";
     const BUSCAR_MODULOS_FIN = "SELECT id_modulo, hora_modulo FROM sistema_sedes.modulos WHERE estado_modulo = 1 AND id_modulo > ?;";

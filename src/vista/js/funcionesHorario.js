@@ -34,7 +34,7 @@ $(function () {
             });
 
             $("#selectPlan").on('change', function () {
-                app.listarCombos("Año");
+               app.listarCombos("Año");
                $("#selectPlan").prop('disabled', true);
                if($("#selectSede").find(":selected").val() != ''){
                    $("#Año").show();
@@ -42,7 +42,7 @@ $(function () {
             });
 
             $("#selectSede").on('change', function () {
-                $("#selectSede").prop('disabled', true);
+               $("#selectSede").prop('disabled', true);
                if($("#selectPlan").find(":selected").val() != ''){
                    $("#Año").show();
                }
@@ -502,8 +502,12 @@ $(function () {
                     break;
 
                 case 'Curso':
+                    var datosEnviar = {
+                        "fk_materia": $("#selectMateria").val(),
+                        "fk_sede": $("#selectSede").val()
+                    };
                     ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Horario";
-                    ajaxObj.data = {"fk_materia": $("#selectMateria").val()};
+                    ajaxObj.data = datosEnviar;
                     break;
 
                 case 'InicioHorario':
