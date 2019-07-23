@@ -24,13 +24,7 @@ $(function () {
 
             $("#form").on('success.form.bv', function (event) {
                 event.preventDefault();
-                //app.verificarHorario();
-                
-                if ($("#id_horario").val() == 0) {
-                    app.guardarHorario();
-                } else {
-                    app.editarHorario();
-                }
+                app.verificarHorario();
             });
 
             $("#selectPlan").on('change', function () {
@@ -219,77 +213,21 @@ $(function () {
                                 app.editarHorario();
                             }
                             break;
-
                         case 1:
-                            //muestro mensaje con el tipo de error.
-                            app.alertInfo1();
-
-                            //guardo el valor de los campos en variables.
-                            var carrera = $("#selectPlan").find(':selected').val();
-                            var sede = $("#selectSede").find(':selected').val();
-                            var profesor = $("#selectProfesor").find(':selected').val();
-                            var materia = $("#selectMateria").find(':selected').val();
-                            var curso = $("#selectCurso").find(':selected').val();
-                            var dia = $("#selectDia").find(':selected').val();
-                            var año_lectivo = $("#selectCicloLectivo").find(':selected').val();
-
-                            //reseteo el formulario y su validación.
-                            $("#form").bootstrapValidator('resetForm', true);
-
-                            //cargo valores guardados en las variables.
-                            $("#selectPlan").val(carrera);
-                            $("#selectSede").val(sede);
-                            $("#selectProfesor").val(profesor);
-                            $("#selectMateria").val(materia);
-                            $("#selectCurso").val(curso);
-                            $("#selectDia").val(dia);
-                            $("#selectCicloLectivo").val(año_lectivo);
-
-                            //genero el click con JS para validar el form nuevamente (Es cochino pero eficaz). 
-                            $("#guardar").click();
-
-                            break;
-
-                        case 2:
-                            //muestro mensaje con el tipo de error
-                            app.alertInfo2();
-
-                            //guardo el valor de los campos en variables.
-                            var carrera = $("#selectPlan").find(':selected').val();
-                            var sede = $("#selectSede").find(':selected').val();
-                            var profesor = $("#selectProfesor").find(':selected').val();
-                            var materia = $("#selectMateria").find(':selected').val();
-                            var dia = $("#selectDia").find(':selected').val();
-                            var año_lectivo = $("#selectCicloLectivo").find(':selected').val();
-
-                            //reseteo el formulario y su validación.
-                            $("#form").bootstrapValidator('resetForm', true);
-
-                            //cargo valores guardados en las variables.
-                            $("#selectPlan").val(carrera);
-                            $("#selectSede").val(sede);
-                            $("#selectProfesor").val(profesor);
-                            $("#selectMateria").val(materia);
-                            $("#selectDia").val(dia);
-                            $("#selectCicloLectivo").val(año_lectivo);
-
-                            //genero el click con JS para validar el form nuevamente (Es cochino pero eficaz). 
-                            $("#guardar").click();
-
-                            break;
-
-                        case 3:
                             //muestro mensaje con el tipo de error
                             app.alertInfo3();
 
                             //guardo el valor de los campos en variables.
-                            var carrera = $("#selectPlan").find(':selected').val();
-                            var sede = $("#selectSede").find(':selected').val();
-                            var profesor = $("#selectProfesor").find(':selected').val();
-                            var materia = $("#selectMateria").find(':selected').val();
-                            var curso = $("#selectCurso").find(':selected').val();
-                            var dia = $("#selectDia").find(':selected').val();
-                            var año_lectivo = $("#selectCicloLectivo").find(':selected').val();
+                            let carrera = $("#selectPlan").find(':selected').val();
+                            let sede = $("#selectSede").find(':selected').val();
+                            let profesor = $("#selectProfesor").find(':selected').val();
+                            let materia = $("#selectMateria").find(':selected').val();
+                            let curso = $("#selectCurso").find(':selected').val();
+                            let dia = $("#selectDia").find(':selected').val();
+                            let año_lectivo = $("#selectCicloLectivo").find(':selected').val();
+                            let anio= $("#selectAño").find(":selected").val();
+                            let hora_inicio= $("#selectInicioHorario").find(":selected").val();
+                            let hora_fin = $("#selectFinHorario").find(":selected").val();
 
                             //reseteo el formulario y su validación.
                             $("#form").bootstrapValidator('resetForm', true);
@@ -302,14 +240,12 @@ $(function () {
                             $("#selectCurso").val(curso);
                             $("#selectDia").val(dia);
                             $("#selectCicloLectivo").val(año_lectivo);
-
-                            //genero el click con JS para validar el form nuevamente (Es cochino pero eficaz). 
-                            $("#guardar").click();
-
+                            $("#selectAño").val(anio);
+                            $("#selectInicioHorario").val(hora_inicio);
+                            $("#selectFinHorario").val(hora_fin);
                             break;
 
                         default:
-
                             break;
                     }
                 },
@@ -449,7 +385,6 @@ $(function () {
                 $("#alert").html('');
                 var html = "";
                 $.each(datosHorario, function (clave, horario) {
-                    console.log(horario);
                     html += "<tr>\n\
                              <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
                              <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
