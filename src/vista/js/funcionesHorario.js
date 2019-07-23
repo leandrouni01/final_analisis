@@ -214,6 +214,7 @@ $(function () {
                             }
                             break;
                         case 1:
+                        case 2:
                             //muestro mensaje con el tipo de error
                             app.alertInfo3();
 
@@ -305,9 +306,9 @@ $(function () {
             if (id == 0) {
                 html = "<tr>\n\
                              <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
-                             <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
+                             <td data-id_materia='" + horario.id_materia + "'>" + horario.nombre_materia + "</td>\n\
                              <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
-                             <td data-id_curso='" + horario.fk_curso + "'>" + horario.nombre_curso + "</td>\n\
+                             <td data-id_curso='" + horario.id_curso + "' data-anio_curso='"+horario.anio+"'>" + horario.nombre_curso + "</td>\n\
                              <td>" + horario.dia_horario + "</td>\n\
                              <td>" + horario.ciclo_lectivo_horario + "</td>\n\
                              <td data-id_inicio='" + horario.fk_modulo_inicio + "'>" + horario.hora_inicio + "</td>\n\
@@ -323,7 +324,7 @@ $(function () {
                 var html = " <td data-id_plan='" + $("#selectPlan").find(':selected').val() + "'>" + $("#selectPlan").find(':selected').text() + "</td>\n\
                              <td data-id_materia='" + $("#selectMateria").find(':selected').val() + "'>" + $("#selectMateria").find(':selected').text() + "</td>\n\
                              <td data-id_sede='" + $("#selectSede").find(':selected').val() + "'>" + $("#selectSede").find(':selected').text() + "</td>\n\
-                             <td data-id_curso='" + $("#selectCurso").find(':selected').val() + "'>" + $("#selectCurso").find(':selected').text() + "</td>\n\
+                             <td data-id_curso='" + $("#selectCurso").find(':selected').val() + "'data-anio_curso='"+$("#selectAño").find(":selected").val()+"'>" + $("#selectCurso").find(':selected').text() + "</td>\n\
                              <td>" + $("#selectDia").find(':selected').val() + "</td>\n\
                              <td>" + $("#selectCicloLectivo").find(':selected').val() + "</td>\n\
                              <td data-id_inicio='" + $("#selectInicioHorario").find(':selected').val() + "'>" + $("#selectInicioHorario").find(':selected').text() + "</td>\n\

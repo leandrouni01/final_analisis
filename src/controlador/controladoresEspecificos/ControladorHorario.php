@@ -83,13 +83,30 @@ class ControladorHorario extends ControladorGeneral {
                 "inicio_horario" => $datos["inicio_horario"],
                 "inicio_horario2" => $datos["inicio_horario"],
                 "dia_horario" => $datos["dia_horario"],
-                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
+                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"],
+                "id_horario"=> $datos["id_horario"]
             );
             $resultado3 = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO_CURSO, $parametros3);
             $existe3 = $resultado3->fetch();
             //revisa si el curso ya tiene un horario que se interponga con el horario a guardar
             if ($existe3["existe"] == 1) {
                 return 1;
+            }
+            $parametros2 = array(
+                "fk_curso" => $datos["fk_curso"],
+                "inicio_horario" => $datos["inicio_horario"],
+                "fin_horario" => $datos["fin_horario"],
+                "inicio_horario2" => $datos["inicio_horario"],
+                "fin_horario_2" => $datos["fin_horario"],
+                "dia_horario" => $datos["dia_horario"],
+                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"],
+                "id_horario" => $datos["id_horario"]
+            );
+            $resultado2 = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO_CURSO_2, $parametros2);
+            $existe2 = $resultado2->fetch();
+            //revisa si el curso ya tiene un horario que se interponga con el horario a guardar
+            if ($existe2["existe"] == 1) {
+                return 2;
             }
 
             //si el valor que retorna es "0" puede guardar en la BD el nuevo Horario cargado.
