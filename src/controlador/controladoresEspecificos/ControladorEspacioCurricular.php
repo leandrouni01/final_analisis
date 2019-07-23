@@ -101,8 +101,11 @@ class ControladorEspacioCurricular extends ControladorGeneral
     public function buscarCursos($datos){
         //id_sede , anios
         try {
-            $parametros = array("fk_sede" => $datos["id_sede"],
-            "anio_curso" => $datos["anio"]);
+            $parametros = array(
+                "fk_sede" => $datos["id_sede"],
+                "anio_curso" => $datos["anio"],
+                "fk_plan" => $datos["fk_plan"]
+                );
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_CURSOS_EC, $parametros);
             $fila = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $fila;

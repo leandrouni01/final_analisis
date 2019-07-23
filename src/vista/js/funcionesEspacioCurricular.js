@@ -271,7 +271,7 @@ $(function () {
         
         app.buscarCursos = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=EspacioCurricular";
-            var datosEnviar = {id_sede: $("#selectSede").val(),anio: $("#selectAnio").val()};
+            var datosEnviar = {id_sede: $("#selectSede").val(),anio: $("#selectAnio").val(),fk_plan: $("#selectPlan").val()};
             $.ajax({
                 url: url,
                 method: 'POST',
