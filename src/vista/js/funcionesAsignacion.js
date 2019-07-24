@@ -3,20 +3,20 @@ $(function () {
 
     (function (app) {
         app.init = function () {
-            app.buscarHorarios();
+            app.buscarAsignaciones();
             app.listarCombos('Plan');
             app.listarCombos('Sede');
-            app.listarCombos('InicioHorario');
+            app.listarCombos('Profesor');
             app.bindings();
             app.rellenarCiclo();
         };
 
         app.bindings = function () {
 
-            $("#agregarHorario").on('click', function () {
+            $("#agregarAsignacion").on('click', function () {
                 //app.ocultarCampos();
                 app.limpiarModal();
-                $("#tituloModal").html("Agregar horario");
+                $("#tituloModal").html("Agregar asignación");
                 $("#id_horario").val(0);
                 $("#modalHorario").modal({show: true});
                 $("#accion").html("Guardar");
@@ -31,20 +31,20 @@ $(function () {
                app.listarCombos("Año");
                $("#selectPlan").prop('disabled', true);
                if($("#selectSede").find(":selected").val() != ''){
-                   $("#Año").show();
+                   $("#año").show();
                }
             });
 
             $("#selectSede").on('change', function () {
                $("#selectSede").prop('disabled', true);
                if($("#selectPlan").find(":selected").val() != ''){
-                   $("#Año").show();
+                   $("#año").show();
                }
             });
             
             $("#selectAño").on('change',function(){
                 app.listarCombos('Materia');
-                $("#Materia").show();
+                $("#materia").show();
             });
             
             $("#selectMateria").on("change",()=>{
@@ -53,14 +53,15 @@ $(function () {
             });
 
             $("#selectCurso").on('change', () => {
-                $("#hora_inicio").show();
-                $("#hora_fin").show();
-                $("#dia").show();
-                $("#ciclo_lectivo").show();
+               $("#profesor").show(); 
             });
-
-            $("#selectInicioHorario").on('change', () => {
-                app.listarCombos('FinHorario');
+            
+            $("#selectProfesor").on('change', () => {
+               $("#fecha_inicio").show(); 
+            });
+            
+            $("#selectFechaInicio").on('change', () => {
+               $("#fecha_fin").show(); 
             });
 
             $("#cambiarPlan").on('click', () => {
@@ -361,8 +362,8 @@ $(function () {
             $("#cuerpoTablaHorario").find("a[data-id_horario='" + id + "']").parent().parent().remove();
         };
 
-        app.buscarHorarios = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Horario";
+        app.buscarAsignaciones = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Asignacion";
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -376,33 +377,32 @@ $(function () {
             });
         };
 
-        app.rellenarTabla = function (datosHorario) {
-            if (datosHorario == '') {
+        app.rellenarTabla = function (datos) {
+            if (datos == '') {
                 var alerta = '<div class="alert alert-danger" role="alert">' +
                         '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error de búsqueda!' + '</strong>' + ' No existen registros con los valores ingresados.' +
                         '</div>';
-                $("#cuerpoTablaHorario").html('');
+                $("#cuerpoTablaAsignacion").html('');
                 $("#alert").html(alerta);
             } else {
                 $("#alert").html('');
                 var html = "";
-                $.each(datosHorario, function (clave, horario) {
-                    html += "<tr>\n\
-                             <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
-                             <td data-id_materia='" + horario.fk_materia + "'>" + horario.nombre_materia + "</td>\n\
-                             <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
-                             <td data-id_curso='" + horario.fk_curso + "' data-anio_curso= '" + horario.anio_curso + "'>" + horario.nombre_curso + "</td>\n\
-                             <td>" + horario.dia_horario + "</td>\n\
-                             <td>" + horario.ciclo_lectivo_horario + "</td>\n\
-                             <td data-id_inicio='" + horario.fk_modulo_inicio + "'>" + horario.hora_inicio + "</td>\n\
-                             <td data-id_fin='" + horario.fk_modulo_fin + "'>" + horario.hora_fin + "</td>\n\
-                             <td>\n\
-                                 <a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
-                                 <a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
-                             </td>\n\
-                         </tr>";
+                $.each(datos, function (clave, asignacion) {
+                    html += "<tr>" +
+                                `<td data-id_plan=${asignacion.id_plan}>${asignacion.nombre_carrera}(Resolución:${asignacion.resolucion})` +
+                                `<td data-id_materia=${asignacion.fk_materia}>${asignacion.nombre_materia}</td>` +
+                                `<td data-id_sede=${asignacion.id_sede}>${asignacion.nombre_sede}(Numero:${asignacion.numero_sede})</td>` +
+                                `<td data-id_curso=${asignacion.fk_curso} data-anio_curso=${asignacion.anio_curso}>${asignacion.nombre_curso}</td>` +
+                                `<td data-id_profesor=${asignacion.id_profesor}>${asignacion.nombre_profesor} ${asignacion.apellido_profesor}</td>` +
+                                `<td>${asignacion.fecha_inicio}</td>` +
+                                `<td>${asignacion.fecha_fin}</td>` +
+                                `<td>` +
+                                    `<a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario=${asignacion.id_asignacion}><span class='glyphicon glyphicon-pencil'></span> Editar</a>` +
+                                    `<a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario=${asignacion.id_asignacion}><span class='glyphicon glyphicon-trash'></span> Eliminar</a>` +
+                                `</td>` +    
+                            "</tr>";
                 });
-                $("#cuerpoTablaHorario").html(html);
+                $("#cuerpoTablaAsignacion").html(html);
             }
         };
 
@@ -421,21 +421,21 @@ $(function () {
             //alert(item); 
             switch (item) {
                 case 'Año':
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarAnio&Formulario=Horario";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarAnio&Formulario=Asignacion";
                     ajaxObj.data = {"id_plan": $("#selectPlan").val()};
                     break;
                 case 'Plan':
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarPlanes&Formulario=Horario";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarPlanes&Formulario=Asignacion";
                     break;
 
                 case 'Materia':
                     var datosEnviar = {"id_plan": $("#selectPlan").val(),"anio": $("#selectAño").val()};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarMaterias&Formulario=Horario";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarMaterias&Formulario=Asignacion";
                     ajaxObj.data = datosEnviar;
                     break;
 
                 case 'Sede':
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarSedes&Formulario=Horario";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarSedes&Formulario=Asignacion";
                     break;
 
                 case 'Curso':
@@ -443,18 +443,12 @@ $(function () {
                         "fk_materia": $("#selectMateria").val(),
                         "fk_sede": $("#selectSede").val()
                     };
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Horario";
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarCursos&Formulario=Asignacion";
                     ajaxObj.data = datosEnviar;
                     break;
 
-                case 'InicioHorario':
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarModulosInicio&Formulario=Horario";
-                    break;
-
-                case 'FinHorario':
-                    var datosEnviar = {id_modulo: $("#selectInicioHorario").find(":selected").val()};
-                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarModulosFin&Formulario=Horario";
-                    ajaxObj.data = datosEnviar;
+                case 'Profesor':
+                    ajaxObj.url = "../../controlador/ruteador/Ruteador.php?accion=buscarProfesores&Formulario=Asignacion";
                     break;
 
                 default:
@@ -494,11 +488,10 @@ $(function () {
                     case 'Curso':
                         html += "<option value='" + value.id_curso + "'>" + value.nombre_curso + "</option>";
                         break;
-
-                    case 'InicioHorario':
-                    case 'FinHorario':
-                        html += "<option value='" + value.id_modulo + "'>" + value.hora_modulo + "</option>";
-                        break;
+                        
+                    case 'Profesor':
+                        html += "<option value='" + value.id_profesor + "'>" + value.nombre_profesor + " " + value.apellido_profesor + "</option>";
+                        break;    
 
                     default:
                         break;
@@ -575,13 +568,12 @@ $(function () {
         };
 
         app.ocultarCampos = () => {
-            $("#Materia").hide();
-            $("#Año").hide();
+            $("#materia").hide();
+            $("#año").hide();
             $("#curso").hide();
-            $("#hora_inicio").hide();
-            $("#hora_fin").hide();
-            $("#dia").hide();
-            $("#ciclo_lectivo").hide();
+            $("#profesor").hide();
+            $("#fecha_inicio").hide();
+            $("#fecha_fin").hide();
         };
 
         app.habilitadorCampos = (condicion) => {
@@ -589,10 +581,9 @@ $(function () {
             $("#selectSede").prop('disabled', condicion);
             $("#selectMateria").prop('disabled', condicion);
             $("#selectCurso").prop('disabled', condicion);
-            $("#selectInicioHorario").prop('disabled', condicion);
-            $("#selectFinHorario").prop('disabled', condicion);
-            $("#selectDia").prop('disabled', condicion);
-            $("#selectCicloLectivo").prop('disabled', condicion);
+            $("#profesor").prop('disabled', condicion);
+            $("#fecha_inicio").prop('disabled', condicion);
+            $("#fecha_fin").prop('disabled', condicion);
         };
 
         app.init();
