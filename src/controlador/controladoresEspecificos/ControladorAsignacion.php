@@ -15,23 +15,22 @@ class ControladorAsignacion extends ControladorGeneral {
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = array(
                 "fk_espacio_curricular" => $datos["fk_espacio_curricular"],
-                "inicio_horario" => $datos["inicio_horario"],
-                "fin_horario" => $datos["fin_horario"],
-                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"],
-                "dia_horario" => $datos["dia_horario"]
+                "fk_profesor" => $datos["fk_profesor"],
+                "fecha_inicio" => $datos["fecha_inicio"],
+                "fecha_fin" => $datos["fecha_fin"]
             );
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_HORARIO, $parametros);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_ASIGNACION, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
-            return $this->buscarUltimoHorario();
+            return $this->buscarUltimaAsignacion();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();
             echo "Error :" . $e->getMessage();
         }
     }
 
-    public function buscarUltimoHorario() {
+    public function buscarUltimaAsignacion() {
         try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_ULTIMO_HORARIO);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_ULTIMA_ASIGNACION);
             $fila = $resultado->fetch(PDO::FETCH_ASSOC);
             return $fila;
         } catch (Exception $e) {
@@ -55,8 +54,8 @@ class ControladorAsignacion extends ControladorGeneral {
     public function eliminar($datos) {
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
-            $parametros = array("id_horario" => $datos["id_horario"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_HORARIO, $parametros);
+            $parametros = array("id_asignacion" => $datos["id_asignacion"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_ASIGNACION, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();
@@ -119,16 +118,16 @@ class ControladorAsignacion extends ControladorGeneral {
     public function modificar($datos) {
         try {
             $datos["fk_espacio_curricular"] = $this->buscarEspacioCurricular($datos);
-            print_r($datos);
+            //print_r($datos);
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = array(
                 "fk_espacio_curricular" => $datos["fk_espacio_curricular"],
-                "fk_modulo_inicio" => $datos["inicio_horario"],
-                "fk_modulo_fin" => $datos["fin_horario"],
-                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"],
-                "dia_horario" => $datos["dia_horario"],
-                "id_horario" => $datos["id_horario"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_HORARIO, $parametros);
+                "fk_profesor" => $datos["fk_profesor"],
+                "fecha_inicio" => $datos["fecha_inicio"],
+                "fecha_fin" => $datos["fecha_fin"],
+                "id_asignacion" => $datos["id_asignacion"]
+                );
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_ASIGNACION, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();

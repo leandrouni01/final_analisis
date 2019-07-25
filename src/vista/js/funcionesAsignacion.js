@@ -8,7 +8,6 @@ $(function () {
             app.listarCombos('Sede');
             app.listarCombos('Profesor');
             app.bindings();
-            app.rellenarCiclo();
         };
 
         app.bindings = function () {
@@ -17,14 +16,19 @@ $(function () {
                 //app.ocultarCampos();
                 app.limpiarModal();
                 $("#tituloModal").html("Agregar asignación");
-                $("#id_horario").val(0);
-                $("#modalHorario").modal({show: true});
+                $("#id_asignacion").val(0);
+                $("#modalAsignacion").modal({show: true});
                 $("#accion").html("Guardar");
             });
 
             $("#form").on('success.form.bv', function (event) {
                 event.preventDefault();
-                app.verificarHorario();
+                if ($("#id_asignacion").val() == 0) {
+                    app.guardarAsignacion();
+                } else {
+                    app.editarAsignacion();
+                }
+                //app.verificarHorario();
             });
 
             $("#selectPlan").on('change', function () {
@@ -61,7 +65,7 @@ $(function () {
             });
             
             $("#selectFechaInicio").on('change', () => {
-               $("#fecha_fin").show(); 
+               $("#fecha_fin").show();
             });
 
             $("#cambiarPlan").on('click', () => {
@@ -72,15 +76,15 @@ $(function () {
                 $("#selectSede").prop('disabled', false);
             });
 
-            $("#cuerpoTablaHorario").on('click', '.editar', function () {
+            $("#cuerpoTablaAsignacion").on('click', '.editar', function () {
                 $("#accion").html("Guardar");
-                $("#tituloModal").html("Editar horario");
+                $("#tituloModal").html("Editar asignación");
                 app.modificarCampos(this);
             });
 
-            $("#cuerpoTablaHorario").on('click', '.eliminar', function () {
+            $("#cuerpoTablaAsignacion").on('click', '.eliminar', function () {
                 $("#accion").html("Eliminar");
-                $("#tituloModal").html("¿Está seguro de que desea eliminar este horario?");
+                $("#tituloModal").html("¿Está seguro de que desea eliminar esta asignación?");
                 $("#fieldsetHorario").attr("disabled", "true");
                 app.modificarCampos(this);
                 app.habilitadorCampos(true);
@@ -104,8 +108,8 @@ $(function () {
             });
 
             $("#borrar").on('click', function () {
-                app.eliminarHorario($("#id_horario").val());
-                $("#modalHorario").modal('hide');
+                app.eliminarAsignacion($("#id_asignacion").val());
+                $("#modalAsignacion").modal('hide');
             });
 
             $("#modalHorario").on('hide.bs.modal', function () {
@@ -208,10 +212,10 @@ $(function () {
 
                     switch (data) {
                         case 0:
-                            if ($("#id_horario").val() == 0) {
-                                app.guardarHorario();
+                            if ($("#id_asignacion").val() == 0) {
+                                app.guardarAsignacion();
                             } else {
-                                app.editarHorario();
+                                app.editarAsignacion();
                             }
                             break;
                         case 1:
@@ -258,8 +262,8 @@ $(function () {
             });
         };
 
-        app.guardarHorario = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Horario";
+        app.guardarAsignacion = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=Asignacion";
             var datosEnviar = $("#form").serialize();
             $.ajax({
                 url: url,
@@ -267,7 +271,7 @@ $(function () {
                 dataType: 'json',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    app.actualizarTabla(datosRecibidos, $("#id_horario").val());
+                    app.actualizarTabla(datosRecibidos, $("#id_asignacion").val());
                     app.alertSave();
                     var plan = $("#selectPlan").find(':selected').val();
                     var sede = $("#selectSede").find(':selected').val();
@@ -278,71 +282,69 @@ $(function () {
                     $("#selectSede").change();
                 },
                 error: function (datosRecibidos) {
-                    alert("Error al guardar horario");
+                    alert("Error al guardar asignación");
                     alert(datosRecibidos);
                 }
             });
         };
 
-        app.editarHorario = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Horario";
+        app.editarAsignacion = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Asignacion";
             var datosEnviar = $("#form").serialize();
             $.ajax({
                 url: url,
                 method: 'POST',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    app.actualizarTabla(datosRecibidos, $("#id_horario").val());
-                    $("#modalHorario").modal('hide');
+                    app.actualizarTabla(datosRecibidos, $("#id_asignacion").val());
+                    $("#modalAsignacion").modal('hide');
                     app.alertModif();
                 },
                 error: function (datosRecibidos) {
-                    alert("Error al editar horario");
+                    alert("Error al editar asignación");
                     alert(datosRecibidos);
                 }
             });
         };
 
-        app.actualizarTabla = function (horario, id) {
+        app.actualizarTabla = function (asignacion, id) {
             var html = "";
             if (id == 0) {
-                html = "<tr>\n\
-                             <td data-id_plan='" + horario.id_plan + "'>" + horario.nombre_carrera + " (Resolucion:" + horario.resolucion + ")</td>\n\
-                             <td data-id_materia='" + horario.id_materia + "'>" + horario.nombre_materia + "</td>\n\
-                             <td data-id_sede='" + horario.id_sede + "'>" + horario.nombre_sede + " (Numero:" + horario.numero_sede + ")</td>\n\
-                             <td data-id_curso='" + horario.id_curso + "' data-anio_curso='"+horario.anio+"'>" + horario.nombre_curso + "</td>\n\
-                             <td>" + horario.dia_horario + "</td>\n\
-                             <td>" + horario.ciclo_lectivo_horario + "</td>\n\
-                             <td data-id_inicio='" + horario.fk_modulo_inicio + "'>" + horario.hora_inicio + "</td>\n\
-                             <td data-id_fin='" + horario.fk_modulo_fin + "'>" + horario.hora_fin + "</td>\n\
-                             <td>\n\
-                                 <a class='editar btn btn-warning btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
-                                 <a class='eliminar btn btn-danger btn-sm' data-id_horario='" + horario.id_horario + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
-                             </td>\n\
-                         </tr>";
-                $("#cuerpoTablaHorario").append(html);
+                html = "<tr>" +
+                            `<td data-id_plan=${asignacion.id_plan}>${asignacion.nombre_carrera}(Resolución:${asignacion.resolucion})` +
+                            `<td data-id_materia=${asignacion.fk_materia}>${asignacion.nombre_materia}</td>` +
+                            `<td data-id_sede=${asignacion.id_sede}>${asignacion.nombre_sede}(Numero:${asignacion.numero_sede})</td>` +
+                            `<td data-id_curso=${asignacion.fk_curso} data-anio_curso=${asignacion.anio_curso}>${asignacion.nombre_curso}</td>` +
+                            `<td data-id_profesor=${asignacion.id_profesor}>${asignacion.nombre_profesor} ${asignacion.apellido_profesor}</td>` +
+                            `<td>${asignacion.fecha_inicio}</td>` +
+                            `<td>${asignacion.fecha_fin}</td>` +
+                            `<td>` +
+                                `<a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_asignacion=${asignacion.id_asignacion}><span class='glyphicon glyphicon-pencil'></span> Editar</a>` +
+                                `\t\<a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_asignacion=${asignacion.id_asignacion}><span class='glyphicon glyphicon-trash'></span> Eliminar</a>` +
+                            `</td>` +    
+                        "</tr>";
+                $("#cuerpoTablaAsignacion").append(html);
             } else {
-                var fila = $("#cuerpoTablaHorario").find("a[data-id_horario='" + id + "']").parent().parent();
-                var html = " <td data-id_plan='" + $("#selectPlan").find(':selected').val() + "'>" + $("#selectPlan").find(':selected').text() + "</td>\n\
-                             <td data-id_materia='" + $("#selectMateria").find(':selected').val() + "'>" + $("#selectMateria").find(':selected').text() + "</td>\n\
-                             <td data-id_sede='" + $("#selectSede").find(':selected').val() + "'>" + $("#selectSede").find(':selected').text() + "</td>\n\
-                             <td data-id_curso='" + $("#selectCurso").find(':selected').val() + "'data-anio_curso='"+$("#selectAño").find(":selected").val()+"'>" + $("#selectCurso").find(':selected').text() + "</td>\n\
-                             <td>" + $("#selectDia").find(':selected').val() + "</td>\n\
-                             <td>" + $("#selectCicloLectivo").find(':selected').val() + "</td>\n\
-                             <td data-id_inicio='" + $("#selectInicioHorario").find(':selected').val() + "'>" + $("#selectInicioHorario").find(':selected').text() + "</td>\n\
-                             <td data-id_fin='" + $("#selectFinHorario").find(':selected').val() + "'>" + $("#selectFinHorario").find(':selected').text() + "</td>\n\
-                             <td>\n\
-                                 <a class='editar btn btn-warning btn-sm' data-id_horario='" + id + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
-                                 <a class='eliminar btn btn-danger btn-sm' data-id_horario='" + id + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
-                             </td>";
+                var fila = $("#cuerpoTablaAsignacion").find("a[data-id_asignacion='" + id + "']").parent().parent();
+                var html = "<td data-id_plan='" + $("#selectPlan").find(':selected').val() + "'>" + $("#selectPlan").find(':selected').text() + "</td>\n\
+                            <td data-id_materia='" + $("#selectMateria").find(':selected').val() + "'>" + $("#selectMateria").find(':selected').text() + "</td>\n\
+                            <td data-id_sede='" + $("#selectSede").find(':selected').val() + "'>" + $("#selectSede").find(':selected').text() + "</td>\n\
+                            <td data-id_curso='" + $("#selectCurso").find(':selected').val() + "'data-anio_curso='"+$("#selectAño").find(":selected").val()+"'>" + $("#selectCurso").find(':selected').text() + "</td>\n\
+                            <td data-id_profesor='" + $("#selectProfesor").find(':selected').val() + "'>" + $("#selectProfesor").find(':selected').text() + "</td>\n\
+                            <td>" + $("#selectFechaInicio").val() + "</td>\n\
+                            <td>" + $("#selectFechaFin").val() + "</td>\n\
+                            <td>\n\
+                                <a class='editar btn btn-warning btn-sm' data-id_asignacion='" + id + "'><span class='glyphicon glyphicon-pencil'></span> Editar</a>\n\
+                                <a class='eliminar btn btn-danger btn-sm' data-id_asignacion='" + id + "'><span class='glyphicon glyphicon-trash'></span> Eliminar</a>\n\
+                            </td>";
 
                 fila.html(html);
             }
         };
 
-        app.eliminarHorario = function (id) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Horario";
-            var datosEnviar = {id_horario: id};
+        app.eliminarAsignacion = function (id) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=Asignacion";
+            var datosEnviar = {id_asignacion: id};
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -352,14 +354,14 @@ $(function () {
                     app.alertDelete();
                 },
                 error: function (datosRecibidos) {
-                    alert("Error al eliminar horario");
+                    alert("Error al eliminar asignación");
                     alert(datosRecibidos);
                 }
             });
         };
 
         app.eliminarFila = function (id) {
-            $("#cuerpoTablaHorario").find("a[data-id_horario='" + id + "']").parent().parent().remove();
+            $("#cuerpoTablaAsignacion").find("a[data-id_asignacion='" + id + "']").parent().parent().remove();
         };
 
         app.buscarAsignaciones = function () {
@@ -397,8 +399,8 @@ $(function () {
                                 `<td>${asignacion.fecha_inicio}</td>` +
                                 `<td>${asignacion.fecha_fin}</td>` +
                                 `<td>` +
-                                    `<a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_horario=${asignacion.id_asignacion}><span class='glyphicon glyphicon-pencil'></span> Editar</a>` +
-                                    `<a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_horario=${asignacion.id_asignacion}><span class='glyphicon glyphicon-trash'></span> Eliminar</a>` +
+                                    `<a class='editar btn btn-warning btn-sm' title='Editar registro' data-id_asignacion=${asignacion.id_asignacion}><span class='glyphicon glyphicon-pencil'></span> Editar</a>` +
+                                    `\t\<a class='eliminar btn btn-danger btn-sm'title='Eliminar registro'  data-id_asignacion=${asignacion.id_asignacion}><span class='glyphicon glyphicon-trash'></span> Eliminar</a>` +
                                 `</td>` +    
                             "</tr>";
                 });
@@ -502,20 +504,9 @@ $(function () {
             $('#' + itemRecibido).prepend("<option selected disabled value=''>Seleccione</option>");
         };
 
-        app.rellenarCiclo = () => {
-            var año = new Date();
-            var html = "";
-            //alert(año.getFullYear());
-            html += '<option selected disabled value="">Selecione el ciclo lectivo</option>';
-            for (var i = 2000; i <= año.getFullYear(); i++) {
-                html += `<option value='${i}'>` + i + "</option>";
-            }
-            $("#selectCicloLectivo").html(html);
-        };
-
         app.modificarCampos = (boton) => {
             app.limpiarModal();
-            $("#id_horario").val($(boton).attr("data-id_horario"));
+            $("#id_asignacion").val($(boton).attr("data-id_asignacion"));
             $("#selectPlan").val($(boton).parent().parent().children().first().attr("data-id_plan"));
             $("#selectPlan").change();
             setTimeout(() => {
@@ -530,21 +521,22 @@ $(function () {
                             setTimeout(() => {
                                 $("#selectCurso").val($(boton).parent().parent().children().first().next().next().next().attr("data-id_curso"));
                                 $("#selectCurso").change();
-                                $("#modalHorario").modal({show: true});
+                                $("#modalAsignacion").modal({show: true});
                             }, 120);
                         }, 90);
                     }, 60);
             }, 30);
 
-            $("#selectInicioHorario").val($(boton).parent().parent().children().first().next().next().next().next().next().next().attr("data-id_inicio"));
-            $("#selectInicioHorario").change();
+            $("#selectProfesor").val($(boton).parent().parent().children().first().next().next().next().next().attr("data-id_profesor"));
+            $("#selectProfesor").change();
+            
+            $("#selectFechaInicio").val($(boton).parent().parent().children().first().next().next().next().next().next().text());
+            $("#selectFechaInicio").change();
             setTimeout(() => {
-                $("#selectFinHorario").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().attr("data-id_fin"));
-                $("#selectFinHorario").change();
-            }, 50);    
-
-            $("#selectDia").val($(boton).parent().parent().children().first().next().next().next().next().html());
-            $("#selectCicloLectivo").val($(boton).parent().parent().children().first().next().next().next().next().next().html());
+                $("#selectFechaFin").val($(boton).parent().parent().children().first().next().next().next().next().next().next().text());
+                $("#selectFechaFin").change();
+            }, 50);
+            
         };
 
         app.limpiarModal = function () {
@@ -554,10 +546,9 @@ $(function () {
             $("#selectAño").val("");
             $("#selectMateria").val("");
             $("#selectCurso").val("");
-            $("#selectInicioHorario").val("");
-            $("#selectFinHorario").val("");
-            $("#selectDia").val("");
-            $("#selectCicloLectivo").val("");
+            $("#selectProfesor").val("");
+            $("#selectFechaInicio").val("");
+            $("#selectFechaFin").val("");
             $("#fieldsetHorario").removeAttr("disabled");
             app.ocultarCampos();
             app.habilitadorCampos(false);
@@ -580,10 +571,35 @@ $(function () {
             $("#selectPlan").prop('disabled', condicion);
             $("#selectSede").prop('disabled', condicion);
             $("#selectMateria").prop('disabled', condicion);
+            $("#selectAño").prop('disabled', condicion);
             $("#selectCurso").prop('disabled', condicion);
-            $("#profesor").prop('disabled', condicion);
-            $("#fecha_inicio").prop('disabled', condicion);
-            $("#fecha_fin").prop('disabled', condicion);
+            $("#selectProfesor").prop('disabled', condicion);
+            $("#selectFechaInicio").prop('disabled', condicion);
+            $("#selectFechaFin").prop('disabled', condicion);
+        };
+
+        app.transformarFecha = function (fecha) {
+            let fechaVieja = new Date(fecha);
+            fechaVieja = new Date(fechaVieja.getTime() + 86400000);
+            //se agrega un dia mas porque al parecer Date crea la fecha un dia atrasada a la que se le manda.(tres commits para darme cuenta de esto ¬¬)
+            //86400000 == un dia en milisegundos
+            let año = fechaVieja.getFullYear();
+            let mes = fechaVieja.getMonth();
+            let dias, tiempo;
+            if ((mes % 2 == 0 && mes < 7) || (mes % 2 != 0 && mes >= 7)) {
+                dias = 31;
+            } else if (mes != 1) {
+                dias = 30;
+            } else if (año % 4 == 0 && (año % 100 != 0 || año % 400 == 0)) {
+                dias = 29;
+            } else {
+                dias = 28;
+            }
+            tiempo = fechaVieja.getTime() + dias * 86400000;
+            //se le suma la cantidad de dias que tiene el mes en milisegundos para aumentar un mes
+            let fechaNueva = new Date(tiempo);
+            let fechaFin = `${fechaNueva.getFullYear()}-${("0" + (fechaNueva.getMonth() + 1)).slice(-2)}-${("0" + (fechaNueva.getDate())).slice(-2)}`;
+            return fechaFin;
         };
 
         app.init();
