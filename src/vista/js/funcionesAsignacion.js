@@ -161,7 +161,7 @@ $(function () {
         app.alertInfo2 = function () {
             var profesor = $("#selectProfesor").find(':selected').text();
             var alerta = '<div class="alert alert-danger" role="alert">' +
-                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' El Prof: ' + profesor + ' ya dicta una Materia en el horario ingresado. ' +
+                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' El Prof: ' + profesor + ' ya dicta una Materia en con un horario que se interpone. ' +
                     '</div>';
             $("#alerta").html(alerta);
             app.showAlert();
@@ -217,7 +217,7 @@ $(function () {
                         case 2:
                             //muestro mensaje con el tipo de error
                             //alert(data);
-                            app.alertInfo3();
+                            app.alertInfo2();
 
                             //guardo el valor de los campos en variables.
                             let carrera = $("#selectPlan").find(':selected').val();
