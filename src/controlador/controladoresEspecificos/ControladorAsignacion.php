@@ -75,22 +75,29 @@ class ControladorAsignacion extends ControladorGeneral {
 
     public function verificarAsignacion($datos) {
         try {
-            
+            $datos["fk_espacio_curricular"] = $this->buscarEspacioCurricular($datos);
             $parametros = array(
-                "fk_profesor" => $datos["fk_profesor"],
-                "inicio_horario" => $datos["inicio_horario"],
-                "fin_horario" => $datos["fin_horario"],
-                "fin_horario2" => $datos["fin_horario"], 
-                "inicio_horario2" => $datos["inicio_horario"],
-                "dia_horario" => $datos["dia_horario"],
-                "ciclo_lectivo_horario" => $datos["ciclo_lectivo_horario"]
+                "fk_espacio_curricular"=>$datos["fk_espacio_curricular"],
+                "fk_profesor" => $datos["fk_profesor"]
             );
             $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_TOMADO, $parametros);
             $existe = $resultado->fetch();
             //revisa si el curso ya tiene un horario que se interponga con el horario a guardar
-            if ($existe3["existe"] == 1) {
+            if ($existe["existe"] == 1) {
                 return 1;
-            }        
+            }
+            $parametros2 = array(
+                "fk_espacio_curricular"=>$datos["fk_espacio_curricular"],
+                "fk_profesor" => $datos["fk_profesor"]
+            );
+            $resultado2 = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_TOMADO_2, $parametros2);
+            $existe2 = $resultado2->fetch();
+            //revisa si el curso ya tiene un horario que se interponga con el horario a guardar
+            if ($existe2["existe"] == 1) {
+                return 2;
+            }
+            
+            
             return 0;
         } catch (Exception $e) {
             echo "Error :" . $e->getMessage();

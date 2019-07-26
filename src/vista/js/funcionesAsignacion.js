@@ -225,11 +225,7 @@ $(function () {
                             let profesor = $("#selectProfesor").find(':selected').val();
                             let materia = $("#selectMateria").find(':selected').val();
                             let curso = $("#selectCurso").find(':selected').val();
-                            let dia = $("#selectDia").find(':selected').val();
-                            let año_lectivo = $("#selectCicloLectivo").find(':selected').val();
                             let anio= $("#selectAño").find(":selected").val();
-                            let hora_inicio= $("#selectInicioHorario").find(":selected").val();
-                            let hora_fin = $("#selectFinHorario").find(":selected").val();
 
                             //reseteo el formulario y su validación.
                             $("#form").bootstrapValidator('resetForm', true);
@@ -240,13 +236,8 @@ $(function () {
                             $("#selectProfesor").val(profesor);
                             $("#selectMateria").val(materia);
                             $("#selectCurso").val(curso);
-                            $("#selectDia").val(dia);
-                            $("#selectCicloLectivo").val(año_lectivo);
                             $("#selectAño").val(anio);
-                            $("#selectInicioHorario").val(hora_inicio);
-                            $("#selectFinHorario").val(hora_fin);
                             break;
-
                         default:
                             break;
                     }
