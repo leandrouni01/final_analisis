@@ -80,7 +80,7 @@ class ControladorAsignacion extends ControladorGeneral {
                 "fk_espacio_curricular"=>$datos["fk_espacio_curricular"],
                 "fk_profesor" => $datos["fk_profesor"]
             );
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_TOMADO, $parametros);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO_PROFESOR, $parametros);
             $existe = $resultado->fetch();
             //revisa si el curso ya tiene un horario que se interponga con el horario a guardar
             if ($existe["existe"] == 1) {
@@ -90,7 +90,7 @@ class ControladorAsignacion extends ControladorGeneral {
                 "fk_espacio_curricular"=>$datos["fk_espacio_curricular"],
                 "fk_profesor" => $datos["fk_profesor"]
             );
-            $resultado2 = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_TOMADO_2, $parametros2);
+            $resultado2 = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::VERIFICAR_HORARIO_SOLAPADO_PROFESOR_2, $parametros2);
             $existe2 = $resultado2->fetch();
             //revisa si el curso ya tiene un horario que se interponga con el horario a guardar
             if ($existe2["existe"] == 1) {
