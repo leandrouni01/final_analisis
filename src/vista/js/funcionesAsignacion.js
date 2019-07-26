@@ -23,12 +23,7 @@ $(function () {
 
             $("#form").on('success.form.bv', function (event) {
                 event.preventDefault();
-                if ($("#id_asignacion").val() == 0) {
-                    app.guardarAsignacion();
-                } else {
-                    app.editarAsignacion();
-                }
-                //app.verificarHorario();
+                app.verificarAsignacion();
             });
 
             $("#selectPlan").on('change', function () {
@@ -197,8 +192,8 @@ $(function () {
             app.showAlert2();
         };
 
-        app.verificarHorario = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=verificarHorario&Formulario=Horario";
+        app.verificarAsignacion = function () {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=verificarAsignacion&Formulario=Asignacion";
             var datosEnviar = $("#form").serialize();
             $.ajax({
                 url: url,

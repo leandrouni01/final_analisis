@@ -94,3 +94,17 @@ Javasrcipt
 
                             break;
 
+
+SELECT * FROM asignacion 
+INNER JOIN horarios AS horario_asignado ON(asignacion.`fk_espacio_curricular`=horario_asignado.`fk_espacio_curricular`) 
+INNER JOIN horarios AS horario_a_asignar ON(`horario_a_asignar`.`fk_espacio_curricular`=2) 
+WHERE asignacion.`fk_profesor`=1
+AND 
+(
+(horario_asignado.fk_modulo_inicio<horario_a_asignar.`fk_modulo_fin` AND horario_asignado.fk_modulo_fin>=horario_a_asignar.`fk_modulo_fin`) 
+OR  
+(horario_asignado.fk_modulo_fin>horario_a_asignar.`fk_modulo_inicio` AND horario_asignado.fk_modulo_inicio<=horario_a_asignar.`fk_modulo_inicio`)
+) 
+AND horario_asignado.dia_horario = horario_a_asignar.dia_horario  
+AND  horario_asignado.ciclo_lectivo_horario=horario_a_asignar.`ciclo_lectivo_horario` 
+AND horario_asignado.estado=1;
