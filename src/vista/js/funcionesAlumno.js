@@ -3,15 +3,14 @@ $(function () {
 
     (function (app) {
         app.init = function () {
-            app.listarCombo();
-            app.buscar();
+            app.listarLocalidades();
+            app.buscarAlumnos();
             app.bindings();
         };
 
         app.bindings = function () {
             $("#agregar").on('click', function (event) { 
                 app.limpiarModal();
-                app.listarCombo();
                 $("#id").val(0);
                 $("#tituloModal").html("Nuevo Alumno");
                 $("#modal").modal({show: true});
@@ -20,33 +19,25 @@ $(function () {
             $("#textBusca").keyup(function (e) {
                 var parametros = $(this).val();
                 if (parametros == "") {
-                    app.buscar();
+                    app.buscarAlumnos();
                 } else {
                     app.busqueda(parametros);
                 }
             });
-
-            $("#guardar").on('click', function (event) {
-                event.preventDefault();
-                if ($("#id").val() == 0) {
+            
+            $("#form").on('success.form.bv',function(e){
+                e.preventDefault();
+                if($("#id_alumno").val()==0){
                     app.guardar();
-                } else {
+                }else{
                     app.modificar();
                 }
             });
 
+
             $("#cuerpoTabla").on('click', '.editar', function (event) {
-                $("#id").val($(this).attr("data-id"));       
-                $("#legajo").val($(this).parent().parent().children().html());              
-                $("#nombre").val($(this).parent().parent().children().first().next().html());
-                $("#apellido").val($(this).parent().parent().children().first().next().next().html());
-                $("#dni").val($(this).parent().parent().children().first().next().next().next().html());
-                $("#calle").val($(this).parent().parent().children().first().next().next().next().next().html());
-                $("#numero").val($(this).parent().parent().children().first().next().next().next().next().next().html());
-                $("#combo").find(':selected').val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
-                $("#combo").val($(this).parent().parent().children().first().next().next().next().next().next().next().attr("data-fk_localidad"));
                 $("#tituloModal").html(" Editar Alumno");
-                $("#modal").modal({show: true})   
+                $("#modal").modal({show: true});   
             });
             
             
@@ -71,17 +62,13 @@ $(function () {
                 $("#modal2").modal({show: true});  
             });
             
-            $("#salirModal").on('click', function (e) {
-                app.listarCombo();
-            });
-            
             $("#borrar").on('click', function (e) {
                 app.eliminar($("#id2").val());
                 $("#modal2").modal('hide');
             });
 
             $("#form").bootstrapValidator({
-                excluded: [],
+                excluded: []
             });      
 
         };
@@ -130,17 +117,16 @@ $(function () {
             });
         };
 
-        app.listarCombo = function (id) { 
+        app.listarLocalidades = function (id) { 
             var datosEnviar = {id: id};
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=localidad";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscarLocalidades&Formulario=Alumno";
             $.ajax({
                 url: url,
                 method: 'POST',
                 dataType: 'json',
                 data: datosEnviar,
                 success: function (data) {
-                    var item = "combo";
-                    app.rellenarCombo(data, item);
+                    app.rellenarLocalidades(data);
                 },
                 error: function () {
                     alert('error buscar');
@@ -148,16 +134,16 @@ $(function () {
             });
         };
 
-        app.rellenarCombo = function (data, itemRecibido) {
-            $('#' + itemRecibido).html("");
-            $('#' + itemRecibido).prepend("<option value=''>Seleccione</option>");
+        app.rellenarLocalidades = function (data) {
+            $('#selectLocalidad').html("");
+            $('#selectLocalidad').prepend("<option value=''>Seleccione</option>");
 
             $.each(data, function (clave, value) {
-                $('#' + itemRecibido).append('<option value="' + value.id + '">' + value.nombre +'</option>');
+                $('#selectLocalidad').append('<option value="' + value.id_localidad + '">' + value.nombre_localidad +'</option>');
             });
         };
 
-        app.buscar = function () { //esta funcion lista todas las carreras
+        app.buscarAlumnos = function () { //esta funcion lista todas las carreras
             var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=alumno";
             $.ajax({
                 url: url,
@@ -191,7 +177,9 @@ $(function () {
                             '<td>' + object.dni + '</td>' +
                             '<td>' + object.calle + '</td>' +
                             '<td>' + object.numero + '</td>' +
-                            '<td data-fk_localidad="' + object.fk_localidad + '">' + object.localidad + '</td>' +
+                            '<td data-fk_localidad="' + object.id_localidad + '">' + object.localidad + '</td>' +
+                            '<td>' + object.correo + '</td>' +
+                            '<td>' + object.telefono + '</td>' +
                             '<td>' +
                             '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                             '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
@@ -311,7 +299,20 @@ $(function () {
             $("#dni").val('');
             $("#calle").val('');
             $("#numero").val('');
-            app.listarCombo();
+            app.listarLocalidades();
+        };
+        
+        app.modificarCampos= function(linea){
+            $("#id").val($(linea).attr("data-id"));       
+            $("#legajo").val($(linea).parent().parent().children().html());              
+            $("#nombre").val($(linea).parent().parent().children().first().next().html());
+            $("#apellido").val($(linea).parent().parent().children().first().next().next().html());
+            $("#dni").val($(linea).parent().parent().children().first().next().next().next().html());
+            $("#calle").val($(linea).parent().parent().children().first().next().next().next().next().html());
+            $("#numero").val($(linea).parent().parent().children().first().next().next().next().next().next().html());
+            $("#selectLocalidad").val($(linea).parent().parent().children().first().next().next().next().next().next().next().attr("data-id_localidad"));
+            $("#numero").val($(linea).parent().parent().children().first().next().next().next().next().next().html());
+            $("#numero").val($(linea).parent().parent().children().first().next().next().next().next().next().html());
         };
 
         app.init();
