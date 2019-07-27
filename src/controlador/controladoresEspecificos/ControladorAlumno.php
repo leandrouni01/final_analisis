@@ -21,14 +21,16 @@ class ControladorAlumno extends ControladorGeneral {
             $controlador->agregar($parametros);
 
             $parametros = array(
-                "nombre_profesor" => $datos["nombre_profesor"],
-                "apellido_profesor" => $datos["apellido_profesor"],
-                "cuil" => $datos["cuil_profesor"],
-                "fk_titulo" => $datos["fk_titulo"],
-                "fk_postgrado" => $datos["fk_postgrado"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_PROFESOR, $parametros);
+                "legajo" => $datos["legajo"],
+                "nombre_alumno" => $datos["nombre_alumno"],
+                "apellido_alumno" => $datos["apellido_alumno"],
+                "dni_alumno" => $datos["dni_alumno"],
+                "telefono" => $datos["telefono"],
+                "email" => $datos["email"]
+            );
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_ALUMNO, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
-            return $this->buscarUltimoProfesor();
+            return $this->buscarUltimoAlumno();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();
             echo "Failed: " . $e->getMessage();
@@ -37,7 +39,7 @@ class ControladorAlumno extends ControladorGeneral {
 
     public function buscarUltimoAlumno() {
         try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_ULTIMO_PROFESOR);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_ULTIMO_ALUMNO);
             $fila = $resultado->fetch(PDO::FETCH_ASSOC);
             return $fila;
         } catch (Exception $e) {
@@ -49,7 +51,7 @@ class ControladorAlumno extends ControladorGeneral {
     public function buscar($datos) {
         try {
             $parametros = array('valor' => $datos['textBusca']);
-            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCADOR_PROFESOR);
+            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCADOR_ALUMNO);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia($query);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
@@ -65,8 +67,8 @@ class ControladorAlumno extends ControladorGeneral {
             $controlador= new ControladorDomicilio();
             $controlador->eliminar($parametros);
             
-            $parametros= array("id_profesor"=>$datos["id"]);
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_PROFESOR,$parametros);
+            $parametros= array("id_alumno"=>$datos["id"]);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_ALUMNO,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();
@@ -76,29 +78,7 @@ class ControladorAlumno extends ControladorGeneral {
 
     public function listar($datos) {
         try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_PROFESORES);
-            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $array;
-        } catch (Exception $e) {
-            echo "Error :" . $e->getMessage();
-        }
-    }
-
-    public function buscarProvincia($datos) {
-        try {
-            $parametros = array("fk_pais" => $datos["id_pais"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_PROV, $parametros);
-            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
-            return $array;
-        } catch (Exception $e) {
-            echo "Error :" . $e->getMessage();
-        }
-    }
-
-    public function buscarLocalidades($datos) {
-        try {
-            $parametros = array("fk_provincia" => $datos["id_provincia"]);
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_LOC, $parametros);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::LISTAR_ALUMNOS);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
         } catch (Exception $e) {
@@ -118,15 +98,15 @@ class ControladorAlumno extends ControladorGeneral {
             $controlador->modificar($parametros);
 
             $parametros = array(
-                "nombre_profesor" => $datos["nombre_profesor"],
-                "apellido_profesor" => $datos["apellido_profesor"],
-                "cuil" => $datos["cuil_profesor"],
-                "fk_titulo" => $datos["fk_titulo"],
-                "fk_postgrado" => $datos["fk_postgrado"],
-                "fk_domicilio" => $datos["id_domicilio"],
-                "id_profesor" => $datos["id"]
+                "legajo" => $datos["legajo"],
+                "nombre_alumno" => $datos["nombre_alumno"],
+                "apellido_alumno" => $datos["apellido_alumno"],
+                "dni_alumno" => $datos["dni_alumno"],
+                "telefono" => $datos["telefono"],
+                "email" => $datos["email"],
+                "id_alumno" => $datos["id"]
             );
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_PROFESOR, $parametros);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_ALUMNO, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
         } catch (Exception $e) {
             $this->refControladorPersistencia->rollBackTransaccion();
@@ -134,4 +114,14 @@ class ControladorAlumno extends ControladorGeneral {
         }
     }
 
+     public function buscarLocalidades($datos) {
+        try {
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_LOCALIDADES);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Error :" . $e->getMessage();
+        }
+    }
+    
 }

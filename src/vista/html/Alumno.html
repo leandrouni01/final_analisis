@@ -211,10 +211,10 @@
                                 <div class='col-lg-11'>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                        <input class="form-control" type="text" maxlength="6" pattern="\d" id="legajo" name="legajo" placeholder="Legajo" 
+                                        <input class="form-control" type="text" maxlength="6" pattern="^\d{1,6}$" id="legajo" name="legajo" placeholder="Legajo" 
                                                data-bv-notempty="true"
                                                data-bv-notempty-message="Debes completar el legajo"
-                                               data-bv-regexp-message="El legajo debe ser de 6 numeros">
+                                               data-bv-regexp-message="El legajo debe ser de 6 numeros máximo">
                                     </div>
                                 </div>
                             </div>
@@ -290,10 +290,10 @@
                                 <div class='col-lg-11'>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                        <input class="form-control" type="text" maxlength="8" pattern="\d" id="dni_alumno" name="dni_alumno" placeholder="DNI" 
+                                        <input class="form-control" type="text" maxlength="8" pattern="^\d{7,8}$" id="dni_alumno" name="dni_alumno" placeholder="DNI" 
                                                data-bv-notempty="true"
                                                data-bv-notempty-message="Debes completar el DNI"
-                                               data-bv-regexp-message="El DNI debe ser de 8 numeros">
+                                               data-bv-regexp-message="El DNI debe ser de 7 u 8 numeros">
                                     </div>
                                 </div>
                             </div>
@@ -303,9 +303,10 @@
                                 <div class='col-lg-11'>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                        <input class="form-control" type="text" pattern="\d" id="numero_domicilio" name="numero_domicilio" placeholder='Número'  
+                                        <input class="form-control" type="text" maxlength="5" pattern="^\d{1,5}$" id="numero_domicilio" name="numero_domicilio" placeholder='Número'  
                                                data-bv-notempty="true"
-                                               data-bv-notempty-message="Debes completar el número">
+                                               data-bv-notempty-message="Debes completar el número"
+                                               data-bv-regexp-message="El número solo puede ser de hasta 5 digitos">
                                     </div>
                                 </div>
                             </div>
@@ -315,10 +316,10 @@
                                 <div class='col-lg-11'>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                        <input class="form-control" type="text" maxlength="11" pattern="\d" id="telefono" name="telefono" placeholder="Teléfono"
+                                        <input class="form-control" type="text" maxlength="11" pattern="^\d{7,11}$" id="telefono" name="telefono" placeholder="Teléfono"
                                                data-bv-notempty="true"
                                                data-bv-notempty-message="Debes completar el nombre"
-                                               data-bv-regexp-message="Solo completa el campo con hasta 11 números">
+                                               data-bv-regexp-message="El campo debe tener al menos 7 digitos">
                                     </div>
                                 </div>
                             </div>
