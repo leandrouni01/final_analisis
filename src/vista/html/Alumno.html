@@ -31,40 +31,53 @@
                             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul class="nav navbar-nav">
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Alumnado <span class="caret"></span></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                           aria-haspopup="true" aria-expanded="false"><span
+                                                class="glyphicon glyphicon-user"></span> Alumnado <span
+                                                class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             <li class="active"><a href="Alumno.html">Alumnos</a></li>
                                             <li><a href="Inscripciines.html">Inscripciones</a></li>
                                         </ul>
                                     </li>
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profesorado <span class="caret"></span></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                           aria-haspopup="true" aria-expanded="false"><span
+                                                class="glyphicon glyphicon-user"></span> Profesorado <span
+                                                class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="Titulo.html">Titulos</a></li>
                                             <li><a href="Postgrado.html">Postgrados</a></li>
                                             <li role="separator" class="divider"></li>
                                             <li><a href="Profesor.html">Profesores</a></li>
-                                            <li><a href="Suplente.html">Suplentes</a></li>
                                         </ul>
                                     </li>
                                 </ul>
 
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Académica <span class="caret"></span></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                           aria-haspopup="true" aria-expanded="false"><span
+                                                class="glyphicon glyphicon-book"></span> Académica <span
+                                                class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="Carrera.html">Carrera</a></li>
                                             <li><a href="PlanEstudio.html">Plan de Estudio</a></li>
                                             <li><a href="Materias.html">Materias</a></li>
                                             <li><a href="Correlatividades.html">Correlatividades</a></li>
-                                            <li role="separator" class="divider"></li>                                            
+                                            <li role="separator" class="divider"></li>
                                             <li><a href="Curso.html">Cursos</a></li>
+                                            <li><a href="EspacioCurricular.html">Espacio Curricular</a></li>
                                             <li><a href="Horario.html">Horarios</a></li>
+                                            <li><a href="Asignacion.html">Asignación</a></li>
                                         </ul>
                                     </li>
 
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ubicación <span class="caret"></span></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                           aria-haspopup="true" aria-expanded="false"><span
+                                                class="glyphicon glyphicon-globe"></span> Ubicación <span
+                                                class="caret"></span></a>
                                         <ul class="dropdown-menu">
                                             <li><a href="Pais.html">Paises</a></li>
                                             <li><a href="Provincia.html">Provincias</a></li>
@@ -139,7 +152,7 @@
             <table class="table table-bordered table-hover" id="tabla">
                 <thead>
                     <tr>
-                        <th><span class="glyphicon glyphicon-book"></span> Legajo</th>
+                        <th>Legajo</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>DNI</th>
@@ -180,93 +193,149 @@
                         <h3 align="left" class="modal-title" id="tituloModal">Nuevo Alumno</h3>
                     </div>
 
-                    <div class="modal-body">
-                        <!--    DECLARO UN ID OCULTO    -->
-                        <div class="form-group">
-                            <input class="form-control" type="hidden" id="id_alumno" name="id_alumno">
-                        </div>
+                    <input class="form-control" type="hidden" id="id_alumno" name="id_alumno">
+                    <input class="form-control" type="hidden" id="id_domicilio" name="id_domicilio">
 
-                        <div class="form-group">
-                            <label class='col-lg-1 control-label'>Legajo</label>
-                            <div class='col-lg-11'>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <input class="form-control" type="text" maxlength="6" pattern="\d" id="legajo" name="legajo" 
-                                           data-bv-notempty="true"
-                                           data-bv-notempty-message="Debes completar el legajo"
-                                           data-bv-regexp-message="El legajo debe ser de 6 numeros">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-1 control-label'>Nombre</label>
-                            <div class='col-lg-11'>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input class="form-control" type="text" pattern="[A-Z-a-z]" id="nombre_alumno" name="nombre_alumno" placeholder="Nombre"
-                                           data-bv-notempty="true"
-                                           data-bv-notempty-message="Debes completar el nombre">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-1 control-label'>Apellido</label>
-                            <div class='col-lg-11'>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input class="form-control" type="text" pattern="[A-Z-a-z]" id="apellido_profesor" name="apellido_profesor" placeholder="Apellido"
-                                           data-bv-notempty="true"
-                                           data-bv-notempty-message="Debes completar el apellido">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-2'>DNI:</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="dni" name="dni"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el Nombre">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-2'>Calle:</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="calle" name="calle"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el Nombre">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-2'>Número:</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="numero" name="numero"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el Nombre">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-2'>Localidad:</label>
-                            <div class='col-lg-10'>
-                                <select class="form-control" id="combo" name="combo">
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label class='col-lg-1 control-label'>Legajo</label>
+                                <div class='col-lg-11'>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                        <input class="form-control" type="text" maxlength="6" pattern="\d" id="legajo" name="legajo" placeholder="Legajo" 
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="Debes completar el legajo"
+                                               data-bv-regexp-message="El legajo debe ser de 6 numeros">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class='col-lg-1 control-label'>Apellido</label>
+                                <div class='col-lg-11'>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input class="form-control" type="text" pattern="[A-Z-a-z]" id="apellido_alumno" name="apellido_alumno" placeholder="Apellido"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="Debes completar el apellido">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class='col-lg-1 control-label'>Dirección</label>
+                                <div class='col-lg-11'>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                        <input class="form-control" type="text" pattern="[A-Z-a-z]" id="calle_domicilio" name="calle_domicilio" placeholder='Calle'
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="Debes completar la calle">
+                                    </div>
+                                </div>
+                            </div> 
+
+                            <div class="form-group">
+                                <label class='col-lg-1 control-label'>Localidad</label>
+                                <div class='col-lg-11'>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                                        <select class="form-control" id="selectLocalidad" name="fk_localidad"   
+                                                data-bv-notempty="true"
+                                                data-bv-notempty-message="Debes completar la localidad">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class='col-lg-1 control-label'>Email</label>
+                                <div class='col-lg-11'>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                        <input class="form-control" type="text" maxlength="40" id="email" name="email" placeholder="E-mail"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="Debes completar el nombre"
+                                               data-bv-regexp-message="El mail es hasta 40 caracteres">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label class='col-lg-1 control-label'>Nombre</label>
+                                <div class='col-lg-11'>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input class="form-control" type="text" pattern="[A-Z-a-z]" id="nombre_alumno" name="nombre_alumno" placeholder="Nombre"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="Debes completar el nombre">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class='col-lg-1 control-label'>DNI</label>
+                                <div class='col-lg-11'>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                        <input class="form-control" type="text" maxlength="8" pattern="\d" id="dni_alumno" name="dni_alumno" placeholder="DNI" 
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="Debes completar el DNI"
+                                               data-bv-regexp-message="El DNI debe ser de 8 numeros">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class='col-lg-1 control-label'>Nro</label>
+                                <div class='col-lg-11'>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                        <input class="form-control" type="text" pattern="\d" id="numero_domicilio" name="numero_domicilio" placeholder='Número'  
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="Debes completar el número">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class='col-lg-1 control-label'>Teléfono</label>
+                                <div class='col-lg-11'>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                        <input class="form-control" type="text" maxlength="11" pattern="\d" id="telefono" name="telefono" placeholder="Teléfono"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="Debes completar el nombre"
+                                               data-bv-regexp-message="Solo completa el campo con hasta 11 números">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>    
+
+                </div>
+
                 <div class="modal-footer">
                     <button type="button" id="salirModal" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                    <button type="button" id="borrar" class="btn btn-danger hidden"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+                    <button type="submit" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
+                </div>
 
-                    <button type="button" id="guardar" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span> Guardar</button>
             </form>
         </div>
     </div>
-</div>
 </div>
 <!-- FIN Modal -->
 
