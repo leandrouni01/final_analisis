@@ -16,6 +16,29 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`sistema_sedes` /*!40100 DEFAULT CHARACT
 
 USE `sistema_sedes`;
 
+/*Table structure for table `alumno` */
+
+DROP TABLE IF EXISTS `alumno`;
+
+CREATE TABLE `alumno` (
+  `id_alumno` int(11) NOT NULL AUTO_INCREMENT,
+  `dni` int(8) NOT NULL,
+  `legajo` int(6) DEFAULT NULL,
+  `apellido` varchar(70) NOT NULL,
+  `nombre` varchar(70) NOT NULL,
+  `fk_domicilio` int(11) NOT NULL,
+  `telefono` int(11) DEFAULT NULL,
+  `correo` varchar(40) DEFAULT NULL,
+  `estado` int(1) DEFAULT '1',
+  PRIMARY KEY (`id_alumno`),
+  KEY `fk_domicilio` (`fk_domicilio`),
+  CONSTRAINT `alumno_ibfk_1` FOREIGN KEY (`fk_domicilio`) REFERENCES `domicilio` (`id_domicilio`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `alumno` */
+
+insert  into `alumno`(`id_alumno`,`dni`,`legajo`,`apellido`,`nombre`,`fk_domicilio`,`telefono`,`correo`,`estado`) values (1,38307500,1,'Murgo','Leandro',16,4252267,'leandrouni01@gmail.com',1);
+
 /*Table structure for table `asignacion` */
 
 DROP TABLE IF EXISTS `asignacion`;
@@ -25,7 +48,7 @@ CREATE TABLE `asignacion` (
   `fk_espacio_curricular` int(11) DEFAULT NULL,
   `fk_profesor` int(11) DEFAULT NULL,
   `fecha_inicio` varchar(10) DEFAULT NULL,
-  `fecha_fin` varchar(10) NOT NULL,
+  `fecha_fin` varchar(20) NOT NULL DEFAULT 'Sin especificar',
   `estado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_asignacion`),
   KEY `fk_profesor` (`fk_profesor`),
@@ -128,11 +151,11 @@ CREATE TABLE `domicilio` (
   PRIMARY KEY (`id_domicilio`),
   KEY `fk_localidad` (`fk_localidad`),
   CONSTRAINT `domicilio_ibfk_1` FOREIGN KEY (`fk_localidad`) REFERENCES `localidad` (`id_localidad`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 /*Data for the table `domicilio` */
 
-insert  into `domicilio`(`id_domicilio`,`calle_domicilio`,`numero_domicilio`,`fk_localidad`,`estado`) values (9,'Vecindad',1,1,1),(10,'Silent Street',23,2,0),(11,'Roca',214,4,1),(12,'Dr. Moreno',325,2,1),(13,'Rodriguez',248,1,1),(14,'Godoy Cruz',521,1,0),(15,'San Martin',4526,5,1);
+insert  into `domicilio`(`id_domicilio`,`calle_domicilio`,`numero_domicilio`,`fk_localidad`,`estado`) values (11,'Roca',214,4,1),(12,'Dr. Moreno',325,2,1),(13,'Rodriguez',248,1,1),(14,'Godoy Cruz',521,1,0),(15,'San Martin',4526,5,1),(16,'Juan de Dios Videla',752,1,1);
 
 /*Table structure for table `espacio_curricular` */
 
@@ -167,16 +190,18 @@ CREATE TABLE `horarios` (
   `dia_horario` enum('Lunes','Martes','Miercoles','Jueves','Viernes','Sabado') NOT NULL,
   `estado` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id_horario`),
-  UNIQUE KEY `fk_profesor_2` (`fk_modulo_inicio`,`fk_modulo_fin`,`dia_horario`,`ciclo_lectivo_horario`),
+  UNIQUE KEY `fk_profesor_2` (`fk_modulo_inicio`,`fk_modulo_fin`,`dia_horario`,`ciclo_lectivo_horario`,`fk_espacio_curricular`),
   KEY `fk_modulo_fin` (`fk_modulo_fin`),
   KEY `ciclo_lectivo_horario` (`ciclo_lectivo_horario`),
   KEY `fk_espacio_curricular` (`fk_espacio_curricular`),
   CONSTRAINT `horarios_ibfk_4` FOREIGN KEY (`fk_modulo_inicio`) REFERENCES `modulos` (`id_modulo`),
   CONSTRAINT `horarios_ibfk_5` FOREIGN KEY (`fk_modulo_fin`) REFERENCES `modulos` (`id_modulo`),
   CONSTRAINT `horarios_ibfk_6` FOREIGN KEY (`fk_espacio_curricular`) REFERENCES `espacio_curricular` (`id_espacio_curricular`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `horarios` */
+
+insert  into `horarios`(`id_horario`,`fk_espacio_curricular`,`fk_modulo_inicio`,`fk_modulo_fin`,`ciclo_lectivo_horario`,`dia_horario`,`estado`) values (1,1,1,7,2019,'Jueves',1);
 
 /*Table structure for table `localidad` */
 
@@ -290,6 +315,28 @@ CREATE TABLE `postgrado` (
 /*Data for the table `postgrado` */
 
 insert  into `postgrado`(`id_postgrado`,`nombre_postgrado`,`fk_titulo`,`estado`) values (1,'Ninguno',1,1),(7,'Ninguno',2,1),(8,'Ninguno',3,1),(11,'Ninguno',5,1),(12,'Ninguno',6,1),(13,'Ninguno',7,1),(14,'Ninguno',8,1),(16,'Ninguno',9,1),(17,'Posgrado Experto en Big Data',1,1),(18,'Master en Data Managment',1,1),(19,'Master en Ingenieria de Software',2,1),(20,'Master en Tecnologías de la Informacion',2,1),(21,'Master en Gestion de Operaciones',3,1),(22,'Magister en Administracion de Sistemas',3,1),(23,'Magister en Administracion de Sistemas',5,1),(24,'Master en Ingenieria de Software',5,1),(25,'Master en Automatizacion Industrial',6,1),(26,'Master en Hidraulica Urbana',6,1),(27,'Master en Arquitectura y Urbanismo',7,1),(28,'Master en Arq. Diseño e Innovacion',7,1),(29,'Posgrado en Comunicacion Politica',8,1),(30,'Posgrado en Comunicacion Industrial',8,1),(31,'Master en Psicologia Infanto-juvenil',9,1),(32,'Master en Psicologia Cognitiva',9,1);
+
+/*Table structure for table `pre_inscripcion` */
+
+DROP TABLE IF EXISTS `pre_inscripcion`;
+
+CREATE TABLE `pre_inscripcion` (
+  `id_pre_inscripcion` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_plan` int(11) NOT NULL,
+  `fk_alumno` int(11) NOT NULL,
+  `año` int(4) DEFAULT NULL,
+  `documentacion` varchar(10) NOT NULL,
+  `estado` int(1) DEFAULT '1',
+  PRIMARY KEY (`id_pre_inscripcion`),
+  KEY `fk_plan` (`fk_plan`),
+  KEY `fk_alumno` (`fk_alumno`),
+  CONSTRAINT `pre_inscripcion_ibfk_1` FOREIGN KEY (`fk_plan`) REFERENCES `plan_de_estudios` (`id_plan`),
+  CONSTRAINT `pre_inscripcion_ibfk_2` FOREIGN KEY (`fk_alumno`) REFERENCES `alumno` (`id_alumno`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*Data for the table `pre_inscripcion` */
+
+insert  into `pre_inscripcion`(`id_pre_inscripcion`,`fk_plan`,`fk_alumno`,`año`,`documentacion`,`estado`) values (1,1,1,2019,'Completa',1);
 
 /*Table structure for table `profesor` */
 
