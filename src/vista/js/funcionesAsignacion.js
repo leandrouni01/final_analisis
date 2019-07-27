@@ -23,7 +23,11 @@ $(function () {
 
             $("#form").on('success.form.bv', function (event) {
                 event.preventDefault();
-                app.verificarAsignacion();
+                if($("#selectFechaInicio").val()<$("#selectFechaFin").val()||$("#selectFechaFin").val()==""){
+                    app.verificarAsignacion();
+                }else{
+                    app.alertInfo1();
+                }
             });
 
             $("#selectPlan").on('change', function () {
@@ -152,7 +156,7 @@ $(function () {
 
         app.alertInfo1 = function () {
             var alerta = '<div class="alert alert-danger" role="alert">' +
-                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' El horario ingresado ya pertenece a un Profesor.' +
+                    '<strong>' + '<span class="glyphicon glyphicon-warning-sign"></span>' + ' ¡Error al guardar!' + '</strong>' + ' La fecha de fin no puede ser menor o igual a la fecha de inicio.' +
                     '</div>';
             $("#alerta").html(alerta);
             app.showAlert();
