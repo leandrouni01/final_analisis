@@ -183,34 +183,43 @@
                     <div class="modal-body">
                         <!--    DECLARO UN ID OCULTO    -->
                         <div class="form-group">
-                            <input class="form-control" type="hidden" id="id" name="id">
+                            <input class="form-control" type="hidden" id="id_alumno" name="id_alumno">
                         </div>
 
-                        <!--    DECLARO UN TEXTBOX NOMBRE    -->
                         <div class="form-group">
-                            <label class='col-lg-2'>Legajo:</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="legajo" name="legajo"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el Legajo">
+                            <label class='col-lg-1 control-label'>Legajo</label>
+                            <div class='col-lg-11'>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <input class="form-control" type="text" maxlength="6" pattern="\d" id="legajo" name="legajo" 
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="Debes completar el legajo"
+                                           data-bv-regexp-message="El legajo debe ser de 6 numeros">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class='col-lg-2'>Nombre:</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="nombre" name="nombre"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el Nombre">
+                            <label class='col-lg-1 control-label'>Nombre</label>
+                            <div class='col-lg-11'>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input class="form-control" type="text" pattern="[A-Z-a-z]" id="nombre_alumno" name="nombre_alumno" placeholder="Nombre"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="Debes completar el nombre">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class='col-lg-2'>Apellido:</label>
-                            <div class='col-lg-10'>
-                                <input class="form-control" type="text" id="apellido" name="apellido"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el Nombre">
+                            <label class='col-lg-1 control-label'>Apellido</label>
+                            <div class='col-lg-11'>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input class="form-control" type="text" pattern="[A-Z-a-z]" id="apellido_profesor" name="apellido_profesor" placeholder="Apellido"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="Debes completar el apellido">
+                                </div>
                             </div>
                         </div>
 
@@ -258,109 +267,6 @@
         </div>
     </div>
 </div>
-</div>
-<!-- FIN Modal -->
-
-<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="form2" class="form-horizontal"
-                  data-bv-message="Este valor No es válido"
-                  data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
-                  data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
-                  data-bv-feedbackicons-validating="glyphicon glyphicon-refresh"
-                  data-bv-submitbuttons='button[type="submit"]'
-                  data-bv-trigger="focus blur"
-                  data-bv-live="enabled">
-                <div class="modal-header">
-                    <div class="well well-sm">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3 align="center" class="modal-title" id="tituloModal2">Eliminar</h3>
-                    </div>
-
-
-                    <div class="modal-body">
-                        <!--    DECLARO UN ID OCULTO    -->
-                        <div class="form-group">
-                            <input class="form-control" type="hidden" id="id2" name="id2">
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-3'>Legajo:</label>
-                            <div class='col-lg-9'>
-                                <input type="text" class="form-control" id="legajo2" name="legajo2">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-3'>Nombre:</label>
-                            <div class='col-lg-9'>
-                                <input type="text" class="form-control" id="nombre2" >
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-3'>Apellido:</label>
-                            <div class='col-lg-9'>
-                                <input class="form-control" type="text" id="apellido2" >
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-3'>DNI:</label>
-                            <div class='col-lg-9'>
-                                <input type="text" class="form-control" id="dni2">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-3'>Calle:</label>
-                            <div class='col-lg-9'>
-                                <input class="form-control" type="text" id="calle2"
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el horario">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-3'>Número:</label>
-                            <div class='col-lg-9'>
-                                <input class="form-control" type="text" id="numero2" 
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el horario">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class='col-lg-3'>Localidad:</label>
-                            <div class='col-lg-9'>
-                                <input class="form-control" type="text" id="localidad2" 
-                                       data-bv-notempty="true"
-                                       data-bv-notempty-message="Debes completar el horario">
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="row">
-                        <div class="col-lg-2"></div>
-
-                        <div class="col-lg-4">
-                            <button  type="button" class="btn btn-block btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Salir</button>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <button type="button" id="borrar" class="btn btn-block btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
-                        </div>
-
-                        <div class="col-lg-2"></div>
-                    </div>
-
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
 <!-- FIN Modal -->
 
