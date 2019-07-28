@@ -2,7 +2,8 @@
 SQLyog Ultimate v9.63 
 MySQL - 5.5.5-10.1.31-MariaDB : Database - sistema_sedes
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -321,18 +322,21 @@ insert  into `postgrado`(`id_postgrado`,`nombre_postgrado`,`fk_titulo`,`estado`)
 DROP TABLE IF EXISTS `pre_inscripcion`;
 
 CREATE TABLE `pre_inscripcion` (
-  `id_pre_inscripcion` int(11) NOT NULL AUTO_INCREMENT,
-  `fk_plan` int(11) NOT NULL,
-  `fk_alumno` int(11) NOT NULL,
-  `año` int(4) DEFAULT NULL,
-  `documentacion` varchar(10) NOT NULL,
-  `estado` int(1) DEFAULT '1',
+  `id_pre_inscripcion` INT(11) NOT NULL AUTO_INCREMENT,
+  `fk_plan` INT(11) NOT NULL,
+  `fk_alumno` INT(11) NOT NULL,
+  `año` INT(4) DEFAULT NULL,
+  `documentacion` VARCHAR(10) NOT NULL,
+  `fk_sede` INT(11) NOT NULL,
+  `estado` INT(1) DEFAULT '1',
   PRIMARY KEY (`id_pre_inscripcion`),
   KEY `fk_plan` (`fk_plan`),
   KEY `fk_alumno` (`fk_alumno`),
+  KEY `fk_sede` (`fk_sede`),
   CONSTRAINT `pre_inscripcion_ibfk_1` FOREIGN KEY (`fk_plan`) REFERENCES `plan_de_estudios` (`id_plan`),
-  CONSTRAINT `pre_inscripcion_ibfk_2` FOREIGN KEY (`fk_alumno`) REFERENCES `alumno` (`id_alumno`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  CONSTRAINT `pre_inscripcion_ibfk_2` FOREIGN KEY (`fk_alumno`) REFERENCES `alumno` (`id_alumno`),
+  CONSTRAINT `pre_inscripcion_ibfk_3` FOREIGN KEY (`fk_sede`) REFERENCES `sede` (`id_sede`)
+) ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `pre_inscripcion` */
 
