@@ -193,6 +193,7 @@
                         <h3 align="left" class="modal-title" id="tituloModal">Nueva Pre-inscripción</h3>
                     </div>
 
+                    <input class="form-control" type="hidden" id="id_alumno" name="id_alumno">
                     <input class="form-control" type="hidden" id="id_pre_inscripcion" name="id_pre_inscripcion">
 
                 </div>
@@ -205,10 +206,15 @@
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <input id="textBuscaAlumno" type="text" class="form-control" placeholder="Buscar legajo del alumno.." aria-describedby="basic-addon2">
-                                    <span class="input-group-addon" id="basic-addon2">
-                                        <span class="glyphicon glyphicon-search"></span>
+                                    <input id="textBuscaAlumno" type="text" class="form-control" placeholder="Escriba legajo del alumno..">
+                                    
+                                    <span class="input-group-btn">
+                                        <button type="button" id="buscarAlumno"
+                                                class="btn btn-primary"><span
+                                                class="glyphicon glyphicon-search"></span>
+                                          Buscar Alumno</button>
                                     </span>
+                                
                                 </div>
                             </div>    
                             <div class="col-md-3"></div>    
@@ -238,7 +244,7 @@
                                         <div>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                <input class="form-control" type="text" pattern="[A-Z-a-z]" id="apellido_alumno" name="apellido_alumno" placeholder="Apellido"
+                                                <input class="form-control" type="text" disabled pattern="[A-Z-a-z]" id="apellido_alumno" name="apellido_alumno" placeholder="Apellido"
                                                        data-bv-notempty="true"
                                                        data-bv-notempty-message="Debes completar el apellido">
                                             </div>
@@ -259,15 +265,13 @@
                                     </div>
 
                                     <div class="form-group" id="ciclo_lectivo">
-                                        <label class="control-label" for="selectCicloLectivo">Ciclo Lectivo</label>
+                                        <label class="control-label">Ciclo Lectivo</label>
                                         <div>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                         class="glyphicon glyphicon-calendar"></i></span>
-                                                <select class="form-control" id="selectCicloLectivo"
-                                                        name="ciclo_lectivo_horario" data-bv-notempty="true"
-                                                        data-bv-notempty-message="Debes seleccionar un Año">
-                                                </select>
+                                                <input class="form-control" type="text" id="ciclo" name="ciclo_lectivo"
+                                                       data-bv-notempty="true">
                                             </div>
                                         </div>
                                     </div>
@@ -284,7 +288,7 @@
                                         <div>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                <input class="form-control" type="text" pattern="[A-Z-a-z]" id="nombre_alumno" name="nombre_alumno" placeholder="Nombre"
+                                                <input class="form-control" type="text" disabled pattern="[A-Z-a-z]" id="nombre_alumno" name="nombre_alumno" placeholder="Nombre"
                                                        data-bv-notempty="true"
                                                        data-bv-notempty-message="Debes completar el nombre">
                                             </div>
@@ -296,7 +300,7 @@
                                         <div>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                                <input class="form-control" type="text" maxlength="8" pattern="^\d{7,8}$" id="dni_alumno" name="dni_alumno" placeholder="DNI" 
+                                                <input class="form-control" type="text" disabled maxlength="8" pattern="^\d{7,8}$" id="dni_alumno" name="dni_alumno" placeholder="DNI" 
                                                        data-bv-notempty="true"
                                                        data-bv-notempty-message="Debes completar el DNI"
                                                        data-bv-regexp-message="El DNI debe ser de 7 u 8 numeros">
