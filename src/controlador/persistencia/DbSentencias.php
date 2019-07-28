@@ -156,11 +156,11 @@ interface DbSentencias {
     const BUSCAR_ULTIMO_ALUMNO= "SELECT alumno.*, domicilio.`calle_domicilio`,domicilio.`numero_domicilio`, localidad.id_localidad,localidad.`nombre_localidad` FROM alumno INNER JOIN domicilio ON (fk_domicilio=domicilio.`id_domicilio`) INNER JOIN localidad ON (domicilio.`fk_localidad`=localidad.`id_localidad`) WHERE alumno.estado=1 AND id_alumno=(SELECT MAX(id_alumno) FROM alumno);";
     const BUSCAR_LOCALIDADES = "SELECT localidad.* FROM localidad INNER JOIN provincia ON (fk_provincia=provincia.`id_provincia`) INNER JOIN pais ON (fk_pais=pais.`id_pais`) WHERE localidad.`estado`=1 AND provincia.`nombre_provincia`='Mendoza' AND pais.`nombre_pais`='Argentina';";
     //Pre-Inscripcion
-    const LISTAR_PRE_INSCRIPCIONES = "SELECT alumno.`legajo`,alumno.`apellido`,alumno.`nombre`,carrera.`nombre_carrera`,plan_de_estudios.`resolucion`,pre_inscripcion.* FROM pre_inscripcion INNER JOIN alumno ON (fk_alumno=alumno.`id_alumno`) INNER JOIN plan_de_estudios ON (fk_plan=plan_de_estudios.`id_plan`) INNER JOIN carrera ON (fk_carrera=carrera.`id_carrera`) WHERE pre_inscripcion.`estado`=1;";
-    const INSERTAR_PRE_INSCRIPCION = "INSERT INTO pre_inscripcion (fk_plan,fk_alumno,año,documentacion) VALUES (?,?,?,?);";
-    const ACTUALIZAR_PRE_INSCRIPCION = "UPDATE pre_inscripcion SET (fk_plan=?,fk_alumno=?,año=?,documentacion=?) WHERE pre_inscripcion.`id_pre_inscripcion`=?;";
+    const LISTAR_PRE_INSCRIPCIONES = "SELECT alumno.`id_alumno`,alumno.`legajo`,alumno.`apellido`,alumno.`nombre`,carrera.`nombre_carrera`,plan_de_estudios.`resolucion`,pre_inscripcion.* FROM pre_inscripcion INNER JOIN alumno ON (fk_alumno=alumno.`id_alumno`) INNER JOIN plan_de_estudios ON (fk_plan=plan_de_estudios.`id_plan`) INNER JOIN carrera ON (fk_carrera=carrera.`id_carrera`) WHERE pre_inscripcion.`estado`=1;";
+    const INSERTAR_PRE_INSCRIPCION = "INSERT INTO pre_inscripcion (fk_plan,fk_alumno,anio,documentacion) VALUES (?,?,?,?);";
+    const ACTUALIZAR_PRE_INSCRIPCION = "UPDATE pre_inscripcion SET (fk_plan=?,fk_alumno=?,anio=?,documentacion=?) WHERE pre_inscripcion.`id_pre_inscripcion`=?;";
     const ELIMINAR_PRE_INSCRIPCION = "UPDATE pre_inscripcion SET pre_inscripcion.`estado`=0 WHERE id_pre_inscripcion=?";
     const BUSCAR_ULTIMA_PRE_INSCRIPCION = "SELECT alumno.`legajo`,alumno.`apellido`,alumno.`nombre`,carrera.`nombre_carrera`,plan_de_estudios.`resolucion`,pre_inscripcion.* FROM pre_inscripcion INNER JOIN alumno ON (fk_alumno=alumno.`id_alumno`) INNER JOIN plan_de_estudios ON (fk_plan=plan_de_estudios.`id_plan`) INNER JOIN carrera ON (fk_carrera=carrera.`id_carrera`) WHERE pre_inscripcion.`estado`=1 AND id_pre_inscripcion=(SELECT MAX(id_pre_inscripcion) FROM pre_inscripcion);";
-    
-    
+    const BUSCAR_PLANES_DE_ESTUDIO = "SELECT carrera.`nombre_carrera`,plan_de_estudios.`id_plan`,plan_de_estudios.`resolucion` FROM plan_de_estudios INNER JOIN carrera ON (fk_carrera=carrera.`id_carrera`) WHERE id_plan IN (SELECT MAX(id_plan) FROM plan_de_estudios GROUP BY fk_carrera) AND estado_plan=1;";
+    const BUSCAR_SEDES = "SELECT sede.`id_sede`,sede.`nombre_sede` FROM espacio_curricular INNER JOIN materia ON (fk_materia=materia.`id_materia`) INNER JOIN curso ON (fk_curso=curso.`id_curso`) INNER JOIN sede ON (fk_sede=sede.`id_sede`) WHERE fk_plan_de_estudio=? GROUP BY nombre_sede;";
 }

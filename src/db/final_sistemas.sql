@@ -2,8 +2,7 @@
 SQLyog Ultimate v9.63 
 MySQL - 5.5.5-10.1.31-MariaDB : Database - sistema_sedes
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -28,17 +27,17 @@ CREATE TABLE `alumno` (
   `apellido` varchar(70) NOT NULL,
   `nombre` varchar(70) NOT NULL,
   `fk_domicilio` int(11) NOT NULL,
-  `telefono` int(11) DEFAULT NULL,
+  `telefono` varchar(11) DEFAULT NULL,
   `correo` varchar(40) DEFAULT NULL,
   `estado` int(1) DEFAULT '1',
   PRIMARY KEY (`id_alumno`),
   KEY `fk_domicilio` (`fk_domicilio`),
   CONSTRAINT `alumno_ibfk_1` FOREIGN KEY (`fk_domicilio`) REFERENCES `domicilio` (`id_domicilio`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 /*Data for the table `alumno` */
 
-insert  into `alumno`(`id_alumno`,`dni`,`legajo`,`apellido`,`nombre`,`fk_domicilio`,`telefono`,`correo`,`estado`) values (1,38307500,1,'Murgo','Leandro',16,4252267,'leandrouni01@gmail.com',1);
+insert  into `alumno`(`id_alumno`,`dni`,`legajo`,`apellido`,`nombre`,`fk_domicilio`,`telefono`,`correo`,`estado`) values (1,38307500,1,'Murgo','Leandro',16,'4252267','leandrouni01@gmail.com',1),(2,39081307,2,'Marin','Adrian',17,'4393882','adru_95_arg@hotmail.com',1),(3,38759180,3,'Valenzuela','Luciano',18,'4450865','lucianooo222@gmail.com',1),(4,19030528,4,'Perez','Gabriel',19,'2615961634','juan.gabriel.ps@gmail.com',1);
 
 /*Table structure for table `asignacion` */
 
@@ -152,11 +151,11 @@ CREATE TABLE `domicilio` (
   PRIMARY KEY (`id_domicilio`),
   KEY `fk_localidad` (`fk_localidad`),
   CONSTRAINT `domicilio_ibfk_1` FOREIGN KEY (`fk_localidad`) REFERENCES `localidad` (`id_localidad`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 /*Data for the table `domicilio` */
 
-insert  into `domicilio`(`id_domicilio`,`calle_domicilio`,`numero_domicilio`,`fk_localidad`,`estado`) values (11,'Roca',214,4,1),(12,'Dr. Moreno',325,2,1),(13,'Rodriguez',248,1,1),(14,'Godoy Cruz',521,1,0),(15,'San Martin',4526,5,1),(16,'Juan de Dios Videla',752,1,1);
+insert  into `domicilio`(`id_domicilio`,`calle_domicilio`,`numero_domicilio`,`fk_localidad`,`estado`) values (11,'Roca',214,4,1),(12,'Dr. Moreno',325,2,1),(13,'Rodriguez',248,1,1),(14,'Godoy Cruz',521,1,0),(15,'San Martin',4526,5,1),(16,'Juan de Dios Videla',752,1,1),(17,'Republica de Siria',665,4,1),(18,'Manuel A. Saez',2996,7,1),(19,'Olaya Pescara de Tomba',1029,4,1);
 
 /*Table structure for table `espacio_curricular` */
 
@@ -322,13 +321,13 @@ insert  into `postgrado`(`id_postgrado`,`nombre_postgrado`,`fk_titulo`,`estado`)
 DROP TABLE IF EXISTS `pre_inscripcion`;
 
 CREATE TABLE `pre_inscripcion` (
-  `id_pre_inscripcion` INT(11) NOT NULL AUTO_INCREMENT,
-  `fk_plan` INT(11) NOT NULL,
-  `fk_alumno` INT(11) NOT NULL,
-  `año` INT(4) DEFAULT NULL,
-  `documentacion` VARCHAR(10) NOT NULL,
-  `fk_sede` INT(11) NOT NULL,
-  `estado` INT(1) DEFAULT '1',
+  `id_pre_inscripcion` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_plan` int(11) NOT NULL,
+  `fk_sede` int(11) DEFAULT NULL,
+  `fk_alumno` int(11) NOT NULL,
+  `anio` int(4) DEFAULT NULL,
+  `documentacion` varchar(10) NOT NULL,
+  `estado` int(1) DEFAULT '1',
   PRIMARY KEY (`id_pre_inscripcion`),
   KEY `fk_plan` (`fk_plan`),
   KEY `fk_alumno` (`fk_alumno`),
@@ -336,11 +335,11 @@ CREATE TABLE `pre_inscripcion` (
   CONSTRAINT `pre_inscripcion_ibfk_1` FOREIGN KEY (`fk_plan`) REFERENCES `plan_de_estudios` (`id_plan`),
   CONSTRAINT `pre_inscripcion_ibfk_2` FOREIGN KEY (`fk_alumno`) REFERENCES `alumno` (`id_alumno`),
   CONSTRAINT `pre_inscripcion_ibfk_3` FOREIGN KEY (`fk_sede`) REFERENCES `sede` (`id_sede`)
-) ENGINE=INNODB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `pre_inscripcion` */
 
-insert  into `pre_inscripcion`(`id_pre_inscripcion`,`fk_plan`,`fk_alumno`,`año`,`documentacion`,`estado`) values (1,1,1,2019,'Completa',1);
+insert  into `pre_inscripcion`(`id_pre_inscripcion`,`fk_plan`,`fk_sede`,`fk_alumno`,`anio`,`documentacion`,`estado`) values (1,1,NULL,1,2019,'Completa',1);
 
 /*Table structure for table `profesor` */
 
