@@ -21,10 +21,10 @@ class ControladorAlumno extends ControladorGeneral {
             $controlador->agregar($parametros);
 
             $parametros = array(
-                "legajo" => $datos["legajo"],
-                "nombre_alumno" => $datos["nombre_alumno"],
-                "apellido_alumno" => $datos["apellido_alumno"],
                 "dni_alumno" => $datos["dni_alumno"],
+                "legajo" => $datos["legajo"],
+                "apellido_alumno" => $datos["apellido_alumno"],
+                "nombre_alumno" => $datos["nombre_alumno"],
                 "telefono" => $datos["telefono"],
                 "email" => $datos["email"]
             );
@@ -98,13 +98,14 @@ class ControladorAlumno extends ControladorGeneral {
             $controlador->modificar($parametros);
 
             $parametros = array(
-                "legajo" => $datos["legajo"],
-                "nombre_alumno" => $datos["nombre_alumno"],
-                "apellido_alumno" => $datos["apellido_alumno"],
                 "dni_alumno" => $datos["dni_alumno"],
+                "legajo" => $datos["legajo"],
+                "apellido_alumno" => $datos["apellido_alumno"],
+                "nombre_alumno" => $datos["nombre_alumno"],
+                "fk_domicilio"=>$datos["id_domicilio"],
                 "telefono" => $datos["telefono"],
                 "email" => $datos["email"],
-                "id_alumno" => $datos["id"]
+                "id_alumno"=>$datos["id_alumno"]
             );
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ACTUALIZAR_ALUMNO, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();

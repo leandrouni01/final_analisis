@@ -11,7 +11,8 @@ $(function () {
         app.bindings = function () {
             $("#agregar").on('click', function (event) { 
                 app.limpiarModal();
-                $("#id").val(0);
+                app.habilitarCampos(false);
+                $("#id_alumno").val(0);
                 $("#tituloModal").html("Nuevo Alumno");
                 $("#modal").modal({show: true});
             });
@@ -37,34 +38,25 @@ $(function () {
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $("#tituloModal").html(" Editar Alumno");
+                app.modificarCampos(this);
+                app.habilitarCampos(false);
                 $("#modal").modal({show: true});   
             });
             
             
 
             $("#cuerpoTabla").on('click', '.eliminar', function (event) {
-                $("#id2").val($(this).attr("data-id"));
-                $("#legajo2").prop('disabled', true);
-                $("#legajo2").val($(this).parent().parent().children().html());
-                $("#nombre2").prop('disabled', true);
-                $("#nombre2").val($(this).parent().parent().children().first().next().html());
-                $("#apellido2").prop('disabled', true);
-                $("#apellido2").val($(this).parent().parent().children().first().next().next().html());
-                $("#dni2").prop('disabled', true);
-                $("#dni2").val($(this).parent().parent().children().first().next().next().next().html());
-                $("#calle2").prop('disabled', true);
-                $("#calle2").val($(this).parent().parent().children().first().next().next().next().next().html());
-                $("#numero2").prop('disabled', true);
-                $("#numero2").val($(this).parent().parent().children().first().next().next().next().next().next().html());
-                $("#localidad2").prop('disabled', true);
-                $("#localidad2").val($(this).parent().parent().children().first().next().next().next().next().next().next().html());
-                $("#tituloModal2").html("¿Desea Eliminar Alumno?");
-                $("#modal2").modal({show: true});  
+                app.modificarCampos(this);
+                app.habilitarCampos(true);
+                $("#tituloModal").html("¿Desea Eliminar Alumno?");
+                $("#guardar").hide();
+                $("#borrar").show();
+                $("#modal").modal({show: true});  
             });
             
             $("#borrar").on('click', function (e) {
-                app.eliminar($("#id2").val());
-                $("#modal2").modal('hide');
+                app.eliminar($("#id_alumno").val());
+                $("#modal").modal('hide');
             });
 
             $("#form").bootstrapValidator({
@@ -143,8 +135,8 @@ $(function () {
             });
         };
 
-        app.buscarAlumnos = function () { //esta funcion lista todas las carreras
-            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=alumno";
+        app.buscarAlumnos = function () { //esta funcion lista todas las alumnos
+            var url = "../../controlador/ruteador/Ruteador.php?accion=listar&Formulario=Alumno";
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -167,6 +159,7 @@ $(function () {
                 $("#alert").html(alerta);
             } else {
                 $("#alert").html('');
+                console.log(data);
                 var linea = "";
                 $.each(data, function (clave, object) {
 
@@ -175,14 +168,14 @@ $(function () {
                             '<td>' + object.nombre + '</td>' +
                             '<td>' + object.apellido + '</td>' +
                             '<td>' + object.dni + '</td>' +
-                            '<td>' + object.calle + '</td>' +
-                            '<td>' + object.numero + '</td>' +
-                            '<td data-fk_localidad="' + object.id_localidad + '">' + object.localidad + '</td>' +
+                            '<td>' + object.calle_domicilio + '</td>' +
+                            '<td data-fk_domicilio="'+object.fk_domicilio+'">' + object.numero_domicilio + '</td>' +
+                            '<td data-fk_localidad="' + object.id_localidad + '">' + object.nombre_localidad + '</td>' +
                             '<td>' + object.correo + '</td>' +
                             '<td>' + object.telefono + '</td>' +
                             '<td>' +
-                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_alumno + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_alumno + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                             '</td>' +
                             '</tr>';
                 });
@@ -201,7 +194,7 @@ $(function () {
                 dataType: 'json',
                 success: function (datosRecibidos) {
                     $("#modal").modal('hide');
-                    app.actualizarTabla(datosRecibidos, $("#id").val());
+                    app.actualizarTabla(datosRecibidos, $("#id_alumno").val());
                     app.limpiarModal();
                     app.alertSave();
                     app.showAlert();
@@ -214,7 +207,7 @@ $(function () {
         };
 
         app.modificar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=alumno";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=Alumno";
             var datosEnviar = $("#form").serialize();
             $.ajax({
                 url: url,
@@ -222,8 +215,8 @@ $(function () {
                 data: datosEnviar,
                 success: function (datosRecibidos) {
                     $("#modal").modal('hide');                   
-                    app.actualizarTabla(datosRecibidos, $("#id").val());
-                    app.listarCombo();
+                    app.actualizarTabla(datosRecibidos, $("#id_alumno").val());
+                    app.limpiarModal();
                     app.alertModif();
                     app.showAlert();
                 },
@@ -237,30 +230,34 @@ $(function () {
         app.actualizarTabla = function (object, id) {
             if (id == 0) {
                 var html = '<tr>' +
-                        '<td>' + object.legajo + '</td>' +
-                        '<td>' + object.nombre + '</td>' +
-                        '<td>' + object.apellido + '</td>' +
-                        '<td>' + object.dni + '</td>' +
-                        '<td>' + object.calle + '</td>' +
-                        '<td>' + object.numero + '</td>' +
-                        '<td data-fk_localidad="' + object.fk_localidad + '">' + object.localidad + '</td>' +
-                        '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
-                        '</td>' +
-                        '</tr>';
+                            '<td>' + object.legajo + '</td>' +
+                            '<td>' + object.nombre + '</td>' +
+                            '<td>' + object.apellido + '</td>' +
+                            '<td>' + object.dni + '</td>' +
+                            '<td>' + object.calle_domicilio + '</td>' +
+                            '<td data-fk_domicilio="'+object.fk_domicilio+'">' + object.numero_domicilio + '</td>' +
+                            '<td data-fk_localidad="' + object.id_localidad + '">' + object.nombre_localidad + '</td>' +
+                            '<td>' + object.correo + '</td>' +
+                            '<td>' + object.telefono + '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_alumno + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_alumno + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '</td>' +
+                            '</tr>';
                 $("#cuerpoTabla").append(html);
                 
             } else {
                 //Modifico un Alumno existente, busco la fila por el id.
                 var fila = $("#cuerpoTabla").find("[data-id='" + id + "']").parent().parent();
                 var html = '<td>' + $("#legajo").val() + '</td>' +
-                        '<td>' + $("#nombre").val() + '</td>' +
-                        '<td>' + $("#apellido").val() + '</td>' +
-                        '<td>' + $("#dni").val() + '</td>' +
-                        '<td>' + $("#calle").val() + '</td>' +
-                        '<td>' + $("#numero").val() + '</td>' +
-                        '<td data-fk_localidad="' + $("#combo").find(':selected').val() + '">' + $("#combo").find(':selected').text() + '</td>' +
+                        '<td>' + $("#nombre_alumno").val() + '</td>' +
+                        '<td>' + $("#apellido_alumno").val() + '</td>' +
+                        '<td>' + $("#dni_alumno").val() + '</td>' +
+                        '<td>' + $("#calle_domicilio").val() + '</td>' +
+                        '<td data-fk_domicilio="'+$("#id_domicilio").val()+'">' + $("#numero_domicilio").val() + '</td>' +
+                        '<td data-fk_localidad="' + $("#selectLocalidad").find(':selected').val() + '">' + $("#selectLocalidad").find(':selected').text() + '</td>' +
+                        '<td>' + $("#email").val() + '</td>' +
+                        '<td>' + $("#telefono").val() + '</td>' +
                         '<td>' +
                         '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
                         '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
@@ -292,27 +289,47 @@ $(function () {
         };
 
         app.limpiarModal = function () {//funcion para limpiar el modal
-            $("#id").val(0);
+            $("#id_alumno").val(0);
+            $("#id_domicilio").val(0);
             $("#legajo").val('');
-            $("#nombre").val('');
-            $("#apellido").val('');
-            $("#dni").val('');
-            $("#calle").val('');
-            $("#numero").val('');
+            $("#nombre_alumno").val('');
+            $("#apellido_alumno").val('');
+            $("#dni_alumno").val('');
+            $("#calle_domicilio").val('');
+            $("#numero_domicilio").val('');
+            $("#telefono").val('');
+            $("#email").val('');
+            $("#borrar").hide();
+            $("#guardar").show();
             app.listarLocalidades();
+            app.habilitarCampos(false);
         };
         
-        app.modificarCampos= function(linea){
-            $("#id").val($(linea).attr("data-id"));       
-            $("#legajo").val($(linea).parent().parent().children().html());              
-            $("#nombre").val($(linea).parent().parent().children().first().next().html());
-            $("#apellido").val($(linea).parent().parent().children().first().next().next().html());
-            $("#dni").val($(linea).parent().parent().children().first().next().next().next().html());
-            $("#calle").val($(linea).parent().parent().children().first().next().next().next().next().html());
-            $("#numero").val($(linea).parent().parent().children().first().next().next().next().next().next().html());
-            $("#selectLocalidad").val($(linea).parent().parent().children().first().next().next().next().next().next().next().attr("data-id_localidad"));
-            $("#numero").val($(linea).parent().parent().children().first().next().next().next().next().next().html());
-            $("#numero").val($(linea).parent().parent().children().first().next().next().next().next().next().html());
+        app.habilitarCampos= function(estado){      
+            $("#legajo").prop("disabled",estado);          
+            $("#nombre_alumno").prop("disabled",estado);
+            $("#apellido_alumno").prop("disabled",estado);
+            $("#dni_alumno").prop("disabled",estado);
+            $("#calle_domicilio").prop("disabled",estado);
+            $("#numero_domicilio").prop("disabled",estado);
+            $("#selectLocalidad").prop("disabled",estado);
+            $("#telefono").prop("disabled",estado);
+            $("#email").prop("disabled",estado);
+        };
+
+        
+        app.modificarCampos= function(boton){
+            $("#id_alumno").val($(boton).attr("data-id"));       
+            $("#legajo").val($(boton).parent().parent().children().html());              
+            $("#nombre_alumno").val($(boton).parent().parent().children().first().next().html());
+            $("#apellido_alumno").val($(boton).parent().parent().children().first().next().next().html());
+            $("#dni_alumno").val($(boton).parent().parent().children().first().next().next().next().html());
+            $("#calle_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().html());
+            $("#numero_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().next().html());
+            $("#selectLocalidad").val($(boton).parent().parent().children().first().next().next().next().next().next().next().attr("data-fk_localidad"));
+            $("#telefono").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().next().html());
+            $("#email").val($(boton).parent().parent().children().first().next().next().next().next().next().next().next().html());
+            $("#id_domicilio").val($(boton).parent().parent().children().first().next().next().next().next().next().attr("data-fk_domicilio"));
         };
 
         app.init();
