@@ -157,6 +157,7 @@
                         <th>Apellido</th>
                         <th>DNI</th>
                         <th>Carrera</th>
+                        <th>Sede</th>
                         <th>Ciclo Lectivo</th>
                         <th>Documentacion</th>
                         <th><span class="glyphicon glyphicon-cog"></span> Acciones</th>
@@ -206,7 +207,11 @@
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <input id="textBuscaAlumno" type="text" class="form-control" placeholder="Escriba legajo del alumno..">
+                                    <input class="form-control" type="text" maxlength="8" pattern="^\d{7,8}$" id="textBuscaAlumno" 
+                                           name="textBuscaAlumno" placeholder="Buscar DNI del alumno" 
+                                                       data-bv-notempty="true"
+                                                       data-bv-notempty-message="Debes completar el DNI"
+                                                       data-bv-regexp-message="El DNI debe ser de 7 u 8 numeros">
                                     
                                     <span class="input-group-btn">
                                         <button type="button" id="buscarAlumno"
@@ -264,14 +269,19 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group" id="ciclo_lectivo">
-                                        <label class="control-label">Ciclo Lectivo</label>
+                                    <div class="form-group" id="dia">
+                                        <label class="control-label" for="selectDocumentacion">Documentación</label>
                                         <div>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i
-                                                        class="glyphicon glyphicon-calendar"></i></span>
-                                                <input class="form-control" type="text" id="ciclo" name="ciclo_lectivo"
-                                                       data-bv-notempty="true">
+                                                        class="glyphicon glyphicon-book"></i></span>
+                                                <select id="selectDocumentacion" name="documentacion" class="form-control"
+                                                        data-bv-notempty="true"
+                                                        data-bv-notempty-message="Debes seleccionar una opción">
+                                                    <option selected disabled value="">Selecione una opción</option>
+                                                    <option value="Completa">Completa</option>
+                                                    <option value="Incompleta">Incompleta</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -308,19 +318,27 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group" id="dia">
-                                        <label class="control-label" for="selectDocumentacion">Documentación</label>
+                                    <div class="form-group">
+                                        <label class="control-label" for="selectSede">Carrera</label>
+                                        <div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                                <select id="selectSede" name="fk_sede" class="form-control"
+                                                        data-bv-notempty="true"
+                                                        data-bv-notempty-message="Debes seleccionar una Sede">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group" id="ciclo_lectivo">
+                                        <label class="control-label">Ciclo Lectivo</label>
                                         <div>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i
-                                                        class="glyphicon glyphicon-book"></i></span>
-                                                <select id="selectDocumentacion" name="documentacion" class="form-control"
-                                                        data-bv-notempty="true"
-                                                        data-bv-notempty-message="Debes seleccionar una opción">
-                                                    <option selected disabled value="">Selecione una opción</option>
-                                                    <option value="completa">Completa</option>
-                                                    <option value="incompleta">Incompleta</option>
-                                                </select>
+                                                        class="glyphicon glyphicon-calendar"></i></span>
+                                                <input class="form-control" type="text" id="ciclo" name="ciclo_lectivo"
+                                                       data-bv-notempty="true">
                                             </div>
                                         </div>
                                     </div>
