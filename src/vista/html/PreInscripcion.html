@@ -207,7 +207,10 @@
                             <div class="col-md-3"></div>
                             <div class="col-md-6">
                                 <div class="input-group" id="buscadorAlumno">
-                                    <input id="textBuscaAlumno" type="text" class="form-control" placeholder="Escriba legajo del alumno..">
+                                     <input class="form-control" type="text" maxlength="8" pattern="^\d{7,8}$" 
+                                            id="textBuscaAlumno" name="textBuscaAlumno" placeholder="Escriba DNI del alumno.." 
+                                                       data-bv-excluded="false"
+                                                       data-bv-regexp-message="El DNI debe ser de 7 u 8 numeros">
                                     
                                     <span class="input-group-btn">
                                         <button type="button" id="buscarAlumno"
@@ -271,7 +274,7 @@
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i
                                                         class="glyphicon glyphicon-calendar"></i></span>
-                                                <input class="form-control" type="text" id="ciclo" name="ciclo_lectivo"
+                                                <input class="form-control" type="text" disabled id="ciclo" name="ciclo_lectivo"
                                                        data-bv-notempty="true">
                                             </div>
                                         </div>

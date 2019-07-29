@@ -3,8 +3,6 @@ $(function () {
 
     (function (app) {
         app.init = function () {
-            $("#sede").hide();
-            $("#borrar").hide();
             app.listarPlanes();
             app.rellenarCiclo();
             app.buscarPreInscripciones();
@@ -50,7 +48,6 @@ $(function () {
             $("#cuerpoTabla").on('click', '.editar', function (event) {
                 $("#tituloModal").html("Editar Pre-inscripción");
                 app.modificarCampos(this);
-                $("#modal").modal({show: true});   
             });
             
             
@@ -61,7 +58,6 @@ $(function () {
                 app.habilitadorCampos(true);
                 $("#borrar").show();
                 $("#guardar").hide();
-                $("#modal").modal({show:true});
             });
             
             $("#borrar").on('click', function (e) {
@@ -134,7 +130,7 @@ $(function () {
         };
         
         app.busqueda = function (parametros) {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=alumno";
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=PreInscripcion";
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -366,22 +362,25 @@ $(function () {
         app.rellenarCiclo = () => {
           const año = new Date();
           $("#ciclo").val(año.getFullYear());
-          $("#ciclo").prop('disabled', true);
         };
         
         app.modificarCampos= function(linea){
+            app.limpiarModal();
             $("#id_pre_inscripcion").val($(linea).attr("data-id")); 
             $("#id_alumno").val($(linea).parent().parent().children().first().attr("data-id_alumno"));
             $("#legajo").val($(linea).parent().parent().children().html());              
             $("#nombre_alumno").val($(linea).parent().parent().children().first().next().html());
             $("#apellido_alumno").val($(linea).parent().parent().children().first().next().next().html());
             $("#dni_alumno").val($(linea).parent().parent().children().first().next().next().next().html());
-            $("#selectPlan").val($(linea).parent().parent().children().first().next().next().next().next().attr("data-fk_plan"));
-            $("#selectPlan").change();
-            setTimeout(()=>{
-                $("#selectSede").val($(linea).parent().parent().children().first().next().next().next().next().next().attr("data-fk_sede"));
-                $("#sede").show();
-            },90);
+            setTimeout( () => {
+                $("#selectPlan").val($(linea).parent().parent().children().first().next().next().next().next().attr("data-fk_plan"));
+                $("#selectPlan").change();
+                setTimeout( () => {
+                    $("#selectSede").val($(linea).parent().parent().children().first().next().next().next().next().next().attr("data-fk_sede"));
+                    $("#sede").show();
+                    $("#modal").modal({show: true});   
+                },90);
+            },60)
             $("#ciclo").val($(linea).parent().parent().children().first().next().next().next().next().next().next().html());
             $("#selectDocumentacion").val($(linea).parent().parent().children().first().next().next().next().next().next().next().next().html());
             $("#buscadorAlumno").hide();
@@ -406,6 +405,7 @@ $(function () {
             $("#borrar").hide();
             $("#guardar").show();
             $("#sede").hide();
+            $("#buscadorAlumno").show   ();
             app.listarPlanes();
             app.rellenarCiclo();
             app.habilitadorCampos(false);

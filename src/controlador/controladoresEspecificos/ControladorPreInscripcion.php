@@ -74,7 +74,15 @@ class ControladorPreInscripcion extends ControladorGeneral{
     }
 
     public function buscar($datos) {
-        
+        try {
+            $parametros = array('valor' => $datos['textBusca']);
+            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCADOR_ALUMNO);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia($query);
+            $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
+            return $array;
+        } catch (Exception $e) {
+            echo "Failed: " . $e->getMessage();
+        }
     }
 
     public function eliminar($datos) {

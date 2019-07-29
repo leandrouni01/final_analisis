@@ -164,4 +164,6 @@ interface DbSentencias {
     const BUSCAR_PLANES_DE_ESTUDIO = "SELECT carrera.`nombre_carrera`,plan_de_estudios.`id_plan`,plan_de_estudios.`resolucion` FROM plan_de_estudios INNER JOIN carrera ON (fk_carrera=carrera.`id_carrera`) WHERE id_plan IN (SELECT MAX(id_plan) FROM plan_de_estudios GROUP BY fk_carrera) AND estado_plan=1;";
     const BUSCAR_SEDES = "SELECT sede.`id_sede`,sede.`nombre_sede` FROM espacio_curricular INNER JOIN materia ON (fk_materia=materia.`id_materia`) INNER JOIN curso ON (fk_curso=curso.`id_curso`) INNER JOIN sede ON (fk_sede=sede.`id_sede`) WHERE fk_plan_de_estudio=? GROUP BY nombre_sede;";
     const BUSCAR_ALUMNO = "SELECT alumno.`id_alumno`,alumno.`apellido`,alumno.`nombre`,alumno.`dni`,alumno.`legajo` FROM alumno WHERE alumno.`dni`=? AND alumno.`estado`=1;";
-    }
+    const BUSCADOR_ALUMNO= "SELECT alumno.`id_alumno`,alumno.`legajo`,alumno.`apellido`,sede.nombre_sede,sede.numero_sede,alumno.`nombre`,alumno.dni,carrera.`nombre_carrera`,plan_de_estudios.`resolucion`,pre_inscripcion.* FROM pre_inscripcion INNER JOIN alumno ON (fk_alumno=alumno.`id_alumno`) INNER JOIN plan_de_estudios ON (fk_plan=plan_de_estudios.`id_plan`) INNER JOIN carrera ON (fk_carrera=carrera.`id_carrera`) INNER JOIN sede ON (fk_sede=id_sede) WHERE pre_inscripcion.estado = 1 AND alumno.apellido LIKE '?%' OR alumno.dni LIKE '?%' OR alumno.legajo LIKE '?%'OR sede.nombre_sede LIKE '?%'OR carrera.nombre_carrera LIKE '?%';"; 
+    
+}
