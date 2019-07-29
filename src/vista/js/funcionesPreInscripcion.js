@@ -192,7 +192,7 @@ $(function () {
             $('#selectSede').prepend("<option selected disabled value=''>Seleccione la sede</option>");
 
             $.each(data, function (clave, value) {
-                $('#selectSede').append("<option value='" + value.id_sede + "'>" + value.nombre_sede + "</option>");
+                $('#selectSede').append("<option value='" + value.id_sede + "'>" + value.nombre_sede + ' (Número:' + value.numero_sede + ')' + "</option>");
             });
         };
 

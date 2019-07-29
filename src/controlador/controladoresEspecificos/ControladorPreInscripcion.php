@@ -76,7 +76,7 @@ class ControladorPreInscripcion extends ControladorGeneral{
     public function buscar($datos) {
         try {
             $parametros = array('valor' => $datos['textBusca']);
-            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCADOR_ALUMNO);
+            $query = str_replace("?", $parametros['valor'] . "", DbSentencias::BUSCADOR_PRE_INSCRIPCION);
             $resultado = $this->refControladorPersistencia->ejecutarSentencia($query);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
