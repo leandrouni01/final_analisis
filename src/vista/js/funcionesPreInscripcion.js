@@ -17,6 +17,14 @@ $(function () {
                 $("#modal").modal({show: true});
             });
             
+            $("#selectPlan").on('change', () => {
+                app.listarSedes($("#selectPlan").find(':selected').val());
+            });
+            
+            $("#buscarAlumno").on('click', (e) =>{
+                app.buscarAlumno($("#textBuscaAlumno").val());
+            });
+            
             $("#textBusca").keyup(function (e) {
                 var parametros = $(this).val();
                 if (parametros == "") {
@@ -91,6 +99,31 @@ $(function () {
             $("#alerta").html(alerta);
         };
         
+        app.buscarAlumno = (dni) => {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscarAlumno&Formulario=PreInscripcion";
+            var datosEnviar = {"dni": dni};
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datosEnviar,
+                success: function (data) {
+                    app.rellenarAlumno(data);
+                },
+                error: function () {
+                    alert('error buscar alumno');
+                }
+            });
+        };
+        
+        app.rellenarAlumno = function (data) {
+            $("#id_alumno").val(data.id_alumno);
+            $("#legajo").val(data.legajo);
+            $("#nombre_alumno").val(data.nombre);
+            $("#apellido_alumno").val(data.apellido);
+            $("#dni_alumno").val(data.dni);
+        };
+        
         app.busqueda = function (parametros) {
             var url = "../../controlador/ruteador/Ruteador.php?accion=buscar&Formulario=alumno";
             $.ajax({
@@ -117,7 +150,7 @@ $(function () {
                     app.rellenarPlanes(data);
                 },
                 error: function () {
-                    alert('error buscar');
+                    alert('error buscar carreras');
                 }
             });
         };
@@ -128,6 +161,33 @@ $(function () {
 
             $.each(data, function (clave, value) {
                 $('#selectPlan').append("<option value='" + value.id_plan + "'>" + value.nombre_carrera + " (Resolucion:" + value.resolucion + ")</option>");
+            });
+        };
+
+        app.listarSedes = function (plan) {
+            var url = "../../controlador/ruteador/Ruteador.php?accion=buscarSedes&Formulario=PreInscripcion";
+            var datosEnviar = {"fk_plan": $("#selectPlan").find(':selected').val()};
+            $.ajax({
+                url: url,
+                method: 'POST',
+                dataType: 'json',
+                data: datosEnviar,
+                success: function (data) {
+                    console.log(data);
+                    app.rellenarSedes(data);
+                },
+                error: function () {
+                    alert('error buscar sedes');
+                }
+            });
+        };
+
+        app.rellenarSedes = function (data) {
+            $('#selectSede').html("");
+            $('#selectSede').prepend("<option selected disabled value=''>Seleccione la sede</option>");
+
+            $.each(data, function (clave, value) {
+                $('#selectSede').append("<option value='" + value.id_sede + "'>" + value.nombre_sede + "</option>");
             });
         };
 
@@ -164,7 +224,8 @@ $(function () {
                             '<td>' + object.apellido + '</td>' +
                             '<td>' + object.dni + '</td>' +
                             '<td data-fk_plan="' + object.id_plan + '">' + object.nombre_carrera + ' (Resolucion:"' + object.resolucion + '")</td>' +
-                            '<td>' + object.ciclo_lectivo + '</td>' +
+                            '<td data-fk_sede="' + object.id_sede + '">' + object.nombre_sede + '</td>' +
+                            '<td>' + object.anio + '</td>' +
                             '<td>' + object.documentacion + '</td>' +
                             '<td>' +
                             '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
@@ -181,11 +242,13 @@ $(function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=agregar&Formulario=PreInscripcion";
             $("#ciclo").prop('disabled', false);
             var datosEnviar = {
-                "id_alumno": $("#id_alumno").val(),
+                "fk_alumno": $("#id_alumno").val(),
                 "fk_plan": $("#selectPlan").find(':selected').val(),
+                "fk_sede": $("#selectSede").find(':selected').val(),
                 "documentacion": $("#selectDocumentacion").find(':selected').val(),
                 "ciclo_lectivo": $("#ciclo").val()
             };
+            console.log(datosEnviar.fk_alumno,datosEnviar.fk_plan,datosEnviar.documentacion,datosEnviar.ciclo_lectivo);
             $("#ciclo").prop('disabled', true);
             $.ajax({
                 url: url,
@@ -235,7 +298,8 @@ $(function () {
                             '<td>' + object.apellido + '</td>' +
                             '<td>' + object.dni + '</td>' +
                             '<td data-fk_plan="' + object.id_plan + '">' + object.nombre_carrera + ' (Resolucion:"' + object.resolucion + '")</td>' +
-                            '<td>' + object.ciclo_lectivo + '</td>' +
+                            '<td data-fk_sede="' + object.id_sede + '">' + object.nombre_sede + '</td>' +
+                            '<td>' + object.anio + '</td>' +
                             '<td>' + object.documentacion + '</td>' +
                             '<td>' +
                             '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
@@ -252,6 +316,7 @@ $(function () {
                         '<td>' + $("#apellido_alumno").val() + '</td>' +
                         '<td>' + $("#dni_alumno").val() + '</td>' +
                         '<td data-fk_plan="' + $("#selectPlan").find(':selected').val() + '">' + $("#selectPlan").find(':selected').text() + '</td>' +
+                        '<td data-fk_sede="' + $("#selectSede").find(':selected').val() + '">' + $("#selectSede").find(':selected').text() + '</td>' +
                         '<td>' + $("#ciclo").val() + '</td>' +
                         '<td>' + $("#selectDocumentacion").find(':selected').text() + '</td>' +
                         
@@ -308,6 +373,7 @@ $(function () {
             $("#apellido_alumno").prop('disabled', condicion);
             $("#dni_alumno").prop('disabled', condicion);
             $("#selectPlan").prop('disabled', condicion);
+            $("#selectSede").prop('disabled', condicion);
             $("#selectDocumentacion").prop('disabled', condicion);
             $("#ciclo").prop('disabled', condicion);
         }
@@ -319,6 +385,7 @@ $(function () {
             $("#apellido_alumno").val('');
             $("#dni_alumno").val('');
             $("#selectPlan").val('');
+            $("#selectSede").val('');
             $("#selectDocumentacion").val('');
             $("#ciclo").val('');
             app.listarPlanes();
