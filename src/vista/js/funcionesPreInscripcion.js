@@ -3,6 +3,8 @@ $(function () {
 
     (function (app) {
         app.init = function () {
+            $("#sede").hide();
+            $("#borrar").hide();
             app.listarPlanes();
             app.rellenarCiclo();
             app.buscarPreInscripciones();
@@ -18,7 +20,8 @@ $(function () {
             });
             
             $("#selectPlan").on('change', () => {
-                app.listarSedes($("#selectPlan").find(':selected').val());
+                app.listarSedes();
+                $("#sede").show();
             });
             
             $("#buscarAlumno").on('click', (e) =>{
@@ -45,7 +48,7 @@ $(function () {
 
 
             $("#cuerpoTabla").on('click', '.editar', function (event) {
-                $("#tituloModal").html(" Editar Pre-inscripción");
+                $("#tituloModal").html("Editar Pre-inscripción");
                 app.modificarCampos(this);
                 $("#modal").modal({show: true});   
             });
@@ -55,9 +58,10 @@ $(function () {
             $("#cuerpoTabla").on('click', '.eliminar', function (event) {
                 $("#tituloModal").html("¿Está seguro de que desea eliminar este horario?");
                 app.modificarCampos(this);
-                app.habilitadorCampos(false);
+                app.habilitadorCampos(true);
                 $("#borrar").show();
                 $("#guardar").hide();
+                $("#modal").modal({show:true});
             });
             
             $("#borrar").on('click', function (e) {
@@ -67,7 +71,12 @@ $(function () {
 
             $("#form").bootstrapValidator({
                 excluded: []
-            });      
+            });
+            
+            $("#modal").on('hide.bs.modal',()=>{
+               app.limpiarModal();
+               $("#form").bootstrapValidator('resetForm', true);
+            });
 
         };
                
@@ -164,7 +173,7 @@ $(function () {
             });
         };
 
-        app.listarSedes = function (plan) {
+        app.listarSedes = function () {
             var url = "../../controlador/ruteador/Ruteador.php?accion=buscarSedes&Formulario=PreInscripcion";
             var datosEnviar = {"fk_plan": $("#selectPlan").find(':selected').val()};
             $.ajax({
@@ -223,13 +232,13 @@ $(function () {
                             '<td>' + object.nombre + '</td>' +
                             '<td>' + object.apellido + '</td>' +
                             '<td>' + object.dni + '</td>' +
-                            '<td data-fk_plan="' + object.id_plan + '">' + object.nombre_carrera + ' (Resolucion:"' + object.resolucion + '")</td>' +
-                            '<td data-fk_sede="' + object.id_sede + '">' + object.nombre_sede + '</td>' +
+                            '<td data-fk_plan="' + object.fk_plan + '">' + object.nombre_carrera + ' (Resolucion:"' + object.resolucion + '")</td>' +
+                            '<td data-fk_sede="' + object.fk_sede + '">' + object.nombre_sede +'  (Numero:'+object.numero_sede+')' + '</td>' +
                             '<td>' + object.anio + '</td>' +
                             '<td>' + object.documentacion + '</td>' +
                             '<td>' +
-                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_pre_inscripcion + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_pre_inscripcion + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                             '</td>' +
                             '</tr>';
                 });
@@ -248,7 +257,7 @@ $(function () {
                 "documentacion": $("#selectDocumentacion").find(':selected').val(),
                 "ciclo_lectivo": $("#ciclo").val()
             };
-            console.log(datosEnviar.fk_alumno,datosEnviar.fk_plan,datosEnviar.documentacion,datosEnviar.ciclo_lectivo);
+            console.log(datosEnviar);
             $("#ciclo").prop('disabled', true);
             $.ajax({
                 url: url,
@@ -270,16 +279,21 @@ $(function () {
         };
 
         app.modificar = function () {
-            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=alumno";
-            var datosEnviar = $("#form").serialize();
+            var url = "../../controlador/ruteador/Ruteador.php?accion=modificar&Formulario=PreInscripcion";
+            var datosEnviar = {
+              'fk_plan': $("#selectPlan").val(),
+              'fk_sede': $("#selectSede").val(),
+              'documentacion': $("#selectDocumentacion").val(),
+              'id_pre_inscripcion': $("#id_pre_inscripcion").val()
+            };
+            console.log(datosEnviar);
             $.ajax({
                 url: url,
                 type: 'POST',
                 data: datosEnviar,
                 success: function (datosRecibidos) {
-                    $("#modal").modal('hide');                   
-                    app.actualizarTabla(datosRecibidos, $("#id").val());
-                    app.listarCombo();
+                    app.actualizarTabla(datosRecibidos, $("#id_pre_inscripcion").val());
+                    $("#modal").modal('hide');
                     app.alertModif();
                     app.showAlert();
                 },
@@ -297,40 +311,39 @@ $(function () {
                             '<td>' + object.nombre + '</td>' +
                             '<td>' + object.apellido + '</td>' +
                             '<td>' + object.dni + '</td>' +
-                            '<td data-fk_plan="' + object.id_plan + '">' + object.nombre_carrera + ' (Resolucion:"' + object.resolucion + '")</td>' +
-                            '<td data-fk_sede="' + object.id_sede + '">' + object.nombre_sede + '</td>' +
+                            '<td data-fk_plan="' + object.fk_plan + '">' + object.nombre_carrera + ' (Resolucion:"' + object.resolucion + '")</td>' +
+                            '<td data-fk_sede="' + object.fk_sede + '">' + object.nombre_sede +'  (Numero:'+object.numero_sede+')' + '</td>' +
                             '<td>' + object.anio + '</td>' +
                             '<td>' + object.documentacion + '</td>' +
                             '<td>' +
-                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + object.id_pre_inscripcion + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + object.id_pre_inscripcion + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
                             '</td>' +
                             '</tr>';
                 $("#cuerpoTabla").append(html);
                 
             } else {
-                //Modifico un Alumno existente, busco la fila por el id.
+                //Modifico una preinscripcion existente, busco la fila por el id.
                 var fila = $("#cuerpoTabla").find("[data-id='" + id + "']").parent().parent();
-                var html = '<td>' + $("#legajo").val() + '</td>' +
-                        '<td>' + $("#nombre_alumno").val() + '</td>' +
-                        '<td>' + $("#apellido_alumno").val() + '</td>' +
-                        '<td>' + $("#dni_alumno").val() + '</td>' +
-                        '<td data-fk_plan="' + $("#selectPlan").find(':selected').val() + '">' + $("#selectPlan").find(':selected').text() + '</td>' +
-                        '<td data-fk_sede="' + $("#selectSede").find(':selected').val() + '">' + $("#selectSede").find(':selected').text() + '</td>' +
-                        '<td>' + $("#ciclo").val() + '</td>' +
-                        '<td>' + $("#selectDocumentacion").find(':selected').text() + '</td>' +
-                        
-                        '<td>' +
-                        '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
-                        '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
-                        '</td>';
+                var html = '<td data-id_alumno="'+$("#id_alumno").val()+'">' + $("#legajo").val() + '</td>' +
+                            '<td>' + $("#nombre_alumno").val() + '</td>' +
+                            '<td>' + $("#apellido_alumno").val() + '</td>' +
+                            '<td>' + $("#dni_alumno").val() + '</td>' +
+                            '<td data-fk_plan="' + $("#selectPlan").val() + '">' + $("#selectPlan").find(":selected").html() + '</td>' +
+                            '<td data-fk_sede="' + $("#selectSede").val() + '">' + $("#selectSede").find(":selected").html() + '</td>' +
+                            '<td>' + $("#ciclo").val() + '</td>' +
+                            '<td>' + $("#selectDocumentacion").val() + '</td>' +
+                            '<td>' +
+                            '<button type="button" class="btn btn-sm btn-warning pull-left editar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span> Editar</button>' + //data- : crea un metadato de la clave primaria.
+                            '<button type="button" class="btn btn-sm btn-danger pull-right eliminar" data-id="' + id + '" data-toggle="tooltip" data-placement="left" title="Eliminar registro"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>' + //metadato: informacion adicional de los datos. 
+                            '</td>';
                 fila.html(html);
             }
         };
 
         app.eliminar = function (id) {
             var url = "../../controlador/ruteador/Ruteador.php?accion=eliminar&Formulario=PreInscripcion";
-            var datosEnviar = {id: id};
+            var datosEnviar = {'id_preinscripcion': id};
             $.ajax({
                 url: url,
                 method: 'POST',
@@ -357,26 +370,28 @@ $(function () {
         };
         
         app.modificarCampos= function(linea){
-            $("#id_pre_inscripcion").val($(linea).attr("data-id"));       
+            $("#id_pre_inscripcion").val($(linea).attr("data-id")); 
+            $("#id_alumno").val($(linea).parent().parent().children().first().attr("data-id_alumno"));
             $("#legajo").val($(linea).parent().parent().children().html());              
             $("#nombre_alumno").val($(linea).parent().parent().children().first().next().html());
             $("#apellido_alumno").val($(linea).parent().parent().children().first().next().next().html());
             $("#dni_alumno").val($(linea).parent().parent().children().first().next().next().next().html());
-            $("#selectPlan").val($(linea).parent().parent().children().first().next().next().next().next().html());
-            $("#ciclo").val($(linea).parent().parent().children().first().next().next().next().next().next().html());
-            $("#selectDocumentacion").val($(linea).parent().parent().children().first().next().next().next().next().next().next().attr("data-id_localidad"));
+            $("#selectPlan").val($(linea).parent().parent().children().first().next().next().next().next().attr("data-fk_plan"));
+            $("#selectPlan").change();
+            setTimeout(()=>{
+                $("#selectSede").val($(linea).parent().parent().children().first().next().next().next().next().next().attr("data-fk_sede"));
+                $("#sede").show();
+            },90);
+            $("#ciclo").val($(linea).parent().parent().children().first().next().next().next().next().next().next().html());
+            $("#selectDocumentacion").val($(linea).parent().parent().children().first().next().next().next().next().next().next().next().html());
+            $("#buscadorAlumno").hide();
         };
 
         app.habilitadorCampos = (condicion) => {
-            $("#legajo").prop('disabled', condicion);
-            $("#nombre_alumno").prop('disabled', condicion);
-            $("#apellido_alumno").prop('disabled', condicion);
-            $("#dni_alumno").prop('disabled', condicion);
             $("#selectPlan").prop('disabled', condicion);
             $("#selectSede").prop('disabled', condicion);
             $("#selectDocumentacion").prop('disabled', condicion);
-            $("#ciclo").prop('disabled', condicion);
-        }
+        };
         
         app.limpiarModal = function () {//funcion para limpiar el modal
             $("#id_pre_inscripcion").val(0);
@@ -385,11 +400,15 @@ $(function () {
             $("#apellido_alumno").val('');
             $("#dni_alumno").val('');
             $("#selectPlan").val('');
-            $("#selectSede").val('');
+            $("#selectSede").html('');
             $("#selectDocumentacion").val('');
             $("#ciclo").val('');
+            $("#borrar").hide();
+            $("#guardar").show();
+            $("#sede").hide();
             app.listarPlanes();
             app.rellenarCiclo();
+            app.habilitadorCampos(false);
         };
         
         app.init();

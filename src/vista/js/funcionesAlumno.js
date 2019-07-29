@@ -3,6 +3,7 @@ $(function () {
 
     (function (app) {
         app.init = function () {
+            $("#borrar").hide();
             app.listarLocalidades();
             app.buscarAlumnos();
             app.bindings();

@@ -81,12 +81,7 @@ class ControladorPreInscripcion extends ControladorGeneral{
         try {
             $this->refControladorPersistencia->iniciarTransaccion();
             $parametros = [
-                "fk_plan" => $datos["fk_plan"],
-                "fk_sede" => $datos["fk_sede"],
-                "fk_alumno" => $datos["fk_alumno"],
-                "anio" => $datos["ciclo_lectivo_horario"],
-                "documentacion" => $datos["documentacion"],
-                "id_preinscripcion" => $datos["id_pre_inscripcion"]
+                "id_preinscripcion" => $datos["id_preinscripcion"]
             ];
             $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::ELIMINAR_PRE_INSCRIPCION, $parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
@@ -112,8 +107,6 @@ class ControladorPreInscripcion extends ControladorGeneral{
             $parametros = [
                 "fk_plan" => $datos["fk_plan"],
                 "fk_sede" => $datos["fk_sede"],
-                "fk_alumno" => $datos["fk_alumno"],
-                "anio" => $datos["ciclo_lectivo_horario"],
                 "documentacion" => $datos["documentacion"],
                 "id_preinscripcion" => $datos["id_pre_inscripcion"]
             ];
