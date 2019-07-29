@@ -10,15 +10,15 @@ class ControladorPreInscripcion extends ControladorGeneral{
     
     public function agregar($datos) {
         try{
-            $this->refControladorPersistencia->iniciarTransaccion();
+            $this->refControladorPersistencia->inciciarTransaccion();
             $parametros= [
                 "fk_plan"=>$datos["fk_plan"],
-                "fk_sede" => $datos["fk_sede"],
+                "fk_sede"=>$datos["fk_sede"],
                 "fk_alumno"=>$datos["fk_alumno"],
-                "anio"=>$datos["ciclo_lectivo"],
+                "anio"=>$datos["ciclo_lectivo_horario"],
                 "documentacion"=>$datos["documentacion"]
             ];
-            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_PRE_INSCRIPCION,$parametros);
+            $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::INSERTAR_PRE_ISNCRIPCION,$parametros);
             $this->refControladorPersistencia->confirmarTransaccion();
             return $this->buscarUltimaPreinscripcion();
         } catch (Exception $e) {
@@ -30,7 +30,7 @@ class ControladorPreInscripcion extends ControladorGeneral{
     public function buscarAlumno($datos){
         try{
             $parametros=[
-              "dni"=>$datos["dni"]
+              "legajo"=>$datos["legajo"]
             ];
             $resultado= $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_ALUMNO,$parametros);
             $array= $resultado->fetch(PDO::FETCH_ASSOC);
@@ -45,7 +45,7 @@ class ControladorPreInscripcion extends ControladorGeneral{
             $parametros= [
                 "fk_plan"=>$datos["fk_plan"]
             ];
-            $resultado=$this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_SEDES,$parametros);
+            $resultado=$this->refControladorPersistencia->ejecutarSentencia(BUSCAR_SEDES,$parametros);
             $array= $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
         } catch (Exception $e) {
@@ -55,7 +55,7 @@ class ControladorPreInscripcion extends ControladorGeneral{
     
     public function buscarPlanes() {
         try {
-            $resultado = $this->refControladorPersistencia->ejecutarSentencia(DbSentencias::BUSCAR_PLANES_DE_ESTUDIO);
+            $resultado = $this->refControladorPersistencia->ejecutarSentencia(BUSCAR_PLANES_DE_ESTUDIO);
             $array = $resultado->fetchAll(PDO::FETCH_ASSOC);
             return $array;
         } catch (Exception $e) {
@@ -79,7 +79,7 @@ class ControladorPreInscripcion extends ControladorGeneral{
 
     public function eliminar($datos) {
         try {
-            $this->refControladorPersistencia->iniciarTransaccion();
+            $this->refControladorPersistencia->inciciarTransaccion();
             $parametros = [
                 "fk_plan" => $datos["fk_plan"],
                 "fk_sede" => $datos["fk_sede"],
@@ -108,7 +108,7 @@ class ControladorPreInscripcion extends ControladorGeneral{
 
     public function modificar($datos) {
         try {
-            $this->refControladorPersistencia->iniciarTransaccion();
+            $this->refControladorPersistencia->inciciarTransaccion();
             $parametros = [
                 "fk_plan" => $datos["fk_plan"],
                 "fk_sede" => $datos["fk_sede"],
